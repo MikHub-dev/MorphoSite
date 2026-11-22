@@ -511,16 +511,49 @@ def render_index(projects):
 </div></section>
 <div class="wrap" style="padding-top:36px">
 <input class="search" type="search" placeholder="Chercher un projet : drone, GPS, vaccin, Mars…" aria-label="Chercher un projet">
+<div class="hits" hidden aria-live="polite"></div>
 <div class="filters">{filt}</div>
 {"".join(cards)}
 </div>
 '''
-    doc += FOOT + """<script>
+    doc += FOOT + r"""<script>
 const q=document.querySelector('.search'),btns=[...document.querySelectorAll('.filters button')];let part='0';
 function apply(){const s=q.value.trim().toLowerCase();
 document.querySelectorAll('.pcard').forEach(c=>{const ok=(part==='0'||c.dataset.part===part)&&(!s||c.dataset.search.includes(s));c.classList.toggle('hidden',!ok)});
 document.querySelectorAll('.part-block').forEach(b=>b.classList.toggle('hidden',!b.querySelector('.pcard:not(.hidden)')));}
 q.addEventListener('input',apply);
+/* Recherche dans les parcours : chaque question (et le bilan) des 32 pages projets/,
+   lues à la première frappe ; un résultat ouvre la page sur la bonne question. */
+const hits=document.querySelector('.hits'),norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const escH=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let idx=null,charge=null;
+function charger(){if(charge)return charge;
+const urls=[...new Set([...document.querySelectorAll('.pcard')].map(c=>c.getAttribute('href')))];
+charge=Promise.all(urls.map(u=>fetch(u).then(r=>r.ok?r.text():'').catch(()=>'').then(h=>{if(!h)return[];
+const d=new DOMParser().parseFromString(h,'text/html'),proj=(d.title||'').split(' · ')[0];
+d.querySelectorAll('svg,script,style').forEach(n=>n.remove());
+d.querySelectorAll('p,div,h2,li,td,th,span,em').forEach(n=>n.after(' '));
+return[...d.querySelectorAll('article.step[id],section.recap[id]')].map(b=>{const h=b.querySelector('h2'),lab=b.querySelector('.qlab'),
+x=b.textContent.replace(/\s+/g,' ').trim(),t=h?h.textContent.trim():proj;
+return{u:u+'#'+b.id,t,p:proj,l:lab?lab.textContent.trim():'',x,nt:norm(t),nx:norm(x)}})}))).then(l=>{idx=l.flat();return idx});
+return charge}
+function extrait(e,mots){let i=-1;for(const m of mots){i=e.nx.indexOf(m);if(i>=0)break}
+if(i<0||e.nx.length!==e.x.length)return escH(e.x.slice(0,150))+'…';
+let a=Math.max(0,i-60);const b=Math.min(e.x.length,i+120);if(a>0){const sp=e.x.indexOf(' ',a);if(sp>-1&&sp<i)a=sp+1}
+const brut=e.x.slice(a,b),n=norm(brut),r=[];mots.forEach(m=>{let k=0;while((k=n.indexOf(m,k))>-1){r.push([k,k+m.length]);k+=m.length}});
+r.sort((x,y)=>x[0]-y[0]);let out='',pos=0;r.forEach(([d,f])=>{if(d<pos)return;out+=escH(brut.slice(pos,d))+'<mark>'+escH(brut.slice(d,f))+'</mark>';pos=f});out+=escH(brut.slice(pos));
+return(a>0?'…':'')+out+(b<e.x.length?'…':'')}
+async function chercherParcours(){const brut=q.value.trim(),mots=norm(brut).split(/\s+/).filter(m=>m.length>1);
+if(!mots.length){hits.hidden=true;hits.innerHTML='';return}
+const l=await charger();if(q.value.trim()!==brut)return;
+const res=l.map(e=>{let s=0;for(const m of mots){const t=e.nt.includes(m),x=e.nx.includes(m);if(!t&&!x)return null;s+=t?10:1}return{e,s}}).filter(Boolean).sort((a,b)=>b.s-a.s);
+if(!res.length){hits.hidden=true;hits.innerHTML='';return}
+const vus=res.slice(0,12);
+hits.innerHTML='<div class="hits-tete">Dans les parcours · '+res.length+(res.length>1?' passages':' passage')+(res.length>vus.length?' (les '+vus.length+' premiers)':'')+'</div>'+
+vus.map(({e})=>'<a class="hit" href="'+escH(e.u)+'"><span class="hit-t">'+escH(e.t)+'</span><span class="hit-p">'+escH(e.p)+(e.l?' · '+escH(e.l):'')+'</span><span class="hit-x">'+extrait(e,mots)+'</span></a>').join('');
+hits.hidden=false}
+q.addEventListener('input',chercherParcours);
+q.addEventListener('focus',charger,{once:true});
 btns.forEach(b=>b.addEventListener('click',()=>{part=b.dataset.f;btns.forEach(x=>x.setAttribute('aria-pressed',x===b));apply()}));
 </script>
 </body>
