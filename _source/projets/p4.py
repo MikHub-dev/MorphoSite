@@ -1,4 +1,4 @@
-# Partie IV — Hasard, décision, information (chapitres 14 à 19)
+# Partie IV — Probabilités, décision, information (chapitres 14 à 19)
 import math
 
 _WALK = [(0, 100), (1, 99.0), (2, 99.99), (3, 98.99), (4, 99.98), (5, 100.98), (6, 101.99), (7, 100.97), (8, 101.98), (9, 103.0),

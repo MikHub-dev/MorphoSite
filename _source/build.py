@@ -18,7 +18,7 @@ PARTS = {
     1: ("Partie I", "Fondations : fonctions, réseaux, logique", "blue"),
     2: ("Partie II", "Espace et symétries", "cyan"),
     3: ("Partie III", "Temps, calcul, optimisation", "teal"),
-    4: ("Partie IV", "Hasard, décision, information", "orange"),
+    4: ("Partie IV", "Probabilités, décision, information", "orange"),
     5: ("Partie V", "Ondes, signaux, matière", "gold"),
     6: ("Partie VI", "Le monde quantique", "pink"),
     7: ("Partie VII", "Horizons du XXIe siècle", "violet"),
