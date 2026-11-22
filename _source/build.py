@@ -327,7 +327,7 @@ HEAD = """<!doctype html>
 <body{bodyattr}>
 <header class="nav"><div class="wrap">
   <a class="brand" href="{root}index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
-  <nav class="menu"><a href="{root}index.html"{cur_home}>Projets</a><a href="{root}index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+  <nav class="menu"><a href="{root}index.html"{cur_home}>Projets</a><a href="{root}index.html#comment">Comment lire</a><a href="{root}livre/Les_Mathematiques_des_Transformations_v8.0.pdf" target="_blank" rel="noopener">Le livre (PDF)</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
 </div></header>
 """
 
@@ -365,7 +365,9 @@ def find_page(phrase):
     global _PAGES
     if _PAGES is None:
         import subprocess
-        pdf = OUT.parent / "Les_Mathematiques_des_Transformations_v8.0.pdf"
+        pdf = OUT / "livre" / "Les_Mathematiques_des_Transformations_v8.0.pdf"
+        if not pdf.exists():
+            pdf = OUT.parent / "Les_Mathematiques_des_Transformations_v8.0.pdf"
         txt = subprocess.run(["pdftotext", str(pdf), "-"], capture_output=True, text=True).stdout
         _PAGES = [" ".join(p.split()) for p in txt.split("\f")]
     ph = " ".join(phrase.split())
