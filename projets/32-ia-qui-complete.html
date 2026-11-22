@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comprendre comment une IA complète une phrase · MorphoSite</title>
+<meta name="description" content="Ce que fait vraiment un grand modèle de langage : vecteurs, couches composées, attention, softmax, et ses limites.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#a78bfa">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie VII › Chapitre 32</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 32 · parcours de construction</div>
+<h1>Comprendre comment une IA <em>complète une phrase</em></h1>
+<p class="lead">Un assistant conversationnel complète, résume, traduit, avec un naturel confondant. Pourtant, il ne fait que des calculs. Huit questions pour ouvrir la boîte et voir ce qu'il calcule.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">💬</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Quel est le jeu ?</a></li><li><a href="#q2"><span class="n">2</span>Des mots aux nombres</a></li><li><a href="#q3"><span class="n">3</span>Des couches empilées</a></li><li><a href="#q4"><span class="n">4</span>Chaque mot regarde les autres</a></li><li><a href="#q5"><span class="n">5</span>Des scores</a></li><li><a href="#q6"><span class="n">6</span>Des scores aux pourcentages</a></li><li><a href="#q7"><span class="n">7</span>Une moyenne qui change</a></li><li><a href="#q8"><span class="n">8</span>Les limites</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Que fait, au fond, un modèle de langage ?</h2></div></div>
+<p class="answer">Un seul jeu, répété : <b>deviner le mot suivant</b>. « Le chat mange la… » : souris ? pâtée ? Il calcule une probabilité pour chaque mot possible, en choisit un, l'ajoute, et recommence. Une réponse entière se construit mot après mot.</p>
+<div class="math"><span class="t">Les maths derrière : une loi de probabilité sur les mots</span><span class="f">P(mot suivant | mots précédents)</span><p>La sortie du modèle est une distribution de probabilité sur tout le vocabulaire.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, Ouverture : compléter une phrase sans rien « comprendre », p. 285</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="40.8" width="40.0" height="99.2" rx="4" fill="#5fd4f0" opacity=".85"/><text x="60.0" y="34.8" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">62 %</text><text x="60.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">souris</text><rect x="90.0" y="100.0" width="40.0" height="40.0" rx="4" fill="#a78bfa" opacity=".85"/><text x="110.0" y="94.0" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">25 %</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">pâtée</text><rect x="140.0" y="135.2" width="40.0" height="4.8" rx="4" fill="#7c85ab" opacity=".85"/><text x="160.0" y="129.2" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3 %</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">salade</text></svg><div class="cap">Mot suivant (exemple inventé)</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Comment une machine manipule-t-elle des mots ?</h2></div></div>
+<p class="answer">Elle les transforme en <b>listes de nombres</b> (des vecteurs). Les mots de sens proche reçoivent des vecteurs proches : « chat » est plus près de « chien » que de « voiture ». Ensuite, tout n'est plus que calcul sur ces nombres.</p>
+<div class="math"><span class="t">Les maths derrière : la représentation vectorielle</span><span class="f">mot ⟼ vecteur de ℝ<sup>d</sup></span><p>Une représentation est une application des mots vers un espace de vecteurs, où la distance reflète la ressemblance.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, Station 1 : composer des fonctions, p. 285</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="graphe"><circle cx="40" cy="40" r="22" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="40.0" y="44.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">chat</text><circle cx="100" cy="60" r="22" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="100.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">chien</text><circle cx="50" cy="120" r="22" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="50.0" y="124.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">souris</text><circle cx="185" cy="40" r="22" fill="#121839" stroke="#f5a65b" stroke-width="2"/><text x="185.0" y="44.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">voiture</text><circle cx="175" cy="115" r="22" fill="#121839" stroke="#f5a65b" stroke-width="2"/><text x="175.0" y="119.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">vélo</text></svg><div class="cap">Proches par le sens, proches dans l&#x27;espace</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Comment ces nombres sont-ils transformés ?</h2></div></div>
+<p class="answer">Par une <b>longue chaîne de couches</b>, comme le neurone du chapitre 12, mais en beaucoup plus grand : des dizaines de couches, des <b>milliards</b> de réglages (les paramètres). Chaque couche reçoit les vecteurs, les transforme, les passe à la suivante.</p>
+<div class="math"><span class="t">Les maths derrière : la composition de fonctions</span><span class="f">sortie = f<sub>L</sub> ∘ … ∘ f<sub>2</sub> ∘ f<sub>1</sub>(entrée)</span><p>Même principe que le réseau du chapitre 12 : une composition, réglée par rétropropagation. Seule l'échelle change.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, Station 1 : composer des fonctions, encore, p. 285</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 300" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">mots</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">couche 1</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">…</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">couche L</text><line x1="110" y1="234" x2="110" y2="252" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 250 L110 258 L116 250Z" fill="#5fd1b3"/><rect x="30" y="261" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="282.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">mot suivant</text></svg><div class="cap">Une composition géante</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment le modèle tient-il compte du contexte ?</h2></div></div>
+<p class="answer">Grâce à l'<b>attention</b>. Dans chaque couche, chaque mot « regarde » tous les autres mots de la phrase et décide lesquels sont importants pour lui. Pour « mange », il faut savoir <b>qui</b> mange et <b>quoi</b>.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;attention sur un graphe complet</span><span class="f">chaque paire de mots (i, j) reçoit un poids w<sub>ij</sub></span><p>Les mots sont les sommets d'un graphe complet (chapitre 2) ; chaque arête porte un poids d'attention.</p></div>
+<span class="morph">φ Morphisme : l'attention : un graphe complet pondéré</span>
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, Station 3 : l&#x27;attention sur un graphe complet, p. 286</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="graphe"><line x1="90.9" y1="104.0" x2="51.0" y2="91.6" stroke="#7c85ab" stroke-width="2"/><line x1="102.0" y1="91.7" x2="83.8" y2="50.2" stroke="#5fd4f0" stroke-width="2"/><line x1="118.9" y1="92.1" x2="140.2" y2="49.7" stroke="#7c85ab" stroke-width="2"/><line x1="129.1" y1="104.0" x2="169.0" y2="91.6" stroke="#5fd4f0" stroke-width="2"/><circle cx="30" cy="85" r="20" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="30.0" y="89.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">Le</text><circle cx="75" cy="30" r="20" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="75.0" y="34.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">chat</text><circle cx="110" cy="110" r="20" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="110.0" y="114.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">mange</text><circle cx="150" cy="30" r="20" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="150.0" y="34.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">la</text><circle cx="190" cy="85" r="20" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="190.0" y="89.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">souris</text></svg><div class="cap">« mange » regarde la phrase</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Comment « mange » décide-t-il qui est important ?</h2></div></div>
+<p class="answer">Il calcule un <b>score de ressemblance</b> entre ce qu'il cherche (sa « requête ») et ce que chaque mot propose (sa « clé »). Dans l'exemple du livre : Le 0,5 ; chat 3,0 ; mange 1,0 ; la 0,4 ; souris 2,8. Plus le score est haut, plus le mot compte.</p>
+<div class="math"><span class="t">Les maths derrière : le score requête-clé</span><span class="f">score(i, j) = requête<sub>i</sub> · clé<sub>j</sub></span><p>Le produit scalaire mesure à quel point deux vecteurs pointent dans la même direction.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, cas concret « à quoi “mange” prête-t-il attention ? », p. 289</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="20.0" y="123.0" width="28.0" height="17.0" rx="4" fill="#7c85ab" opacity=".85"/><text x="34.0" y="117.0" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0,5</text><text x="34.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Le</text><rect x="58.0" y="38.2" width="28.0" height="101.8" rx="4" fill="#5fd4f0" opacity=".85"/><text x="72.0" y="32.2" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3</text><text x="72.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">chat</text><rect x="96.0" y="106.1" width="28.0" height="33.9" rx="4" fill="#a78bfa" opacity=".85"/><text x="110.0" y="100.1" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">mange</text><rect x="134.0" y="126.4" width="28.0" height="13.6" rx="4" fill="#7c85ab" opacity=".85"/><text x="148.0" y="120.4" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0,4</text><text x="148.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">la</text><rect x="172.0" y="45.0" width="28.0" height="95.0" rx="4" fill="#5fd4f0" opacity=".85"/><text x="186.0" y="39.0" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">2,8</text><text x="186.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">souris</text></svg><div class="cap">Les scores bruts</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment transformer ces scores en parts d&#x27;attention ?</h2></div></div>
+<p class="answer">Par la fonction <b>softmax</b> : on prend l'exponentielle de chaque score, puis on divise par la somme. Résultat : chat <b>47,4 %</b>, souris <b>38,8 %</b>, mange 6,4 %, Le 3,9 %, la 3,5 %. Le verbe regarde son sujet et son complément, presque pas « le » et « la ». Personne ne lui a appris la grammaire !</p>
+<div class="math"><span class="t">Les maths derrière : la fonction softmax</span><span class="f">poids<sub>j</sub> = e<sup>score<sub>j</sub></sup> / Σ e<sup>score<sub>k</sub></sup></span><p>L'exponentielle rend tout positif et accentue les écarts ; la division normalise à 100 %, comme une mesure devient une probabilité (chapitre 14).</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, cas concret, normalisation par softmax, p. 289</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="20.0" y="131.6" width="28.0" height="8.4" rx="4" fill="#7c85ab" opacity=".85"/><text x="34.0" y="125.6" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3,9 %</text><text x="34.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Le</text><rect x="58.0" y="37.9" width="28.0" height="102.1" rx="4" fill="#5fd4f0" opacity=".85"/><text x="72.0" y="31.9" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">47,4 %</text><text x="72.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">chat</text><rect x="96.0" y="126.2" width="28.0" height="13.8" rx="4" fill="#a78bfa" opacity=".85"/><text x="110.0" y="120.2" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">6,4 %</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">mange</text><rect x="134.0" y="132.5" width="28.0" height="7.5" rx="4" fill="#7c85ab" opacity=".85"/><text x="148.0" y="126.5" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3,5 %</text><text x="148.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">la</text><rect x="172.0" y="56.4" width="28.0" height="83.6" rx="4" fill="#5fd4f0" opacity=".85"/><text x="186.0" y="50.4" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">38,8 %</text><text x="186.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">souris</text></svg><div class="cap">Les poids d&#x27;attention de « mange »</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Que fait-on de ces pourcentages ?</h2></div></div>
+<p class="answer">Le nouveau vecteur de « mange » devient une <b>moyenne pondérée</b> des vecteurs de la phrase, avec ces poids. Il contient maintenant « un peu de chat et de souris ». Et, contrairement à un réseau classique, les poids sont <b>recalculés pour chaque phrase</b> : la structure s'adapte au contenu.</p>
+<div class="math"><span class="t">Les maths derrière : la moyenne pondérée dynamique</span><span class="f">nouveau<sub>mange</sub> = Σ poids<sub>j</sub> × valeur<sub>j</sub></span><p>Les connexions d'un réseau classique sont fixées ; celles de l'attention se recalculent à chaque entrée.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, Station 3 : une moyenne pondérée, reconfigurée, p. 286</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">vecteurs de la phrase</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">scores</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">poids softmax</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">moyenne</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">nouveau « mange »</text></svg><div class="cap">Un mot enrichi par son contexte</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Peut-on faire confiance à tout ce qu&#x27;il dit ?</h2></div></div>
+<p class="answer">Non. Le modèle peut affirmer une chose <b>fausse</b> avec la même assurance qu'une chose vraie : on parle d'« hallucination ». Et garantir qu'il fera toujours ce que veulent ses concepteurs, même dans des cas imprévus, est un problème de recherche <b>ouvert</b> : l'alignement.</p>
+<div class="math"><span class="t">Les maths derrière : probable n&#x27;est pas vrai</span><span class="f">mot le plus probable ≠ affirmation vraie</span><p>Le modèle optimise la vraisemblance du texte, pas sa vérité. Vérifier reste notre travail.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 32</b>, Sous le capot : limites et sûreté, p. 289</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🤖</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">probable</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">≠</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">✔️</text><text x="183.3" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">vrai</text></svg><div class="cap">Toujours vérifier</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Calculer des moyennes bien pondérées</h2>
+<div class="chain"><span>mots</span><em>→</em><span>vecteurs</span><em>→</em><span>attention</span><em>→</em><span>softmax</span><em>→</em><span>mot suivant</span><em>↺</em></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Mots → vecteurs</td><td>la ressemblance de sens</td><td>les mots deviennent des nombres</td></tr><tr><td>Softmax</td><td>l&#x27;ordre des scores</td><td>les scores deviennent des pourcentages</td></tr><tr><td>Attention</td><td>les mots de la phrase</td><td>chaque mot s&#x27;enrichit de son contexte</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Ton propre softmax</h2>
+<p class="answer" style="font-size:16px">Trois mots ont les scores 2, 1 et 0. Avec e ≈ 2,72, e² ≈ 7,39 et e⁰ = 1, calcule leurs poids d'attention.</p>
+<details><summary>Voir la réponse</summary><p>Somme : 7,39 + 2,72 + 1 = 11,11. Poids : 7,39/11,11 ≈ 66,5 % ; 2,72/11,11 ≈ 24,5 % ; 1/11,11 ≈ 9,0 %. Total : 100 %.</p></details></section>
+<div class="next"><a href="31-voyage-vers-mars.html"><small>Projet précédent · ch. 31</small>← 🚀 Envoyer une sonde vers Mars</a><a href="12-ia-qui-apprend.html"><small>Une IA qui apprend (le neurone)</small>🧠 Apprendre à une IA à lire un chiffre →</a><a href="../index.html"><small>Tous les projets</small>Revenir aux 32 projets →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

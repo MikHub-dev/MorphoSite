@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protéger ses messages contre l&#x27;ordinateur quantique · MorphoSite</title>
+<meta name="description" content="Le remplaçant de RSA existe déjà : vecteurs, réseaux de points, bonnes et mauvaises bases, et un peu de bruit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#a78bfa">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie VII › Chapitre 27</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 27 · parcours de construction</div>
+<h1>Protéger ses messages contre l&#x27;<em>ordinateur quantique</em></h1>
+<p class="lead">Si un jour une machine quantique casse RSA, il faudra un remplaçant prêt à l'emploi. Il existe, et votre navigateur l'utilise peut-être déjà. Huit questions pour comprendre sur quoi il repose.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🛡️</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Que faut-il remplacer ?</a></li><li><a href="#q2"><span class="n">2</span>Un réseau de points</a></li><li><a href="#q3"><span class="n">3</span>Plusieurs bases</a></li><li><a href="#q4"><span class="n">4</span>Le plus court chemin</a></li><li><a href="#q5"><span class="n">5</span>Clé publique, clé privée</a></li><li><a href="#q6"><span class="n">6</span>Des centaines de dimensions</a></li><li><a href="#q7"><span class="n">7</span>Un peu de bruit</a></li><li><a href="#q8"><span class="n">8</span>Déjà en service</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>De quoi a-t-on besoin pour remplacer RSA ?</h2></div></div>
+<p class="answer">D'un problème <b>facile à vérifier</b> pour qui a la clé, mais <b>presque impossible à deviner</b> pour les autres, y compris avec un ordinateur quantique. La factorisation ne convient plus (Shor). Il faut une autre « serrure » mathématique.</p>
+<div class="math"><span class="t">Les maths derrière : une fonction à sens unique avec trappe</span><span class="f">facile avec la clé ; difficile sans, même pour un ordinateur quantique</span><p>Le NIST a publié le 13 août 2024 trois normes de cryptographie post-quantique, conçues pour résister aux deux types d'ordinateurs.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, Ouverture : préparer la relève avant la panne, p. 244</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔐</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">serrure</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔑</text><text x="110.0" y="94.6" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">facile</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">avec la</text><text x="110.0" y="121.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">clé</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">≠</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">⚛️</text><text x="198.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">dur</text><text x="198.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">sans</text></svg><div class="cap">Une nouvelle serrure</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Sur quels objets repose la nouvelle serrure ?</h2></div></div>
+<p class="answer">Sur des <b>réseaux de points</b>. Prenez deux flèches (des vecteurs) ; additionnez-les et retranchez-les autant de fois que vous voulez, avec des nombres entiers. Les points atteints forment un quadrillage régulier, comme les points d'une feuille à petits carreaux.</p>
+<div class="math"><span class="t">Les maths derrière : un réseau euclidien</span><span class="f">réseau = { m b<sub>1</sub> + n b<sub>2</sub> , m, n entiers }</span><p>Avec b₁ = (1,0) et b₂ = (0,1), on obtient tous les points à coordonnées entières : ℤ².</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, Station 1 : systèmes et vecteurs, p. 244</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" role="img" aria-label="un réseau et deux bases"><defs><marker id="l1" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#5fd4f0"/></marker><marker id="l2" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#f28ab2"/></marker></defs><circle cx="22" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="22" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="22" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="22" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="22" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="22" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="22" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="44" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="66" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="88" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="110" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="132" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="154" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="176" cy="18" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="150" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="128" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="106" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="84" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="62" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="40" r="2" fill="rgba(170,178,211,.6)"/><circle cx="198" cy="18" r="2" fill="rgba(170,178,211,.6)"/><line x1="22" y1="150" x2="132" y2="84" stroke="#f28ab2" stroke-width="2.2" marker-end="url(#l2)"/><line x1="22" y1="150" x2="176" y2="62" stroke="#f28ab2" stroke-width="2.2" marker-end="url(#l2)"/><line x1="22" y1="150" x2="44" y2="150" stroke="#5fd4f0" stroke-width="2.2" marker-end="url(#l1)"/><line x1="22" y1="150" x2="22" y2="128" stroke="#5fd4f0" stroke-width="2.2" marker-end="url(#l1)"/><text x="132" y="74" fill="#f28ab2" font-size="11" font-family="Jost,sans-serif">(5,3)</text><text x="176" y="52" fill="#f28ab2" font-size="11" font-family="Jost,sans-serif">(7,4)</text><text x="50" y="164" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif">(1,0)</text><text x="4" y="122" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif">(0,1)</text></svg><div class="cap">Le réseau ℤ² et deux de ses bases</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Un même réseau peut-il être fabriqué par d&#x27;autres flèches ?</h2></div></div>
+<p class="answer">Oui, par une infinité ! Les flèches (5,3) et (7,4), longues et presque parallèles, fabriquent <b>exactement le même</b> quadrillage que (1,0) et (0,1). Preuve : 5 × 4 − 3 × 7 = −1. Quand ce calcul donne 1 ou −1, les deux bases sont équivalentes.</p>
+<div class="math"><span class="t">Les maths derrière : le changement de base</span><span class="f">det [[5, 7], [3, 4]] = 5×4 − 3×7 = −1</span><p>Deux bases engendrent le même réseau quand la matrice qui passe de l'une à l'autre est entière, de déterminant ±1.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, cas concret « une bonne et une mauvaise base », p. 248</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="62" fill="#5fd4f0" font-size="26" font-family="Cormorant Garamond,serif" text-anchor="middle">5×4 − 3×7 = −1</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">même réseau ℤ²</text></svg><div class="cap">Le test du déterminant</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Quel est le problème difficile ?</h2></div></div>
+<p class="answer">Trouver la <b>plus courte</b> flèche du réseau (autre que zéro). Avec la bonne base, on la lit tout de suite : longueur 1. Avec la mauvaise, on ne voit que des flèches de longueur 5,83 et 8,06 : rien ne laisse deviner qu'une flèche de longueur 1 se cache dedans.</p>
+<div class="math"><span class="t">Les maths derrière : le problème du plus court vecteur</span><span class="f">|(5,3)| = √34 ≈ 5,83 ; |(7,4)| = √65 ≈ 8,06 ; plus court : 1</span><p>Facile avec une bonne base, extrêmement difficile avec une mauvaise, y compris, selon les connaissances actuelles, pour un ordinateur quantique.</p></div>
+<span class="morph">φ Morphisme : réseaux : même structure, bases bonnes ou mauvaises</span>
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, Station 3 : le plus court vecteur, p. 245</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="67.4" width="40.0" height="72.6" rx="4" fill="#f0719a" opacity=".85"/><text x="60.0" y="61.4" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">5,83</text><text x="60.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">(5,3)</text><rect x="90.0" y="39.7" width="40.0" height="100.3" rx="4" fill="#f0719a" opacity=".85"/><text x="110.0" y="33.7" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">8,06</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">(7,4)</text><rect x="140.0" y="127.6" width="40.0" height="12.4" rx="4" fill="#5fd4f0" opacity=".85"/><text x="160.0" y="121.6" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">(1,0)</text></svg><div class="cap">Longueurs des flèches</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Comment s&#x27;en servir pour chiffrer ?</h2></div></div>
+<p class="answer">On publie la <b>mauvaise base</b> : c'est la clé publique, tout le monde peut s'en servir pour fabriquer un message. On garde secrète la <b>bonne base</b> : c'est la clé privée, la seule qui permet de défaire le calcul facilement.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;asymétrie des bases</span><span class="f">clé publique = mauvaise base ; clé privée = bonne base</span><p>Comme pour RSA, l'asymétrie entre un calcul facile et un calcul difficile fonde la sécurité. Seul le problème difficile change.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, Station 3 : clé publique et clé privée, p. 245</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">message</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">mauvaise base</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">brouillé</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">bonne base</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">message</text></svg><div class="cap">Deux bases, deux rôles</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Avec deux dimensions, ne pourrait-on pas tout essayer ?</h2></div></div>
+<p class="answer">Si, l'exemple du plan est seulement pédagogique. Les vrais systèmes utilisent des réseaux à <b>plusieurs centaines de dimensions</b>. Là, l'écart entre bonne et mauvaise base devient si vertigineux qu'aucun algorithme connu ne retrouve la bonne base en un temps raisonnable.</p>
+<div class="math"><span class="t">Les maths derrière : la difficulté en grande dimension</span><span class="f">dimension 2 (exemple) ⟶ plusieurs centaines (réel)</span><p>Le nombre de directions à explorer croît de façon exponentielle avec la dimension.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, cas concret, à l&#x27;échelle réelle, p. 248</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">2D</text><text x="36.7" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">on voit</text><text x="36.7" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">tout</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="183.3" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">500D</text><text x="183.3" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">on ne voit</text><text x="183.3" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">rien</text></svg><div class="cap">La dimension fait la sécurité</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Pourquoi ajouter volontairement des erreurs ?</h2></div></div>
+<p class="answer">Le standard réel ajoute un <b>petit bruit</b> aléatoire à chaque calcul. Pour l'attaquant, le vecteur caché est noyé dans ce bruit, ce qui rend le problème encore plus dur. Pour le destinataire, qui a la bonne base, le bruit est assez petit pour être effacé.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;apprentissage avec erreurs (LWE)</span><span class="f">b = A s + e, avec e petit et aléatoire</span><p>Sans e, retrouver s serait un simple système linéaire (chapitre 23). Avec e, le problème devient difficile.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, Sous le capot : pourquoi ajouter du bruit, p. 248</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 108" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">A s</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">+ e</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">A s + bruit</text></svg><div class="cap">Un système linéaire, brouillé</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Ce système existe-t-il vraiment ?</h2></div></div>
+<p class="answer">Oui : il s'appelle <b>ML-KEM</b> (norme FIPS 203, issue de l'algorithme Kyber). Il sert à se mettre d'accord sur une clé secrète à travers un canal public. Depuis 2024-2025, plusieurs grands navigateurs l'utilisent déjà, <b>combiné</b> au chiffrement classique, par précaution.</p>
+<div class="math"><span class="t">Les maths derrière : un chiffrement hybride</span><span class="f">clé = combinaison(classique, ML-KEM)</span><p>Si l'un des deux systèmes tombe un jour, l'autre continue de protéger l'échange.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 27</b>, cas concret, le standard ML-KEM, p. 248</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔒</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">classique</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">+</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛡️</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">ML-KEM</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">=</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🌐</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">web</text></svg><div class="cap">Ceinture et bretelles</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Le même réseau, vu de deux façons</h2>
+<div class="chain"><span>réseau</span><em>→</em><span>bonne base (privée)</span><em>→</em><span>mauvaise base (publique)</span><em>→</em><span>+ bruit</span><em>→</em><span>ML-KEM</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Changement de base</td><td>le réseau (les points)</td><td>la lisibilité du plus court vecteur</td></tr><tr><td>Ajout de bruit</td><td>le message pour qui a la clé</td><td>le problème devient plus dur</td></tr><tr><td>Passage à 500 dimensions</td><td>le principe</td><td>la difficulté devient vertigineuse</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Retrouver la flèche cachée</h2>
+<p class="answer" style="font-size:16px">Avec b₁ = (5,3) et b₂ = (7,4), trouve deux entiers m et n tels que m b₁ + n b₂ = (0,1).</p>
+<details><summary>Voir la réponse</summary><p>m = 7, n = −5 : 7 × (5,3) − 5 × (7,4) = (35 − 35, 21 − 20) = (0,1). De même, −4 b₁ + 3 b₂ = (1,0).</p></details></section>
+<div class="next"><a href="28-prouver-sans-reveler.html"><small>Projet suivant · ch. 28</small>🕵️ Prouver qu&#x27;on a 18 ans sans dire son âge →</a><a href="26-menace-quantique.html"><small>Projet précédent · ch. 26</small>← 🔓 Évaluer la menace quantique sur nos codes secrets</a><a href="19-rsa.html"><small>RSA, le chiffrement à remplacer</small>🔐 Échanger un secret devant tout le monde →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

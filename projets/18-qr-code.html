@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Créer un QR code (et compresser une chanson) · MorphoSite</title>
+<meta name="description" content="Ajouter de la redondance pour résister aux taches, en retirer pour compresser : l&#x27;entropie de Shannon fixe les limites.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#f5a65b">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie IV › Chapitre 18</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 18 · parcours de construction</div>
+<h1>Créer un <em>QR code</em> qui résiste aux taches</h1>
+<p class="lead">Un QR code reste lisible même si 30 % de sa surface est tachée. Une chanson se compresse sans perte audible. Huit questions sur l'art de coder l'information.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🔳</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Combien de bits ?</a></li><li><a href="#q2"><span class="n">2</span>Un code sans ambiguïté</a></li><li><a href="#q3"><span class="n">3</span>Faire plus court</a></li><li><a href="#q4"><span class="n">4</span>Jusqu&#x27;où compresser ?</a></li><li><a href="#q5"><span class="n">5</span>Résister aux taches</a></li><li><a href="#q6"><span class="n">6</span>Le QR code</a></li><li><a href="#q7"><span class="n">7</span>La musique en streaming</a></li><li><a href="#q8"><span class="n">8</span>Deux forces opposées</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Combien de bits faut-il pour coder un message ?</h2></div></div>
+<p class="answer">Avec 1 bit (0 ou 1), on distingue 2 messages ; avec 2 bits, 4 ; avec 3 bits, 8… Chaque bit <b>double</b> le nombre de possibilités. Pour distinguer N messages, il faut donc au moins <b>log₂ N</b> bits : autant que de questions oui/non pour deviner le message.</p>
+<div class="math"><span class="t">Les maths derrière : le binaire et le logarithme</span><span class="f">n bits ⟷ 2<sup>n</sup> messages · N messages ⟶ log₂ N bits</span><p>Pour 26 lettres, il faut au moins log₂ 26 ≈ 4,7 bits, donc 5 bits par lettre avec un code de longueur fixe.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, Station 1 : binaire et logarithme, p. 167</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="56.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">bits</text><text x="161.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">messages</text><rect x="5.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="110.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">2</text><rect x="5.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">2</text><rect x="110.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">4</text><rect x="5.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">3</text><rect x="110.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">8</text><rect x="5.0" y="113.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">8</text><rect x="110.0" y="113.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="131.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">256</text></svg><div class="cap">Chaque bit double les possibilités</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Qu&#x27;est-ce qu&#x27;un bon code ?</h2></div></div>
+<p class="answer">Un code où <b>deux messages différents donnent toujours deux codes différents</b> : sinon, on ne saurait pas quoi décoder. Et le décodage doit redonner <b>exactement</b> le message de départ.</p>
+<div class="math"><span class="t">Les maths derrière : injection et rétraction</span><span class="f">décoder ∘ encoder = identité</span><p>L'encodeur est une fonction injective ; le décodeur en est une rétraction : appliqué après l'encodeur, il ramène au point de départ.</p></div>
+<span class="morph">φ Morphisme : l'encodeur est injectif, le décodeur le défait</span>
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, Station 3 : encodeur, décodeur, p. 168</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="32.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">message</text><path d="M63.0 60 L75.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M73.0 55 L80.0 60 L73.0 65Z" fill="#5fd1b3"/><text x="71.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">encoder</text><rect x="82.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">code</text><path d="M141.0 60 L153.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M151.0 55 L158.0 60 L151.0 65Z" fill="#5fd1b3"/><text x="149.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">décoder</text><rect x="160.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="188.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">message</text></svg><div class="cap">Aller-retour sans perte</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Peut-on faire des codes plus courts ?</h2></div></div>
+<p class="answer">Oui, en donnant des <b>codes courts aux symboles fréquents</b> et des codes longs aux symboles rares, comme le morse donne un seul point au « E ». Si un symbole sort une fois sur deux, on lui donne 1 seul bit.</p>
+<div class="math"><span class="t">Les maths derrière : le codage de Huffman</span><span class="f">A → 0 · B → 10 · C → 110 · D → 111</span><p>Aucun code n'est le début d'un autre : on peut décoder une suite de bits sans séparateur.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, cas concret « QR code et compression audio », p. 171</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">symbole</text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">fréquence</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">code</text><rect x="5.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">A</text><rect x="75.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">50 %</text><rect x="145.0" y="23.0" width="68.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="179.0" y="41.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">B</text><rect x="75.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">25 %</text><rect x="145.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">10</text><rect x="5.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">C</text><rect x="75.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">12,5 %</text><rect x="145.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">110</text><rect x="5.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">D</text><rect x="75.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="131.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">12,5 %</text><rect x="145.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">111</text></svg><div class="cap">Le plus fréquent a le code le plus court</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Jusqu&#x27;où peut-on compresser sans rien perdre ?</h2></div></div>
+<p class="answer">Il existe une <b>limite infranchissable</b>, calculée par Claude Shannon en 1948 : l'entropie. Pour nos quatre symboles, elle vaut <b>1,75 bit</b> par symbole, contre 2 bits pour un code de longueur fixe. Le code de la question précédente atteint exactement cette limite : <b>12,5 % de gagné</b>.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;entropie de Shannon</span><span class="f">H = −Σ p<sub>i</sub> log₂ p<sub>i</sub> = 1,75 bit</span><p>0,5 × 1 + 0,25 × 2 + 0,125 × 3 + 0,125 × 3 = 1,75. Aucun code sans perte ne peut faire mieux en moyenne.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, Station 3 : l&#x27;entropie de Shannon, p. 166</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="42.6" width="40.0" height="97.4" rx="4" fill="#7c85ab" opacity=".85"/><text x="60.0" y="36.6" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">2 bit</text><text x="60.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">longueur</text><text x="60.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">fixe</text><rect x="90.0" y="54.8" width="40.0" height="85.2" rx="4" fill="#5fd1b3" opacity=".85"/><text x="110.0" y="48.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1,75 bit</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Huffman</text><rect x="140.0" y="54.8" width="40.0" height="85.2" rx="4" fill="#a78bfa" opacity=".85"/><text x="160.0" y="48.8" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1,75 bit</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">limite H</text></svg><div class="cap">Bits par symbole, en moyenne</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Comment un code peut-il résister à une tache ?</h2></div></div>
+<p class="answer">En faisant l'inverse de la compression : on <b>ajoute volontairement de la redondance</b>. Idée la plus simple : envoyer chaque bit trois fois (0 → 000) et prendre la majorité. Si un bit est abîmé (010), on retrouve quand même 0.</p>
+<div class="math"><span class="t">Les maths derrière : la redondance</span><span class="f">0 → 000 · reçu 010 → majorité : 0</span><p>On paie la fiabilité en longueur. Les vrais codes correcteurs sont bien plus économes que la simple répétition.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, Ouverture : un carré noir et blanc, lisible même abîmé, p. 167</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="15.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">0</text><text x="47.1" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="78.6" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">000</text><text x="78.6" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">envoyé</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="141.4" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">0❌0</text><text x="141.4" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">abîmé</text><text x="172.9" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="204.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">0</text><text x="204.3" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">corrigé</text></svg><div class="cap">La majorité l&#x27;emporte</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment fait le QR code ?</h2></div></div>
+<p class="answer">Il utilise un code correcteur bien plus malin, dérivé des <b>codes de Reed–Solomon</b>. Le message est encodé avec de la redondance organisée, de sorte que jusqu'à <b>30 % des petits carrés</b> peuvent être illisibles. On peut même y coller un logo !</p>
+<div class="math"><span class="t">Les maths derrière : les codes correcteurs</span><span class="f">jusqu'à ≈ 30 % de modules perdus</span><p>Un QR code « haute correction » contient nettement plus de bits que le minimum donné par l'entropie : c'est le prix délibéré de la fiabilité.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, cas concret, le QR code, p. 171</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 200 160" aria-label="QR code partiellement masqué"><rect x="30" y="10" width="140" height="140" fill="#eef1fb" rx="6"/><g fill="#070b1f"><rect x="40" y="20" width="36" height="36"/><rect x="124" y="20" width="36" height="36"/><rect x="40" y="104" width="36" height="36"/><rect x="88" y="24" width="10" height="10"/><rect x="100" y="40" width="10" height="10"/><rect x="88" y="64" width="10" height="10"/><rect x="112" y="76" width="10" height="10"/><rect x="136" y="88" width="10" height="10"/><rect x="90" y="110" width="10" height="10"/><rect x="124" y="124" width="10" height="10"/><rect x="60" y="76" width="10" height="10"/><rect x="148" y="112" width="10" height="10"/></g><g fill="#eef1fb"><rect x="48" y="28" width="20" height="20"/><rect x="132" y="28" width="20" height="20"/><rect x="48" y="112" width="20" height="20"/></g><g fill="#070b1f"><rect x="53" y="33" width="10" height="10"/><rect x="137" y="33" width="10" height="10"/><rect x="53" y="117" width="10" height="10"/></g><circle cx="128" cy="110" r="30" fill="#f5a65b" opacity=".9"/><text x="128" y="115" fill="#070b1f" font-size="12" font-family="Jost" text-anchor="middle">tache</text></svg><div class="cap">Lisible malgré la tache</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Et pour compresser une chanson ?</h2></div></div>
+<p class="answer">Deux étapes. Sans perte, on applique l'idée de Huffman aux motifs sonores fréquents. Puis le MP3 ou l'AAC vont plus loin : ils <b>suppriment des fréquences</b> que l'oreille ne perçoit pas. On ne retrouve plus le signal exact, mais une version <b>impossible à distinguer à l'écoute</b>.</p>
+<div class="math"><span class="t">Les maths derrière : compression avec et sans perte</span><span class="f">sans perte : décoder ∘ encoder = id · avec perte : ≈ id</span><p>Avec perte, le décodeur n'est plus une rétraction exacte : c'est un compromis jugé acceptable par l'oreille.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, cas concret, « compression avec et sans perte », p. 171</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="38.2" width="40.0" height="101.8" rx="4" fill="#7c85ab" opacity=".85"/><text x="60.0" y="32.2" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">100 %</text><text x="60.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">CD brut</text><rect x="90.0" y="84.0" width="40.0" height="56.0" rx="4" fill="#5fd4f0" opacity=".85"/><text x="110.0" y="78.0" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">55 %</text><text x="110.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">sans</text><text x="110.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">perte</text><rect x="140.0" y="129.8" width="40.0" height="10.2" rx="4" fill="#5fd1b3" opacity=".85"/><text x="160.0" y="123.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">10 %</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">MP3</text></svg><div class="cap">Taille du fichier (ordre de grandeur)</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Compression et correction, ce n&#x27;est pas contradictoire ?</h2></div></div>
+<p class="answer">Si, et c'est tout l'art du codage ! La compression <b>retire</b> la redondance inutile, la correction en <b>remet</b> une, mais organisée et choisie. Un bon système fait les deux : il compresse d'abord, puis protège le résultat.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;équilibre entre entropie et redondance</span><span class="f">message ⟶ compresser ⟶ protéger ⟶ envoyer</span><p>C'est ce que font la radio numérique, les téléphones et les sondes spatiales.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 18</b>, Coder l&#x27;information, p. 165</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">message</text><line x1="110" y1="42" x2="110" y2="60" stroke="#f5a65b" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#f5a65b"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="82.9" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">compressé (moins de</text><text x="110.0" y="97.9" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">bits)</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="146.9" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">protégé (bits de</text><text x="110.0" y="161.9" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">contrôle)</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">envoyé</text></svg><div class="cap">Retirer, puis rajouter autrement</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Coder, c&#x27;est transformer un message pour toujours le retrouver</h2>
+<div class="chain"><span>message</span><em>→</em><span>code court (entropie)</span><em>→</em><span>code protégé (redondance)</span><em>→</em><span>transmission</span><em>→</em><span>décodage</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Encoder</td><td>le message (injectif)</td><td>l&#x27;écriture : symboles devient bits</td></tr><tr><td>Compresser sans perte</td><td>tout le message</td><td>la longueur moyenne</td></tr><tr><td>Compresser avec perte</td><td>ce que l&#x27;oreille perçoit</td><td>le signal exact</td></tr><tr><td>Protéger</td><td>le message</td><td>la longueur augmente</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Décode le message</h2>
+<p class="answer" style="font-size:16px">Avec le code A → 0, B → 10, C → 110, D → 111, décode la suite 0101100111.</p>
+<details><summary>Voir la réponse</summary><p>0 | 10 | 110 | 0 | 111 : A B C A D. Aucun code n'étant le début d'un autre, la découpe est unique.</p></details></section>
+<div class="next"><a href="19-rsa.html"><small>Projet suivant · ch. 19</small>🔐 Échanger un secret devant tout le monde →</a><a href="17-route-braess.html"><small>Projet précédent · ch. 17</small>← 🚦 Ouvrir une nouvelle route en ville</a><a href="20-compresser-musique.html"><small>Le son décomposé en fréquences</small>🎧 Compresser une chanson en MP3 →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

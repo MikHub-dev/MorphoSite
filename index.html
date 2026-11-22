@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MorphoSite · les mathématiques des transformations</title>
+<meta name="description" content="32 projets concrets, du thermomètre connecté au voyage vers Mars, et les mathématiques qui les font marcher.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="index.html" class="cur">Projets</a><a href="index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap home-hero">
+<div class="kicker" style="color:var(--violet2)">L'Atlas des transformations · complément du livre</div>
+<h1>Construire le monde, <em>une transformation à la fois</em></h1>
+<p class="quote">« Les mathématiques ne sont pas seulement l'étude des nombres. Elles sont l'étude des transformations qui permettent de comprendre le monde. »</p>
+<p class="lead">32 projets concrets, un par chapitre du livre. Pour chacun, les questions à se poser dans l'ordre, des réponses simples, puis les mathématiques qui se cachent derrière.</p>
+<div class="facts"><div><b>32</b>projets</div><div><b>260</b>questions</div><div><b>7</b>parties</div></div>
+<div class="how" id="comment">
+<div><b>1 · Une question</b>Chaque étape part d'une question qu'un ingénieur se poserait vraiment, dans l'ordre de construction.</div>
+<div><b>2 · Une réponse simple</b>D'abord l'idée, en mots de tous les jours et avec un schéma. Les détails sont repliés.</div>
+<div><b>3 · Les maths derrière</b>La notion, la formule clé, le morphisme en jeu, et la page du livre où tout est expliqué.</div>
+</div>
+</div></section>
+<div class="wrap" style="padding-top:36px">
+<input class="search" type="search" placeholder="Chercher un projet : drone, GPS, vaccin, Mars…" aria-label="Chercher un projet">
+<div class="filters"><button aria-pressed="true" data-f="0">Tous</button><button aria-pressed="false" data-f="1">I · Fondations</button><button aria-pressed="false" data-f="2">II · Espace et symétries</button><button aria-pressed="false" data-f="3">III · Temps</button><button aria-pressed="false" data-f="4">IV · Hasard</button><button aria-pressed="false" data-f="5">V · Ondes</button><button aria-pressed="false" data-f="6">VI · Le monde quantique</button><button aria-pressed="false" data-f="7">VII · Horizons du XXIe siècle</button></div>
+<section class="part-block" data-part="1" style="--pc:#6ea8ff"><h2>Partie I</h2><h3>Fondations : fonctions, réseaux, logique</h3>
+<div class="pgrid"><a class="pcard" href="projets/01-thermometre-connecte.html" data-part="1" data-search="construire un thermomètre connecté de la chaleur de l&#x27;air au nombre sur l&#x27;écran : cinq transformations, et une seule qui perd vraiment de l&#x27;information. fonctions · composition · fonction affine · arrondi pourquoi transformer ?">
+<div class="top"><div class="ic">🌡️</div><div class="ch">Chapitre 1 · 8 questions</div></div>
+<h4>Construire un thermomètre connecté</h4><p>De la chaleur de l&#x27;air au nombre sur l&#x27;écran : cinq transformations, et une seule qui perd vraiment de l&#x27;information.</p>
+<div class="math-tags">fonctions · composition · fonction affine · arrondi</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/02-suggestions-amis.html" data-part="1" data-search="construire les suggestions d&#x27;amis « léa, amie de 3 de vos amis » : un calcul de matrices, puis un classement qui se stabilise tout seul. graphes · matrices · point fixe · pagerank des relations aux réseaux">
+<div class="top"><div class="ic">👥</div><div class="ch">Chapitre 2 · 8 questions</div></div>
+<h4>Construire les suggestions d&#x27;amis</h4><p>« Léa, amie de 3 de vos amis » : un calcul de matrices, puis un classement qui se stabilise tout seul.</p>
+<div class="math-tags">graphes · matrices · point fixe · PageRank</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/03-compilateur.html" data-part="1" data-search="vérifier un programme avant de le lancer le compilateur refuse un programme qui planterait, sans l&#x27;avoir exécuté. une preuve et un programme, c&#x27;est la même chose. implication · contraposée · types · curry–howard preuves et programmes">
+<div class="top"><div class="ic">🧑‍💻</div><div class="ch">Chapitre 3 · 8 questions</div></div>
+<h4>Vérifier un programme avant de le lancer</h4><p>Le compilateur refuse un programme qui planterait, sans l&#x27;avoir exécuté. Une preuve et un programme, c&#x27;est la même chose.</p>
+<div class="math-tags">implication · contraposée · types · Curry–Howard</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/04-moteur-de-recherche.html" data-part="1" data-search="construire un moteur de recherche « chat et noir sauf chaton » parmi 10 milliards de pages, puis les portes logiques du processeur qui fait le calcul. ensembles · de morgan · algèbre de boole · portes logiques ensembles, logique et circuits">
+<div class="top"><div class="ic">🔎</div><div class="ch">Chapitre 4 · 8 questions</div></div>
+<h4>Construire un moteur de recherche</h4><p>« chat ET noir SAUF chaton » parmi 10 milliards de pages, puis les portes logiques du processeur qui fait le calcul.</p>
+<div class="math-tags">ensembles · De Morgan · algèbre de Boole · portes logiques</div>
+<div class="go">Suivre le parcours →</div></a></div></section><section class="part-block" data-part="2" style="--pc:#5fd4f0"><h2>Partie II</h2><h3>Espace et symétries</h3>
+<div class="pgrid"><a class="pcard" href="projets/05-jeu-video-3d.html" data-part="2" data-search="faire bouger un personnage de jeu vidéo un pas en avant, une matrice de plus : comment un moteur de jeu déplace des milliers de points sans jamais déformer le héros. vecteurs · matrices · coordonnées homogènes · composition déplacer sans déformer">
+<div class="top"><div class="ic">🎮</div><div class="ch">Chapitre 5 · 8 questions</div></div>
+<h4>Faire bouger un personnage de jeu vidéo</h4><p>Un pas en avant, une matrice de plus : comment un moteur de jeu déplace des milliers de points sans jamais déformer le héros.</p>
+<div class="math-tags">vecteurs · matrices · coordonnées homogènes · composition</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/06-drone.html" data-part="2" data-search="construire un drone tenir en l&#x27;air, savoir où l&#x27;on penche, se redresser 400 fois par seconde : quaternions, fourier, laplace et relativité. vecteurs · nombres complexes · quaternions · régulation tourner, symétriser">
+<div class="top"><div class="ic">🚁</div><div class="ch">Chapitre 6 · 10 questions</div></div>
+<h4>Construire un drone</h4><p>Tenir en l&#x27;air, savoir où l&#x27;on penche, se redresser 400 fois par seconde : quaternions, Fourier, Laplace et relativité.</p>
+<div class="math-tags">vecteurs · nombres complexes · quaternions · régulation</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/07-reseau-vasculaire.html" data-part="2" data-search="lire la forme d&#x27;un réseau de vaisseaux compter des boucles plutôt que mesurer des longueurs : la topologie aide à repérer les tissus anormaux sur une image médicale. continuité · topologie · groupe fondamental · homologie persistante déformer sans déchirer">
+<div class="top"><div class="ic">🩺</div><div class="ch">Chapitre 7 · 8 questions</div></div>
+<h4>Lire la forme d&#x27;un réseau de vaisseaux</h4><p>Compter des boucles plutôt que mesurer des longueurs : la topologie aide à repérer les tissus anormaux sur une image médicale.</p>
+<div class="math-tags">continuité · topologie · groupe fondamental · homologie persistante</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/08-gps.html" data-part="2" data-search="construire un récepteur gps des distances, des sphères, des horloges… et einstein : sans la relativité, votre position dériverait de 10 km par jour. distances · sphères · relativité · transformations de lorentz courber l&#x27;espace et le temps">
+<div class="top"><div class="ic">🛰️</div><div class="ch">Chapitre 8 · 9 questions</div></div>
+<h4>Construire un récepteur GPS</h4><p>Des distances, des sphères, des horloges… et Einstein : sans la relativité, votre position dériverait de 10 km par jour.</p>
+<div class="math-tags">distances · sphères · relativité · transformations de Lorentz</div>
+<div class="go">Suivre le parcours →</div></a></div></section><section class="part-block" data-part="3" style="--pc:#5fd1b3"><h2>Partie III</h2><h3>Temps, calcul, optimisation</h3>
+<div class="pgrid"><a class="pcard" href="projets/09-epidemie.html" data-part="3" data-search="simuler une épidémie dix malades sur mille : combien seront touchés ? une suite géométrique, puis le modèle sir calculé pas à pas. suites géométriques · exponentielle · méthode d&#x27;euler · modèle sir modéliser le temps">
+<div class="top"><div class="ic">🦠</div><div class="ch">Chapitre 9 · 8 questions</div></div>
+<h4>Simuler une épidémie</h4><p>Dix malades sur mille : combien seront touchés ? Une suite géométrique, puis le modèle SIR calculé pas à pas.</p>
+<div class="math-tags">suites géométriques · exponentielle · méthode d&#x27;Euler · modèle SIR</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/10-prevision-meteo.html" data-part="3" data-search="prévoir la météo les équations de l&#x27;atmosphère n&#x27;ont pas de formule. on les calcule quand même, sur des centaines de millions de points. tangente · méthode d&#x27;euler · maillage · stabilité calculer sans résoudre">
+<div class="top"><div class="ic">🌦️</div><div class="ch">Chapitre 10 · 8 questions</div></div>
+<h4>Prévoir la météo</h4><p>Les équations de l&#x27;atmosphère n&#x27;ont pas de formule. On les calcule quand même, sur des centaines de millions de points.</p>
+<div class="math-tags">tangente · méthode d&#x27;Euler · maillage · stabilité</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/11-tournee-livraison.html" data-part="3" data-search="optimiser une tournée de livraison quels colis transporter pour gagner le plus ? et combien vaut une heure de camion en plus ? le problème a un double qui répond. extremums · convexité · programmation linéaire · dualité trouver le meilleur chemin">
+<div class="top"><div class="ic">🚚</div><div class="ch">Chapitre 11 · 8 questions</div></div>
+<h4>Optimiser une tournée de livraison</h4><p>Quels colis transporter pour gagner le plus ? Et combien vaut une heure de camion en plus ? Le problème a un double qui répond.</p>
+<div class="math-tags">extremums · convexité · programmation linéaire · dualité</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/12-ia-qui-apprend.html" data-part="3" data-search="apprendre à une ia à lire un chiffre une erreur, des millions de corrections : la règle de la chaîne appliquée à l&#x27;envers, couche après couche. fonctions composées · dérivée · règle de la chaîne · rétropropagation comment apprend une ia ?">
+<div class="top"><div class="ic">🧠</div><div class="ch">Chapitre 12 · 8 questions</div></div>
+<h4>Apprendre à une IA à lire un chiffre</h4><p>Une erreur, des millions de corrections : la règle de la chaîne appliquée à l&#x27;envers, couche après couche.</p>
+<div class="math-tags">fonctions composées · dérivée · règle de la chaîne · rétropropagation</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/13-thermostat.html" data-part="3" data-search="régler un thermostat une pièce qui se réchauffe, une équation différentielle, et l&#x27;astuce de laplace qui la change en simple calcul algébrique. équations différentielles · transformée de laplace · régulation · contrôlabilité piloter un système">
+<div class="top"><div class="ic">🔥</div><div class="ch">Chapitre 13 · 8 questions</div></div>
+<h4>Régler un thermostat</h4><p>Une pièce qui se réchauffe, une équation différentielle, et l&#x27;astuce de Laplace qui la change en simple calcul algébrique.</p>
+<div class="math-tags">équations différentielles · transformée de Laplace · régulation · contrôlabilité</div>
+<div class="go">Suivre le parcours →</div></a></div></section><section class="part-block" data-part="4" style="--pc:#f5a65b"><h2>Partie IV</h2><h3>Hasard, décision, information</h3>
+<div class="pgrid"><a class="pcard" href="projets/14-assurance-inondation.html" data-part="4" data-search="fixer le prix d&#x27;une assurance inondation mettre un prix sur ce qui n&#x27;est pas encore arrivé : fréquences, loi binomiale, espérance et loi des grands nombres. probabilités · loi binomiale · espérance · mesure mesurer le hasard">
+<div class="top"><div class="ic">🌊</div><div class="ch">Chapitre 14 · 8 questions</div></div>
+<h4>Fixer le prix d&#x27;une assurance inondation</h4><p>Mettre un prix sur ce qui n&#x27;est pas encore arrivé : fréquences, loi binomiale, espérance et loi des grands nombres.</p>
+<div class="math-tags">probabilités · loi binomiale · espérance · mesure</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/15-risque-boursier.html" data-part="4" data-search="mesurer le risque d&#x27;une action en bourse personne ne sait si l&#x27;action montera demain. on sait pourtant dire combien on risque de perdre en un mois. espérance · variance · loi normale · mouvement brownien le hasard qui évolue">
+<div class="top"><div class="ic">📈</div><div class="ch">Chapitre 15 · 8 questions</div></div>
+<h4>Mesurer le risque d&#x27;une action en bourse</h4><p>Personne ne sait si l&#x27;action montera demain. On sait pourtant dire combien on risque de perdre en un mois.</p>
+<div class="math-tags">espérance · variance · loi normale · mouvement brownien</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/16-test-medical.html" data-part="4" data-search="interpréter un test médical un test fiable à 99 % peut se tromper cinq fois sur six. la formule de bayes, et le filtre anti-spam qui l&#x27;applique. probabilités conditionnelles · formule de bayes · a priori · a posteriori apprendre du hasard">
+<div class="top"><div class="ic">🧪</div><div class="ch">Chapitre 16 · 8 questions</div></div>
+<h4>Interpréter un test médical</h4><p>Un test fiable à 99 % peut se tromper cinq fois sur six. La formule de Bayes, et le filtre anti-spam qui l&#x27;applique.</p>
+<div class="math-tags">probabilités conditionnelles · formule de Bayes · a priori · a posteriori</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/17-route-braess.html" data-part="4" data-search="ouvrir une nouvelle route en ville une route rapide de plus, et tout le monde roule plus lentement. le paradoxe de braess, l&#x27;équilibre de nash et les enchères. tableaux à double entrée · théorie des jeux · équilibre de nash · point fixe décider à plusieurs">
+<div class="top"><div class="ic">🚦</div><div class="ch">Chapitre 17 · 8 questions</div></div>
+<h4>Ouvrir une nouvelle route en ville</h4><p>Une route rapide de plus, et tout le monde roule plus lentement. Le paradoxe de Braess, l&#x27;équilibre de Nash et les enchères.</p>
+<div class="math-tags">tableaux à double entrée · théorie des jeux · équilibre de Nash · point fixe</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/18-qr-code.html" data-part="4" data-search="créer un qr code (et compresser une chanson) ajouter de la redondance pour résister aux taches, en retirer pour compresser : l&#x27;entropie de shannon fixe les limites. binaire · logarithme · entropie · codes correcteurs coder l&#x27;information">
+<div class="top"><div class="ic">🔳</div><div class="ch">Chapitre 18 · 8 questions</div></div>
+<h4>Créer un QR code (et compresser une chanson)</h4><p>Ajouter de la redondance pour résister aux taches, en retirer pour compresser : l&#x27;entropie de Shannon fixe les limites.</p>
+<div class="math-tags">binaire · logarithme · entropie · codes correcteurs</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/19-rsa.html" data-part="4" data-search="échanger un secret devant tout le monde la clé pour chiffrer est publique, celle pour déchiffrer reste secrète. un rsa miniature calculé à la main. congruences · petit théorème de fermat · rsa · théorème chinois le secret et la confiance">
+<div class="top"><div class="ic">🔐</div><div class="ch">Chapitre 19 · 9 questions</div></div>
+<h4>Échanger un secret devant tout le monde</h4><p>La clé pour chiffrer est publique, celle pour déchiffrer reste secrète. Un RSA miniature calculé à la main.</p>
+<div class="math-tags">congruences · petit théorème de Fermat · RSA · théorème chinois</div>
+<div class="go">Suivre le parcours →</div></a></div></section><section class="part-block" data-part="5" style="--pc:#f3cf7a"><h2>Partie V</h2><h3>Ondes, signaux, matière</h3>
+<div class="pgrid"><a class="pcard" href="projets/20-compresser-musique.html" data-part="5" data-search="compresser une chanson en mp3 rendre un fichier dix fois plus léger sans que l&#x27;oreille s&#x27;en aperçoive : sinus, fréquences, fourier et masquage. sinus · fréquences · fourier · compression décomposer un signal">
+<div class="top"><div class="ic">🎧</div><div class="ch">Chapitre 20 · 8 questions</div></div>
+<h4>Compresser une chanson en MP3</h4><p>Rendre un fichier dix fois plus léger sans que l&#x27;oreille s&#x27;en aperçoive : sinus, fréquences, Fourier et masquage.</p>
+<div class="math-tags">sinus · fréquences · Fourier · compression</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/21-satellite.html" data-part="5" data-search="garder un satellite en orbite sans carburant pourquoi un satellite tourne pendant des années sans moteur : vitesse, énergie, symétries et théorème de noether. vitesse · énergie · symétrie · noether mouvement et conservation">
+<div class="top"><div class="ic">🛰️</div><div class="ch">Chapitre 21 · 8 questions</div></div>
+<h4>Garder un satellite en orbite sans carburant</h4><p>Pourquoi un satellite tourne pendant des années sans moteur : vitesse, énergie, symétries et théorème de Noether.</p>
+<div class="math-tags">vitesse · énergie · symétrie · Noether</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/22-isoler-un-mur.html" data-part="5" data-search="choisir l&#x27;épaisseur d&#x27;un mur bien isolé prédire comment la chaleur traverse un mur sans le mesurer : diffusion, équation de la chaleur et fréquences. dérivée · exponentielle · diffusion · edp chaleur, ondes et champs">
+<div class="top"><div class="ic">🧱</div><div class="ch">Chapitre 22 · 8 questions</div></div>
+<h4>Choisir l&#x27;épaisseur d&#x27;un mur bien isolé</h4><p>Prédire comment la chaleur traverse un mur sans le mesurer : diffusion, équation de la chaleur et fréquences.</p>
+<div class="math-tags">dérivée · exponentielle · diffusion · EDP</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/23-scanner-medical.html" data-part="5" data-search="voir l&#x27;intérieur d&#x27;un corps sans l&#x27;ouvrir reconstruire une image à partir d&#x27;ombres : intégrales, systèmes linéaires, transformée de radon et problème inverse. intégrale · système linéaire · radon · problème inverse remonter de l&#x27;effet à la cause">
+<div class="top"><div class="ic">🩻</div><div class="ch">Chapitre 23 · 8 questions</div></div>
+<h4>Voir l&#x27;intérieur d&#x27;un corps sans l&#x27;ouvrir</h4><p>Reconstruire une image à partir d&#x27;ombres : intégrales, systèmes linéaires, transformée de Radon et problème inverse.</p>
+<div class="math-tags">intégrale · système linéaire · Radon · problème inverse</div>
+<div class="go">Suivre le parcours →</div></a></div></section><section class="part-block" data-part="6" style="--pc:#f0719a"><h2>Partie VI</h2><h3>Le monde quantique</h3>
+<div class="pgrid"><a class="pcard" href="projets/24-hasard-quantique.html" data-part="6" data-search="tirer à pile ou face avec un qubit fabriquer un hasard vraiment imprévisible : superposition, amplitudes, règle de born et mesure. nombres complexes · norme · matrices · mesure du bit au qubit">
+<div class="top"><div class="ic">🎲</div><div class="ch">Chapitre 24 · 8 questions</div></div>
+<h4>Tirer à pile ou face avec un qubit</h4><p>Fabriquer un hasard vraiment imprévisible : superposition, amplitudes, règle de Born et mesure.</p>
+<div class="math-tags">nombres complexes · norme · matrices · mesure</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/25-simuler-une-molecule.html" data-part="6" data-search="simuler une molécule avec des qubits pourquoi un ordinateur quantique est taillé pour la chimie : portes réversibles, matrices unitaires, intrication. produit matriciel · matrice unitaire · produit tensoriel · intrication portes et circuits quantiques">
+<div class="top"><div class="ic">⚛️</div><div class="ch">Chapitre 25 · 8 questions</div></div>
+<h4>Simuler une molécule avec des qubits</h4><p>Pourquoi un ordinateur quantique est taillé pour la chimie : portes réversibles, matrices unitaires, intrication.</p>
+<div class="math-tags">produit matriciel · matrice unitaire · produit tensoriel · intrication</div>
+<div class="go">Suivre le parcours →</div></a></div></section><section class="part-block" data-part="7" style="--pc:#a78bfa"><h2>Partie VII</h2><h3>Horizons du XXIe siècle</h3>
+<div class="pgrid"><a class="pcard" href="projets/26-menace-quantique.html" data-part="7" data-search="évaluer la menace quantique sur nos codes secrets un ordinateur quantique pourrait-il casser rsa ? arbres de recherche, grover, shor et la réalité des chiffres en 2026. probabilités · arbres · fourier quantique · grover du qubit à l&#x27;ordinateur">
+<div class="top"><div class="ic">🔓</div><div class="ch">Chapitre 26 · 8 questions</div></div>
+<h4>Évaluer la menace quantique sur nos codes secrets</h4><p>Un ordinateur quantique pourrait-il casser RSA ? Arbres de recherche, Grover, Shor et la réalité des chiffres en 2026.</p>
+<div class="math-tags">probabilités · arbres · Fourier quantique · Grover</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/27-chiffrement-post-quantique.html" data-part="7" data-search="protéger ses messages contre l&#x27;ordinateur quantique le remplaçant de rsa existe déjà : vecteurs, réseaux de points, bonnes et mauvaises bases, et un peu de bruit. vecteurs · systèmes · réseaux euclidiens · ml-kem après rsa : la cryptographie post-quantique">
+<div class="top"><div class="ic">🛡️</div><div class="ch">Chapitre 27 · 8 questions</div></div>
+<h4>Protéger ses messages contre l&#x27;ordinateur quantique</h4><p>Le remplaçant de RSA existe déjà : vecteurs, réseaux de points, bonnes et mauvaises bases, et un peu de bruit.</p>
+<div class="math-tags">vecteurs · systèmes · réseaux euclidiens · ML-KEM</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/28-prouver-sans-reveler.html" data-part="7" data-search="prouver qu&#x27;on a 18 ans sans dire son âge convaincre sans tout montrer : logique, engagement à sens unique et preuves à divulgation nulle de connaissance. logique · implication · engagement · preuve à divulgation nulle prouver sans révéler">
+<div class="top"><div class="ic">🕵️</div><div class="ch">Chapitre 28 · 8 questions</div></div>
+<h4>Prouver qu&#x27;on a 18 ans sans dire son âge</h4><p>Convaincre sans tout montrer : logique, engagement à sens unique et preuves à divulgation nulle de connaissance.</p>
+<div class="math-tags">logique · implication · engagement · preuve à divulgation nulle</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/29-prix-d-une-option.html" data-part="7" data-search="calculer le juste prix d&#x27;une option payer aujourd&#x27;hui un pari sur l&#x27;avenir : marche aléatoire, martingales, et black–scholes, l&#x27;équation de la chaleur déguisée. suites · dérivée · probabilités · black–scholes les mathématiques de la finance">
+<div class="top"><div class="ic">💹</div><div class="ch">Chapitre 29 · 8 questions</div></div>
+<h4>Calculer le juste prix d&#x27;une option</h4><p>Payer aujourd&#x27;hui un pari sur l&#x27;avenir : marche aléatoire, martingales, et Black–Scholes, l&#x27;équation de la chaleur déguisée.</p>
+<div class="math-tags">suites · dérivée · probabilités · Black–Scholes</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/30-ecrire-par-la-pensee.html" data-part="7" data-search="écrire un texte par la pensée comment une interface cerveau-machine traduit l&#x27;activité de neurones en lettres : signaux, filtrage, réseaux de neurones. neurones · graphes · codage · décodage le cerveau qui calcule">
+<div class="top"><div class="ic">🧠</div><div class="ch">Chapitre 30 · 8 questions</div></div>
+<h4>Écrire un texte par la pensée</h4><p>Comment une interface cerveau-machine traduit l&#x27;activité de neurones en lettres : signaux, filtrage, réseaux de neurones.</p>
+<div class="math-tags">neurones · graphes · codage · décodage</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/31-voyage-vers-mars.html" data-part="7" data-search="envoyer une sonde vers mars rejoindre mars presque sans moteur : lois de kepler, transfert de hohmann, changement de référentiel, assistance gravitationnelle. vecteurs · énergie · kepler · optimisation voyager entre les mondes">
+<div class="top"><div class="ic">🚀</div><div class="ch">Chapitre 31 · 8 questions</div></div>
+<h4>Envoyer une sonde vers Mars</h4><p>Rejoindre Mars presque sans moteur : lois de Kepler, transfert de Hohmann, changement de référentiel, assistance gravitationnelle.</p>
+<div class="math-tags">vecteurs · énergie · Kepler · optimisation</div>
+<div class="go">Suivre le parcours →</div></a><a class="pcard" href="projets/32-ia-qui-complete.html" data-part="7" data-search="comprendre comment une ia complète une phrase ce que fait vraiment un grand modèle de langage : vecteurs, couches composées, attention, softmax, et ses limites. fonctions composées · graphe complet · softmax · attention les frontières de l&#x27;intelligence artificielle">
+<div class="top"><div class="ic">💬</div><div class="ch">Chapitre 32 · 8 questions</div></div>
+<h4>Comprendre comment une IA complète une phrase</h4><p>Ce que fait vraiment un grand modèle de langage : vecteurs, couches composées, attention, softmax, et ses limites.</p>
+<div class="math-tags">fonctions composées · graphe complet · softmax · attention</div>
+<div class="go">Suivre le parcours →</div></a></div></section>
+</div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+const q=document.querySelector('.search'),btns=[...document.querySelectorAll('.filters button')];let part='0';
+function apply(){const s=q.value.trim().toLowerCase();
+document.querySelectorAll('.pcard').forEach(c=>{const ok=(part==='0'||c.dataset.part===part)&&(!s||c.dataset.search.includes(s));c.classList.toggle('hidden',!ok)});
+document.querySelectorAll('.part-block').forEach(b=>b.classList.toggle('hidden',!b.querySelector('.pcard:not(.hidden)')));}
+q.addEventListener('input',apply);
+btns.forEach(b=>b.addEventListener('click',()=>{part=b.dataset.f;btns.forEach(x=>x.setAttribute('aria-pressed',x===b));apply()}));
+</script>
+</body>
+</html>

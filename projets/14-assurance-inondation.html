@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fixer le prix d&#x27;une assurance inondation · MorphoSite</title>
+<meta name="description" content="Mettre un prix sur ce qui n&#x27;est pas encore arrivé : fréquences, loi binomiale, espérance et loi des grands nombres.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#f5a65b">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie IV › Chapitre 14</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 14 · parcours de construction</div>
+<h1>Fixer le prix d&#x27;une <em>assurance inondation</em></h1>
+<p class="lead">Une compagnie doit fixer aujourd'hui le prix d'une assurance contre des inondations qui arriveront… ou pas, dans les dix prochaines années. Huit questions pour transformer l'incertitude en un tarif.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>2</b>chapitres du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🌊</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Que veut dire « 30 % » ?</a></li><li><a href="#q2"><span class="n">2</span>Mesurer le risque</a></li><li><a href="#q3"><span class="n">3</span>Sur dix ans</a></li><li><a href="#q4"><span class="n">4</span>« Au moins une »</a></li><li><a href="#q5"><span class="n">5</span>Combien coûte le risque ?</a></li><li><a href="#q6"><span class="n">6</span>Pourquoi l&#x27;assureur s&#x27;en sort</a></li><li><a href="#q7"><span class="n">7</span>Des inondations aux euros</a></li><li><a href="#q8"><span class="n">8</span>Et si le climat change ?</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Que veut dire « 30 % de risque de pluie », puisqu&#x27;il pleuvra ou pas ?</h2></div></div>
+<p class="answer">Ce n'est pas une prédiction sur <b>ce</b> samedi en particulier. C'est une <b>proportion</b> : parmi tous les jours qui ressemblent à celui-ci, il a plu environ 3 fois sur 10. Une probabilité, c'est une façon de <b>mesurer</b> l'incertitude par un nombre entre 0 et 1.</p>
+<div class="math"><span class="t">Les maths derrière : la probabilité comme mesure</span><span class="f">P(A) = μ(A) / μ(Ω)</span><p>On compte (ou on mesure) la taille d'un événement, puis on divise par le total. Le résultat vaut toujours 1 pour l'ensemble de tous les cas possibles.</p></div>
+<span class="morph">φ Morphisme : normaliser une mesure donne une probabilité</span>
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, Station 3 : la mesure devenue probabilité, p. 135</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="98.0" width="40.0" height="42.0" rx="4" fill="#5fd4f0" opacity=".85"/><text x="85.0" y="92.0" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3 sur 10</text><text x="85.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">pluie</text><rect x="115.0" y="42.0" width="40.0" height="98.0" rx="4" fill="#f3cf7a" opacity=".85"/><text x="135.0" y="36.0" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">7 sur 10</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">sec</text></svg><div class="cap">Une proportion parmi des jours semblables</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Comment mesurer le risque d&#x27;inondation d&#x27;une région ?</h2></div></div>
+<p class="answer">On regarde le <b>passé</b>. Les archives montrent qu'une inondation grave arrive <b>une année sur cinquante</b>. On en fait une probabilité : p = 1/50 = <b>0,02</b> par an. C'est le même geste qu'en classe : nombre d'élèves avec mention, divisé par l'effectif.</p>
+<div class="math"><span class="t">Les maths derrière : de la fréquence à la probabilité</span><span class="f">p = 1 / 50 = 0,02</span><p>Une fréquence observée dans le passé devient une probabilité utilisée pour prévoir l'avenir. Ce n'est pas une certitude : c'est une estimation.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, cas concret « tarifer un risque d&#x27;inondation », p. 138</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🌊</text><text x="36.7" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1</text><text x="36.7" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">inondation</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">÷</text><text x="183.3" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">50 ans</text></svg><div class="cap">Une fois tous les cinquante ans</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Sur un contrat de dix ans, combien d&#x27;inondations peut-il y avoir ?</h2></div></div>
+<p class="answer">Chaque année est comme un tirage au sort indépendant, avec 2 % de « succès » (si l'on peut dire). Sur dix ans : <b>aucune inondation</b> dans 81,7 % des cas, <b>une</b> dans 16,7 %, <b>deux</b> dans 1,5 %. Trois ou plus, c'est presque impossible.</p>
+<div class="math"><span class="t">Les maths derrière : la loi binomiale</span><span class="f">P(X = k) = C(n, k) p<sup>k</sup> (1 − p)<sup>n−k</sup></span><p>La loi binomiale B(n, p) donne la probabilité de k succès sur n essais indépendants de probabilité p. Ici n = 10, p = 0,02.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, Station 1 : probabilités, densité, intégrale, p. 134</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="20.0" y="38.3" width="37.5" height="101.7" rx="4" fill="#5fd1b3" opacity=".85"/><text x="38.8" y="32.3" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">81,7 %</text><text x="38.8" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="67.5" y="119.2" width="37.5" height="20.8" rx="4" fill="#f5a65b" opacity=".85"/><text x="86.2" y="113.2" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">16,7 %</text><text x="86.2" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="115.0" y="138.1" width="37.5" height="1.9" rx="4" fill="#f0719a" opacity=".85"/><text x="133.8" y="132.1" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1,5 %</text><text x="133.8" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">2</text><rect x="162.5" y="139.9" width="37.5" height="0.1" rx="4" fill="#7c85ab" opacity=".85"/><text x="181.2" y="133.9" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0,1 %</text><text x="181.2" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">3 ou +</text></svg><div class="cap">Nombre d&#x27;inondations en 10 ans</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Quel est le risque d&#x27;avoir au moins une inondation en dix ans ?</h2></div></div>
+<p class="answer">Astuce : on calcule <b>le contraire</b>. « Au moins une » est le contraire de « aucune ». Pas d'inondation pendant dix ans, c'est 0,98 multiplié dix fois par lui-même, soit 0,817. Donc le risque vaut 1 − 0,817 ≈ <b>18,3 %</b>. Presque une chance sur cinq !</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;événement contraire</span><span class="f">P(au moins une) = 1 − 0,98<sup>10</sup> ≈ 0,183</span><p>P(A) + P(non A) = 1. Quand « au moins un » demande de nombreux cas, on passe par le contraire, qui n'en demande qu'un.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, cas concret, au moins une inondation en 10 ans, p. 138</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="66" fill="#f5a65b" font-size="38" font-family="Cormorant Garamond,serif" text-anchor="middle">18,3 %</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">au moins une inondation en 10 ans</text></svg><div class="cap">Une chance sur cinq, ou presque</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Combien coûte ce risque, chaque année, en moyenne ?</h2></div></div>
+<p class="answer">Un sinistre coûte en moyenne <b>50 000 €</b>. Chaque année, il y a 2 % de chances qu'il arrive. En moyenne, la perte annuelle vaut donc 0,02 × 50 000 = <b>1 000 €</b>. La prime sera un peu au-dessus, pour couvrir les frais et la marge de l'assureur.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;espérance</span><span class="f">E = p × coût = 0,02 × 50 000 = 1 000 €</span><p>L'espérance est la moyenne des valeurs possibles, pondérée par leurs probabilités : 0,98 × 0 € + 0,02 × 50 000 €.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, cas concret, fixer la prime annuelle, p. 138</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="53.8" width="40.0" height="86.2" rx="4" fill="#f5a65b" opacity=".85"/><text x="85.0" y="47.8" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1000 €</text><text x="85.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">perte</text><text x="85.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">moyenne</text><rect x="115.0" y="40.9" width="40.0" height="99.1" rx="4" fill="#5fd1b3" opacity=".85"/><text x="135.0" y="34.9" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1150 €</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">prime</text></svg><div class="cap">La prime (exemple) couvre la perte moyenne, plus les frais</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment l&#x27;assureur peut-il payer 50 000 € avec des primes de 1 150 € ?</h2></div></div>
+<p class="answer">Parce qu'il assure <b>des milliers de maisons</b>. Pour une seule maison, tout peut arriver. Mais sur un grand nombre, la proportion de sinistres se rapproche très près de 2 %. Les primes de tous paient les sinistres de quelques-uns.</p>
+<div class="math"><span class="t">Les maths derrière : la loi des grands nombres</span><span class="f">moyenne de n cas ⟶ espérance quand n ⟶ ∞</span><p>La moyenne de nombreuses observations indépendantes se rapproche de l'espérance théorique. C'est le principe même de l'assurance.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 15</b>, Station 1 : la loi des grands nombres, p. 142</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="104.0" x2="210" y2="104.0" stroke="#7c85ab" stroke-dasharray="4 4"/><text x="208" y="100.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="end">2 %</text><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,-99.7 31.5,-20.9 33.0,6.0 34.5,20.7 36.0,30.3 37.5,37.2 39.0,42.5 40.5,46.6 42.0,50.1 43.5,53.0 45.0,55.4 46.5,57.6 48.0,59.5 49.5,61.1 51.0,62.6 52.5,64.0 54.0,65.2 55.5,66.3 57.0,67.3 58.5,68.3 60.0,69.2 61.5,70.0 63.0,70.7 64.5,71.4 66.0,72.1 67.5,72.7 69.0,73.3 70.5,73.9 72.0,74.4 73.5,74.9 75.0,75.4 76.5,75.9 78.0,76.3 79.5,76.7 81.0,77.1 82.5,77.5 84.0,77.9 85.5,78.2 87.0,78.5 88.5,78.9 90.0,79.2 91.5,79.5 93.0,79.8 94.5,80.1 96.0,80.3 97.5,80.6 99.0,80.8 100.5,81.1 102.0,81.3 103.5,81.5 105.0,81.8 106.5,82.0 108.0,82.2 109.5,82.4 111.0,82.6 112.5,82.8 114.0,83.0 115.5,83.2 117.0,83.3 118.5,83.5 120.0,83.7 121.5,83.9 123.0,84.0 124.5,84.2 126.0,84.3 127.5,84.5 129.0,84.6 130.5,84.8 132.0,84.9 133.5,85.0 135.0,85.2 136.5,85.3 138.0,85.4 139.5,85.6 141.0,85.7 142.5,85.8 144.0,85.9 145.5,86.0 147.0,86.2 148.5,86.3 150.0,86.4 151.5,86.5 153.0,86.6 154.5,86.7 156.0,86.8 157.5,86.9 159.0,87.0 160.5,87.1 162.0,87.2 163.5,87.3 165.0,87.4 166.5,87.5 168.0,87.6 169.5,87.7 171.0,87.7 172.5,87.8 174.0,87.9 175.5,88.0 177.0,88.1 178.5,88.2 180.0,88.2 181.5,88.3 183.0,88.4 184.5,88.5 186.0,88.5 187.5,88.6 189.0,88.7 190.5,88.8 192.0,88.8 193.5,88.9 195.0,89.0 196.5,89.0 198.0,89.1 199.5,89.2 201.0,89.2 202.5,89.3 204.0,89.4 205.5,89.4 207.0,89.5 208.5,89.5 210.0,89.6" fill="none" stroke="#5fd4f0" stroke-width="2.6"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,150.0 31.5,150.0 33.0,150.0 34.5,150.0 36.0,150.0 37.5,150.0 39.0,150.0 40.5,150.0 42.0,150.0 43.5,150.0 45.0,150.0 46.5,150.0 48.0,148.5 49.5,146.9 51.0,145.4 52.5,144.0 54.0,142.8 55.5,141.7 57.0,140.7 58.5,139.7 60.0,138.8 61.5,138.0 63.0,137.3 64.5,136.6 66.0,135.9 67.5,135.3 69.0,134.7 70.5,134.1 72.0,133.6 73.5,133.1 75.0,132.6 76.5,132.1 78.0,131.7 79.5,131.3 81.0,130.9 82.5,130.5 84.0,130.1 85.5,129.8 87.0,129.5 88.5,129.1 90.0,128.8 91.5,128.5 93.0,128.2 94.5,127.9 96.0,127.7 97.5,127.4 99.0,127.2 100.5,126.9 102.0,126.7 103.5,126.5 105.0,126.2 106.5,126.0 108.0,125.8 109.5,125.6 111.0,125.4 112.5,125.2 114.0,125.0 115.5,124.8 117.0,124.7 118.5,124.5 120.0,124.3 121.5,124.1 123.0,124.0 124.5,123.8 126.0,123.7 127.5,123.5 129.0,123.4 130.5,123.2 132.0,123.1 133.5,123.0 135.0,122.8 136.5,122.7 138.0,122.6 139.5,122.4 141.0,122.3 142.5,122.2 144.0,122.1 145.5,122.0 147.0,121.8 148.5,121.7 150.0,121.6 151.5,121.5 153.0,121.4 154.5,121.3 156.0,121.2 157.5,121.1 159.0,121.0 160.5,120.9 162.0,120.8 163.5,120.7 165.0,120.6 166.5,120.5 168.0,120.4 169.5,120.3 171.0,120.3 172.5,120.2 174.0,120.1 175.5,120.0 177.0,119.9 178.5,119.8 180.0,119.8 181.5,119.7 183.0,119.6 184.5,119.5 186.0,119.5 187.5,119.4 189.0,119.3 190.5,119.2 192.0,119.2 193.5,119.1 195.0,119.0 196.5,119.0 198.0,118.9 199.5,118.8 201.0,118.8 202.5,118.7 204.0,118.6 205.5,118.6 207.0,118.5 208.5,118.5 210.0,118.4" fill="none" stroke="#5fd4f0" stroke-width="2.6"/><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">nombre de maisons</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">% sinistrées</text></svg><div class="cap">La fourchette probable de la proportion se resserre</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Comment passer d&#x27;un risque d&#x27;inondation à un risque en euros ?</h2></div></div>
+<p class="answer">On définit une <b>variable aléatoire</b> : une règle qui, à chaque scénario possible (inondation ou pas), associe un <b>montant</b> à payer. Elle transporte les probabilités du monde des événements vers le monde des euros.</p>
+<div class="math"><span class="t">Les maths derrière : la loi image d&#x27;une variable aléatoire</span><span class="f">P<sub>X</sub>(B) = P(X<sup>−1</sup>(B))</span><p>La probabilité que le coût tombe dans un intervalle B se calcule en remontant aux scénarios qui y mènent : c'est l'image réciproque du chapitre 4.</p></div>
+<span class="morph">φ Morphisme : une variable aléatoire transporte la probabilité</span>
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, Station 3 : la loi image, p. 135</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="51.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">scénarios</text><path d="M102.0 60 L114.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M112.0 55 L119.0 60 L112.0 65Z" fill="#5fd1b3"/><text x="110.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">X</text><rect x="121.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="168.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">euros</text></svg><div class="cap">D&#x27;un monde à l&#x27;autre</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Et si le climat change ?</h2></div></div>
+<p class="answer">Alors le passé n'éclaire plus l'avenir. Si les inondations deviennent deux fois plus fréquentes, p passe à 0,04, et tout le calcul change. Mesurer le hasard suppose un monde <b>assez stable</b> pour que les fréquences d'hier valent pour demain.</p>
+<div class="math"><span class="t">Les maths derrière : la limite d&#x27;une estimation</span><span class="f">p estimé ≠ p réel si le monde change</span><p>Une probabilité estimée à partir de données passées repose sur une hypothèse de stabilité. Les assureurs la révisent régulièrement.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 14</b>, cas concret, « la probabilité n&#x27;est pas la fréquence », p. 138</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="88.8" width="40.0" height="51.2" rx="4" fill="#5fd4f0" opacity=".85"/><text x="85.0" y="82.8" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">18,3 %</text><text x="85.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">p = 0,02</text><rect x="115.0" y="46.2" width="40.0" height="93.8" rx="4" fill="#f0719a" opacity=".85"/><text x="135.0" y="40.2" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">33,5 %</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">p = 0,04</text></svg><div class="cap">Risque d&#x27;au moins une inondation en 10 ans</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Assurer, c&#x27;est mettre un prix sur un hasard mesuré</h2>
+<div class="chain"><span>archives</span><em>→</em><span>fréquence</span><em>→</em><span>probabilité</span><em>→</em><span>loi binomiale</span><em>→</em><span>espérance</span><em>→</em><span>prime</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Fréquence → probabilité</td><td>les proportions</td><td>on divise par le total</td></tr><tr><td>Variable aléatoire</td><td>la probabilité (transportée)</td><td>les événements deviennent des euros</td></tr><tr><td>Grands nombres</td><td>l&#x27;espérance</td><td>le hasard individuel s&#x27;efface</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Un climat plus dur</h2>
+<p class="answer" style="font-size:16px">Si les inondations surviennent une année sur 25, que valent le risque d'au moins une inondation en 10 ans et la perte annuelle moyenne ?</p>
+<details><summary>Voir la réponse</summary><p>p = 0,04. Risque : 1 − 0,96<sup>10</sup> ≈ 33,5 %. Perte moyenne : 0,04 × 50 000 = 2 000 € par an, deux fois plus.</p></details></section>
+<div class="next"><a href="15-risque-boursier.html"><small>Projet suivant · ch. 15</small>📈 Mesurer le risque d&#x27;une action en bourse →</a><a href="13-thermostat.html"><small>Projet précédent · ch. 13</small>← 🔥 Régler un thermostat</a><a href="15-risque-boursier.html"><small>Le hasard qui évolue dans le temps</small>📈 Mesurer le risque d&#x27;une action en bourse →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

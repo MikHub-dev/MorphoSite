@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lire la forme d&#x27;un réseau de vaisseaux · MorphoSite</title>
+<meta name="description" content="Compter des boucles plutôt que mesurer des longueurs : la topologie aide à repérer les tissus anormaux sur une image médicale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#5fd4f0">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie II › Chapitre 7</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 7 · parcours de construction</div>
+<h1>Lire la forme d&#x27;un <em>réseau de vaisseaux</em> sanguins</h1>
+<p class="lead">Autour d'une tumeur, les vaisseaux sanguins forment souvent plus de boucles qu'ailleurs. Huit questions pour construire un outil qui les compte, sans jamais mesurer une seule longueur.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🩺</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Que cherche le radiologue ?</a></li><li><a href="#q2"><span class="n">2</span>Pourquoi pas les longueurs ?</a></li><li><a href="#q3"><span class="n">3</span>« Même forme », pour un topologue</a></li><li><a href="#q4"><span class="n">4</span>Compter les trous</a></li><li><a href="#q5"><span class="n">5</span>Des points, pas des formes</a></li><li><a href="#q6"><span class="n">6</span>Quand ε grandit</a></li><li><a href="#q7"><span class="n">7</span>Signal ou bruit ?</a></li><li><a href="#q8"><span class="n">8</span>Et pour la tumeur ?</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Qu&#x27;est-ce qui intéresse vraiment le radiologue sur l&#x27;image ?</h2></div></div>
+<p class="answer">Pas la longueur exacte de chaque vaisseau, mais une propriété plus grossière : <b>combien de morceaux séparés</b> et <b>combien de boucles</b> forme le réseau. Autour d'une tumeur, le réseau est souvent plus dense et plus bouclé.</p>
+<div class="math"><span class="t">Les maths derrière : la topologie</span><span class="f">compter des trous, pas des longueurs</span><p>La topologie étudie ce qui ne change pas quand on déforme un objet sans le déchirer : le nombre de morceaux, le nombre de trous.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, Ouverture : compter des trous plutôt que des longueurs, p. 73</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="graphe"><line x1="46.8" y1="38.3" x2="91.3" y2="27.2" stroke="#a78bfa" stroke-width="2"/><line x1="106.7" y1="26.9" x2="161.3" y2="42.5" stroke="#a78bfa" stroke-width="2"/><line x1="41.9" y1="46.7" x2="57.5" y2="101.3" stroke="#a78bfa" stroke-width="2"/><line x1="102.6" y1="31.5" x2="126.7" y2="91.6" stroke="#a78bfa" stroke-width="2"/><line x1="66.9" y1="109.0" x2="121.1" y2="101.3" stroke="#a78bfa" stroke-width="2"/><line x1="171.6" y1="51.8" x2="187.9" y2="121.2" stroke="#a78bfa" stroke-width="2"/><line x1="136.3" y1="103.1" x2="182.0" y2="126.0" stroke="#a78bfa" stroke-width="2"/><line x1="64.4" y1="115.5" x2="94.4" y2="153.0" stroke="#a78bfa" stroke-width="2"/><line x1="126.9" y1="106.3" x2="104.0" y2="152.0" stroke="#a78bfa" stroke-width="2"/><circle cx="40" cy="40" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="40.0" y="44.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="100" cy="25" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="100.0" y="29.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="170" cy="45" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="170.0" y="49.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="60" cy="110" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="60.0" y="114.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="130" cy="100" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="130.0" y="104.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="190" cy="130" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="190.0" y="134.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="100" cy="160" r="7" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="100.0" y="164.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text></svg><div class="cap">Un réseau : des morceaux et des boucles</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Pourquoi ne pas simplement mesurer les vaisseaux ?</h2></div></div>
+<p class="answer">Parce qu'une image médicale est <b>bruitée</b> : deux appareils ne mesurent jamais la même distance au micron près. Le nombre de boucles, lui, <b>résiste au bruit</b>. On peut comparer deux tissus sans aligner les images pixel par pixel.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;invariant</span><span class="f">petite erreur de mesure ⟹ même nombre de boucles</span><p>Un invariant est une propriété qu'une transformation conserve. Les longueurs ne sont pas des invariants des déformations ; le nombre de trous, si.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, cas concret, « pourquoi la topologie plutôt que la géométrie ? », p. 78</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="42.0" width="40.0" height="98.0" rx="4" fill="#f5a65b" opacity=".85"/><text x="85.0" y="36.0" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">70</text><text x="85.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">longueurs</text><text x="85.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">mesurées</text><rect x="115.0" y="135.8" width="40.0" height="4.2" rx="4" fill="#5fd1b3" opacity=".85"/><text x="135.0" y="129.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3</text><text x="135.0" y="147.1" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">nombre</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">de</text><text x="135.0" y="172.3" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">boucles</text></svg><div class="cap">Ce qui bouge, ce qui tient</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Que veut dire « avoir la même forme » ?</h2></div></div>
+<p class="answer">Pour un topologue, deux objets ont la même forme si l'on peut passer de l'un à l'autre <b>en étirant, pliant, courbant, sans jamais couper ni recoller</b>. Une tasse et un donut sont alors le même objet : chacun a <b>exactement un trou</b> (l'anse pour la tasse).</p>
+<div class="math"><span class="t">Les maths derrière : la déformation continue</span><span class="f">tasse ≅ donut</span><p>Une fonction est continue si de petites variations de l'entrée donnent de petites variations de la sortie. Une déformation continue et réversible s'appelle un homéomorphisme.</p></div>
+<span class="morph">φ Morphisme : l'homéomorphisme, isomorphe pour les formes</span>
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, Station 1 : continuité et déformation, p. 73</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">☕</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">un trou</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">≅</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🍩</text><text x="183.3" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">un trou</text></svg><div class="cap">Même nombre de trous, même forme</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment compter les trous d&#x27;un objet avec des mathématiques ?</h2></div></div>
+<p class="answer">On y promène des <b>boucles</b>, comme un élastique. Sur un disque plein, toute boucle peut se resserrer en un point : pas de trou. Autour d'un cercle, une boucle qui fait le tour <b>reste coincée</b>, et on peut compter combien de tours elle fait.</p>
+<div class="math"><span class="t">Les maths derrière : le groupe fondamental π₁</span><span class="f">π₁(disque) = {0} · π₁(cercle) = ℤ</span><p>On rassemble les boucles qui partent et reviennent à un même point, à déformation près : elles forment un groupe. Le nombre de tours est l'invariant qui les distingue.</p></div>
+<span class="morph">φ Morphisme : de l'espace au groupe : une application continue induit un morphisme entre les π₁</span>
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, Station 3 : le groupe fondamental, p. 74</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" aria-label="Boucle contractile et boucle coincée"><circle cx="58" cy="70" r="48" fill="rgba(95,212,240,.12)" stroke="#5fd4f0" stroke-width="2"/><circle cx="58" cy="70" r="20" fill="none" stroke="#f3cf7a" stroke-width="2" stroke-dasharray="4 3"/><circle cx="162" cy="70" r="48" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-width="2"/><circle cx="162" cy="70" r="16" fill="#070b1f" stroke="#a78bfa" stroke-width="2"/><circle cx="162" cy="70" r="32" fill="none" stroke="#f3cf7a" stroke-width="2"/><text x="58" y="134" fill="#aab2d3" font-size="11" font-family="Jost" text-anchor="middle">se resserre</text><text x="162" y="134" fill="#aab2d3" font-size="11" font-family="Jost" text-anchor="middle">reste coincée</text></svg><div class="cap">Disque plein et anneau</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Sur l&#x27;image, on n&#x27;a que des points : comment y voir une forme ?</h2></div></div>
+<p class="answer">On fait grandir un <b>cercle de rayon ε</b> autour de chaque point (les intersections de vaisseaux), et on relie deux points dès que leurs cercles se touchent. Plus ε grandit, plus le dessin se remplit de traits.</p>
+<div class="math"><span class="t">Les maths derrière : la distance</span><span class="f">relier i et j si d(i, j) ≤ 2ε</span><p>Une distance mesure la ressemblance entre deux objets par un nombre. C'est elle qui sert aussi à la reconnaissance faciale ou aux recommandations.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, cas concret « la forme d&#x27;un réseau vasculaire », p. 78</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 150" aria-label="Disques de rayon epsilon autour des points"><g fill="rgba(95,212,240,.12)" stroke="#5fd4f0" stroke-width="1.2"><circle cx="50" cy="45" r="28"/><circle cx="100" cy="35" r="28"/><circle cx="150" cy="55" r="28"/><circle cx="60" cy="100" r="28"/><circle cx="120" cy="110" r="28"/><circle cx="175" cy="110" r="28"/></g><g stroke="#a78bfa" stroke-width="2"><line x1="50" y1="45" x2="100" y2="35"/><line x1="100" y1="35" x2="150" y2="55"/><line x1="50" y1="45" x2="60" y2="100"/><line x1="60" y1="100" x2="120" y2="110"/><line x1="120" y1="110" x2="175" y2="110"/><line x1="150" y1="55" x2="175" y2="110"/></g><g fill="#f3cf7a"><circle cx="50" cy="45" r="3.5"/><circle cx="100" cy="35" r="3.5"/><circle cx="150" cy="55" r="3.5"/><circle cx="60" cy="100" r="3.5"/><circle cx="120" cy="110" r="3.5"/><circle cx="175" cy="110" r="3.5"/></g></svg><div class="cap">Les cercles se touchent : on relie</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Que se passe-t-il quand le rayon ε grandit ?</h2></div></div>
+<p class="answer">Au début, <b>rien n'est relié</b> : autant de morceaux que de points. Puis de petits groupes se forment. À rayon moyen, tout ne forme <b>qu'un seul morceau</b>, avec des boucles autour des zones vides. À très grand rayon, <b>tout se remplit</b> et les boucles disparaissent.</p>
+<div class="math"><span class="t">Les maths derrière : une suite d&#x27;espaces emboîtés</span><span class="f">ε₁ < ε₂ ⟹ dessin(ε₁) ⊂ dessin(ε₂)</span><p>Chaque valeur de ε donne un espace, et chacun contient le précédent. On suit ce qui naît et ce qui meurt le long de cette suite.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, cas concret, le tableau des rayons, p. 78</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">ε</text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">morceaux</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">boucles</text><rect x="5.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">très petit</text><rect x="75.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">tous</text><rect x="145.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">petit</text><rect x="75.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">quelques</text><rect x="145.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">0 ou 1</text><rect x="5.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">moyen</text><rect x="75.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="145.0" y="83.0" width="68.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="179.0" y="101.5" fill="#fff" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">plusieurs</text><rect x="5.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="131.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">grand</text><rect x="75.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="145.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text></svg><div class="cap">La structure apparaît, puis s&#x27;efface</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Comment distinguer une vraie structure d&#x27;un effet du bruit ?</h2></div></div>
+<p class="answer">On regarde <b>combien de temps</b> chaque boucle survit pendant que ε grandit. Une boucle qui apparaît et disparaît aussitôt est due au bruit. Une boucle qui <b>persiste longtemps</b> révèle une vraie structure du tissu.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;homologie persistante</span><span class="f">durée de vie = ε(mort) − ε(naissance)</span><p>On trace, pour chaque boucle, l'intervalle de ε où elle existe : c'est le diagramme (ou code-barres) de persistance. Les longues barres comptent, les courtes sont du bruit.</p></div>
+<span class="morph">φ Morphisme : suivre les trous d'un espace à l'autre</span>
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, Station 3 : l&#x27;homologie persistante, p. 74</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 150" aria-label="Code-barres de persistance"><line x1="20" y1="130" x2="210" y2="130" stroke="#7c85ab"/><text x="210" y="145" fill="#aab2d3" font-size="11" font-family="Jost" text-anchor="end">ε →</text><g stroke-width="7" stroke-linecap="round"><line x1="40" y1="25" x2="180" y2="25" stroke="#5fd1b3"/><line x1="60" y1="45" x2="165" y2="45" stroke="#5fd1b3"/><line x1="90" y1="65" x2="104" y2="65" stroke="#f5a65b"/><line x1="70" y1="85" x2="80" y2="85" stroke="#f5a65b"/><line x1="120" y1="105" x2="131" y2="105" stroke="#f5a65b"/></g><text x="186" y="29" fill="#5fd1b3" font-size="11" font-family="Jost">vraie boucle</text><text x="112" y="69" fill="#f5a65b" font-size="11" font-family="Jost">bruit</text></svg><div class="cap">Longues barres : structure · courtes : bruit</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Qu&#x27;en conclut-on pour le patient ?</h2></div></div>
+<p class="answer">Un tissu où les vaisseaux se multiplient autour d'une tumeur (on parle d'<b>angiogenèse</b>) présente souvent <b>davantage de boucles persistantes</b> qu'un tissu sain de même densité. Le nombre de longues barres devient un indice, à côté de l'œil du radiologue.</p>
+<div class="math"><span class="t">Les maths derrière : comparer des diagrammes</span><span class="f">tissu A ≠ tissu B si leurs codes-barres diffèrent</span><p>Comparer deux tissus revient à comparer deux diagrammes de persistance, sans jamais superposer les images.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 7</b>, cas concret, l&#x27;angiogenèse, p. 78</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="112.0" width="40.0" height="28.0" rx="4" fill="#5fd1b3" opacity=".85"/><text x="85.0" y="106.0" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">2 boucles</text><text x="85.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">tissu</text><text x="85.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">sain</text><rect x="115.0" y="42.0" width="40.0" height="98.0" rx="4" fill="#f0719a" opacity=".85"/><text x="135.0" y="36.0" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">7 boucles</text><text x="135.0" y="147.1" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">autour</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">de la</text><text x="135.0" y="172.3" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">tumeur</text></svg><div class="cap">Exemple illustratif</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Lire une forme, c&#x27;est oublier les longueurs</h2>
+<div class="chain"><span>image</span><em>→</em><span>nuage de points</span><em>→</em><span>disques de rayon ε</span><em>→</em><span>boucles</span><em>→</em><span>code-barres</span><em>→</em><span>indice médical</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Déformation continue</td><td>le nombre de trous</td><td>longueurs, angles, courbures</td></tr><tr><td>Espace → groupe π₁</td><td>les boucles non contractiles</td><td>on passe des formes aux nombres</td></tr><tr><td>ε qui grandit</td><td>ce qui persiste longtemps</td><td>les détails dus au bruit disparaissent</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Compte les trous</h2>
+<p class="answer" style="font-size:16px">Combien de trous ont, pour un topologue : la lettre O, la lettre B, une paire de lunettes (sans les verres), une tasse ?</p>
+<details><summary>Voir la réponse</summary><p>O : 1 trou. B : 2 trous. Les lunettes : 2 trous. La tasse : 1 trou (l'anse). La tasse a donc la même forme que le O… et que le donut.</p></details></section>
+<div class="next"><a href="08-gps.html"><small>Projet suivant · ch. 8</small>🛰️ Construire un récepteur GPS →</a><a href="06-drone.html"><small>Projet précédent · ch. 6</small>← 🚁 Construire un drone</a><a href="23-scanner-medical.html"><small>Une autre image médicale : le scanner</small>🩻 Voir l&#x27;intérieur d&#x27;un corps sans l&#x27;ouvrir →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

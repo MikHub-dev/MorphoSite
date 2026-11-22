@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Construire un drone · MorphoSite</title>
+<meta name="description" content="Tenir en l&#x27;air, savoir où l&#x27;on penche, se redresser 400 fois par seconde : quaternions, Fourier, Laplace et relativité.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#5fd4f0">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie II › Chapitre 6</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 6 · parcours de construction</div>
+<h1>Construire un <em>drone</em></h1>
+<p class="lead">Dix questions à se poser dans l'ordre, comme un ingénieur qui part de zéro. Pour chacune : une réponse simple, puis les mathématiques qui se cachent derrière, et où les retrouver dans le livre.</p>
+<div class="facts"><div><b>10</b>questions</div><div><b>8</b>chapitres du livre</div><div><b>≈ 30 min</b>de lecture</div></div>
+</div><div class="hero-art"><svg viewBox="0 0 360 230" role="img" aria-label="Drone à quatre hélices vu de face">
+          <defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5fd4f0" stop-opacity=".35"/><stop offset="1" stop-color="#5fd4f0" stop-opacity="0"/></radialGradient></defs>
+          <circle cx="180" cy="118" r="110" fill="url(#g1)"/>
+          <g stroke="#c4b5fd" stroke-width="3" fill="none" stroke-linecap="round">
+            <line x1="70" y1="104" x2="290" y2="104"/>
+            <line x1="82" y1="104" x2="82" y2="92"/><line x1="278" y1="104" x2="278" y2="92"/>
+            <line x1="136" y1="104" x2="136" y2="94"/><line x1="224" y1="104" x2="224" y2="94"/>
+          </g>
+          <g fill="#5fd4f0" opacity=".9">
+            <ellipse cx="82" cy="88" rx="34" ry="4"/><ellipse cx="278" cy="88" rx="34" ry="4"/>
+            <ellipse cx="136" cy="90" rx="24" ry="3" opacity=".6"/><ellipse cx="224" cy="90" rx="24" ry="3" opacity=".6"/>
+          </g>
+          <rect x="150" y="96" width="60" height="30" rx="10" fill="#1a2150" stroke="#c4b5fd" stroke-width="2"/>
+          <circle cx="180" cy="133" r="7" fill="#0b1233" stroke="#5fd4f0" stroke-width="2"/>
+          <g stroke="#5fd1b3" stroke-width="2.5" fill="#5fd1b3">
+            <line x1="82" y1="76" x2="82" y2="40"/><path d="M76 46 L82 34 L88 46Z" stroke="none"/>
+            <line x1="278" y1="76" x2="278" y2="40"/><path d="M272 46 L278 34 L284 46Z" stroke="none"/>
+          </g>
+          <g stroke="#f5a65b" stroke-width="2.5" fill="#f5a65b">
+            <line x1="180" y1="146" x2="180" y2="196"/><path d="M174 190 L180 202 L186 190Z" stroke="none"/>
+          </g>
+          <text x="96" y="44" fill="#5fd1b3" font-family="Jost" font-size="13">poussée</text>
+          <text x="192" y="196" fill="#f5a65b" font-family="Jost" font-size="13">poids</text>
+          <text x="20" y="222" fill="#7c85ab" font-family="Jost" font-size="12">roulis · tangage · lacet : trois façons de tourner</text>
+        </svg></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Qu&#x27;est-ce qui le fait tenir en l&#x27;air ?</a></li><li><a href="#q2"><span class="n">2</span>Comment avance-t-il et tourne-t-il ?</a></li><li><a href="#q3"><span class="n">3</span>Comment décrire où il est ?</a></li><li><a href="#q4"><span class="n">4</span>Comment décrire de quel côté il penche ?</a></li><li><a href="#q5"><span class="n">5</span>Pourquoi trois angles ne suffisent pas ?</a></li><li><a href="#q6"><span class="n">6</span>Comment sent-il qu&#x27;il penche ?</a></li><li><a href="#q7"><span class="n">7</span>Comment nettoyer des mesures qui tremblent ?</a></li><li><a href="#q8"><span class="n">8</span>Comment se redresse-t-il tout seul ?</a></li><li><a href="#q9"><span class="n">9</span>Comment sait-il où il est dehors ?</a></li><li><a href="#q10"><span class="n">10</span>Un capteur dit n&#x27;importe quoi : que faire ?</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Qu&#x27;est-ce qui fait tenir un drone en l&#x27;air ?</h2></div></div>
+<p class="answer">Ses quatre hélices <b>poussent l'air vers le bas</b>, et l'air pousse le drone vers le haut. Pour rester immobile en l'air, il suffit que cette poussée soit <b>exactement égale à son poids</b>. Un peu plus, il monte ; un peu moins, il descend.</p>
+<div class="math"><span class="t">Les maths derrière : les vecteurs</span><span class="f"><span class="v">P</span>₁ + <span class="v">P</span>₂ + <span class="v">P</span>₃ + <span class="v">P</span>₄ + <span class="v">Poids</span> = <span class="v">0</span><p>Une force a une direction et une intensité : c'est un vecteur. En vol stationnaire, la somme de toutes les forces est le vecteur nul.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Déplacer sans déformer (vecteurs), p. 54</span>
+<details><summary>Aller plus loin</summary><p>Un drone de 1 kg pèse environ 10 newtons : chaque hélice doit donc fournir environ 2,5 N. Pour monter, le contrôleur augmente un peu la vitesse des quatre moteurs en même temps.</p></details>
+</div>
+<div class="art"><svg viewBox="0 0 220 180" aria-label="Forces sur le drone"><rect x="70" y="80" width="80" height="22" rx="8" fill="#1a2150" stroke="#c4b5fd" stroke-width="2"/><line x1="30" y1="80" x2="190" y2="80" stroke="#c4b5fd" stroke-width="3"/>
+        <g stroke="#5fd1b3" stroke-width="3"><line x1="40" y1="74" x2="40" y2="30"/><line x1="180" y1="74" x2="180" y2="30"/></g><g fill="#5fd1b3"><path d="M34 36 L40 24 L46 36Z"/><path d="M174 36 L180 24 L186 36Z"/></g>
+        <g stroke="#f5a65b" stroke-width="3"><line x1="110" y1="106" x2="110" y2="158"/></g><path d="M104 152 L110 166 L116 152Z" fill="#f5a65b"/>
+        <text x="50" y="40" fill="#5fd1b3" font-size="12" font-family="Jost">poussée</text><text x="118" y="158" fill="#f5a65b" font-size="12" font-family="Jost">poids</text></svg><div class="cap">Poussée = poids : il plane</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Sans gouvernail ni ailes, comment avance-t-il et tourne-t-il ?</h2></div></div>
+<p class="answer">Pour avancer, il fait tourner <b>un peu plus vite les hélices de l'arrière</b> : il penche vers l'avant, et une partie de la poussée le tire dans cette direction. Pour pivoter sur lui-même, il joue sur un détail : <b>deux hélices tournent dans un sens, deux dans l'autre</b>. Si une paire accélère, le drone tourne dans le sens opposé, comme un patineur qui pivote en lançant les bras de l'autre côté.</p>
+<div class="math"><span class="t">Les maths derrière : ce qui se conserve</span><span class="f">symétrie ⟶ quantité conservée</span><p>Quand un système n'a rien pour « s'accrocher », sa quantité de rotation totale (le moment cinétique) ne change pas : si les hélices tournent plus d'un côté, le corps du drone compense de l'autre. C'est le théorème de Noether.</p></div>
+<span class="morph">φ Morphisme : une symétrie donne un invariant</span>
+<span class="book">📖 Dans le livre : <b>ch. 21</b>, Mouvement et conservation, p. 190</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 200 200" aria-label="Drone vu de dessus, sens de rotation des hélices"><line x1="50" y1="50" x2="150" y2="150" stroke="#c4b5fd" stroke-width="3"/><line x1="150" y1="50" x2="50" y2="150" stroke="#c4b5fd" stroke-width="3"/><rect x="85" y="85" width="30" height="30" rx="7" fill="#1a2150" stroke="#c4b5fd" stroke-width="2"/>
+        <g fill="none" stroke-width="3"><circle cx="50" cy="50" r="26" stroke="#5fd4f0"/><circle cx="150" cy="150" r="26" stroke="#5fd4f0"/><circle cx="150" cy="50" r="26" stroke="#f0719a"/><circle cx="50" cy="150" r="26" stroke="#f0719a"/></g>
+        <g font-family="Jost" font-size="20" text-anchor="middle"><text x="50" y="57" fill="#5fd4f0">↻</text><text x="150" y="157" fill="#5fd4f0">↻</text><text x="150" y="57" fill="#f0719a">↺</text><text x="50" y="157" fill="#f0719a">↺</text></g></svg><div class="cap">Vu de dessus : deux paires en sens opposés</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Comment décrire où il est et comment il se déplace ?</h2></div></div>
+<p class="answer">On choisit un point de départ et trois directions : est, nord, haut. La position du drone devient <b>trois nombres (x, y, z)</b>. Un déplacement, c'est une flèche qu'on ajoute à ces nombres. Et comme le drone est rigide, <b>tous ses points bougent ensemble</b> : un seul calcul déplace toute la machine, sans la déformer.</p>
+<div class="math"><span class="t">Les maths derrière : vecteurs et matrices</span><span class="f">(x, y, z) ⟼ (x + a, y + b, z + c)</span><p>Une translation ou une rotation conserve les distances (une isométrie). En informatique, on l'écrit comme une seule matrice appliquée à tous les points, exactement comme un moteur de jeu vidéo.</p></div>
+<span class="morph">φ Morphisme : conserver les distances</span>
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Déplacer sans déformer, p. 54</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" aria-label="Translation d'un objet rigide"><g stroke="#7c85ab" stroke-width="1.5"><line x1="20" y1="150" x2="210" y2="150"/><line x1="20" y1="150" x2="20" y2="10"/></g>
+        <g fill="none" stroke-width="2.5"><rect x="35" y="105" width="50" height="24" rx="6" stroke="#7c85ab" stroke-dasharray="4 4"/><rect x="140" y="40" width="50" height="24" rx="6" stroke="#5fd4f0"/></g>
+        <line x1="62" y1="115" x2="158" y2="55" stroke="#a78bfa" stroke-width="2.5"/><path d="M152 52 L164 51 L158 62Z" fill="#a78bfa"/><text x="96" y="76" fill="#c4b5fd" font-size="13" font-family="Jost">vecteur</text></svg><div class="cap">Même forme, autre place</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment décrire de quel côté il penche ?</h2></div></div>
+<p class="answer">Les pilotes utilisent trois angles : le <b>roulis</b> (pencher à gauche ou à droite), le <b>tangage</b> (piquer du nez ou le relever) et le <b>lacet</b> (pivoter comme une girouette). Dans un plan, un seul angle suffirait : tourner d'un angle, c'est simplement <b>multiplier par un nombre complexe</b> de longueur 1.</p>
+<div class="math"><span class="t">Les maths derrière : les nombres complexes</span><span class="f">e<sup>iα</sup> × e<sup>iβ</sup> = e<sup>i(α+β)</sup></span><p>Tourner de α puis de β, c'est tourner de α + β. L'exponentielle transforme une addition d'angles en multiplication de rotations.</p></div>
+<span class="morph">φ Morphisme : θ ↦ e<sup>iθ</sup>, des angles vers les rotations</span>
+<span class="book">📖 Dans le livre : <b>ch. 6</b>, Tourner, symétriser, p. 62</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 200 190" aria-label="Rotation sur le cercle unité"><circle cx="100" cy="100" r="70" fill="none" stroke="#7c85ab" stroke-width="1.5"/><line x1="20" y1="100" x2="180" y2="100" stroke="#7c85ab"/><line x1="100" y1="20" x2="100" y2="180" stroke="#7c85ab"/>
+        <line x1="100" y1="100" x2="170" y2="100" stroke="#5fd4f0" stroke-width="3"/><line x1="100" y1="100" x2="149" y2="50" stroke="#a78bfa" stroke-width="3"/>
+        <path d="M130 100 A30 30 0 0 0 121 79" fill="none" stroke="#f3cf7a" stroke-width="2"/><text x="134" y="88" fill="#f3cf7a" font-size="15" font-family="Jost">θ</text><text x="150" y="44" fill="#c4b5fd" font-size="14" font-family="Jost">× e^iθ</text></svg><div class="cap">Multiplier = tourner</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Pourquoi trois angles ne suffisent-ils pas en 3D ?</h2></div></div>
+<p class="answer">Parce que, dans certaines positions, <b>deux des trois axes se superposent</b> : le drone « oublie » une direction de rotation et le calcul décroche. C'est le <b>blocage de cardan</b>. La parade : décrire l'orientation par <b>quatre nombres</b> au lieu de trois, un quaternion. Tous les contrôleurs de vol, des drones de loisir aux fusées, font ainsi.</p>
+<div class="math"><span class="t">Les maths derrière : les quaternions</span><span class="f">q = cos(θ/2) + sin(θ/2)(x i + y j + z k)</span><p>Un quaternion prolonge les nombres complexes en dimension 4, avec i² = j² = k² = ijk = −1. Combiner deux rotations, c'est multiplier deux quaternions : quelques microsecondes de calcul.</p></div>
+<span class="morph">φ Morphisme : chaque rotation correspond à deux quaternions, q et −q</span>
+<span class="book">📖 Dans le livre : <b>ch. 6</b>, cas concret « stabiliser un drone », p. 69</span>
+<details><summary>Aller plus loin : le calcul pour 10°</summary><p>Le drone penche de 10° en roulis (axe x). Avec θ/2 = 5° : q ≈ 0,9962 + 0,0872 i. Pour le remettre à plat, le contrôleur calcule la rotation inverse (même axe, −10°), q<sub>corr</sub> ≈ 0,9962 − 0,0872 i, et multiplie : q<sub>corr</sub> × q = 1, la position « à plat ».</p></details>
+</div>
+<div class="art"><svg viewBox="0 0 200 190" aria-label="Trois anneaux de cardan"><g fill="none" stroke-width="3"><ellipse cx="100" cy="95" rx="78" ry="78" stroke="#5fd4f0"/><ellipse cx="100" cy="95" rx="78" ry="26" stroke="#f0719a"/><ellipse cx="100" cy="95" rx="26" ry="78" stroke="#f3cf7a"/></g><circle cx="100" cy="95" r="6" fill="#c4b5fd"/><text x="100" y="186" fill="#7c85ab" font-size="12" font-family="Jost" text-anchor="middle">si deux anneaux s'alignent…</text></svg><div class="cap">Le blocage de cardan</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment le drone sent-il qu&#x27;il penche ?</h2></div></div>
+<p class="answer">Il a une petite centrale de capteurs : un <b>gyroscope</b> qui mesure la vitesse à laquelle il tourne, et un <b>accéléromètre</b> qui sent où est le bas. Chaque capteur transforme un mouvement en tension électrique, puis en nombre. C'est une <b>chaîne de transformations</b>, et chaque arrondi au passage fait perdre un tout petit peu d'information.</p>
+<div class="math"><span class="t">Les maths derrière : fonctions et composition</span><span class="f">mouvement ⟼ tension ⟼ nombre ⟼ angle</span><p>On enchaîne des fonctions. Celles qui arrondissent ne sont pas injectives : deux mouvements très proches donnent le même nombre. C'est là que se joue la précision.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 1</b>, cas concret « le thermomètre connecté », p. 20</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" aria-label="Chaîne de mesure"><g font-family="Jost" font-size="12" text-anchor="middle">
+        <rect x="4" y="40" width="58" height="34" rx="8" fill="#121839" stroke="#5fd4f0"/><text x="33" y="61" fill="#eef1fb">pente</text>
+        <rect x="82" y="40" width="58" height="34" rx="8" fill="#121839" stroke="#5fd4f0"/><text x="111" y="61" fill="#eef1fb">tension</text>
+        <rect x="160" y="40" width="56" height="34" rx="8" fill="#121839" stroke="#5fd4f0"/><text x="188" y="61" fill="#eef1fb">nombre</text>
+        <text x="72" y="62" fill="#5fd1b3" font-size="16">→</text><text x="150" y="62" fill="#f5a65b" font-size="16">→</text>
+        <text x="150" y="100" fill="#f5a65b">arrondi</text></g></svg><div class="cap">Mesurer, c&#x27;est déjà transformer</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Les moteurs font trembler les capteurs : comment nettoyer la mesure ?</h2></div></div>
+<p class="answer">Les moteurs vibrent <b>très vite</b> (des centaines de fois par seconde), alors que le drone, lui, penche <b>lentement</b>. On décompose donc la mesure en « notes » rapides et lentes, puis on <b>ne garde que les lentes</b>. C'est la même idée que le MP3, qui jette ce que l'oreille n'entend pas.</p>
+<div class="math"><span class="t">Les maths derrière : la transformée de Fourier</span><span class="f">signal = somme de sinusoïdes</span><p>Tout signal se décompose en fréquences pures. On passe du temps aux fréquences, on supprime le bruit, puis on revient au temps : un filtre passe-bas.</p></div>
+<span class="morph">φ Morphisme : passer du temps aux fréquences, et revenir</span>
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, Décomposer un signal, p. 182</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" aria-label="Signal bruité et signal filtré"><path d="M5 70 L12 58 L19 80 L26 52 L33 76 L40 50 L47 72 L54 46 L61 68 L68 42 L75 64 L82 40 L89 62 L96 40 L103 60 L110 42 L117 62 L124 44 L131 66 L138 48 L145 70 L152 54 L159 76 L166 58 L173 80 L180 64 L187 84 L194 68 L201 88 L208 74 L215 92" fill="none" stroke="#f5a65b" stroke-width="1.6" opacity=".8"/>
+        <path d="M5 66 C50 40,90 40,120 52 S180 80,215 84" fill="none" stroke="#5fd4f0" stroke-width="3.5"/>
+        <text x="8" y="118" fill="#f5a65b" font-size="12" font-family="Jost">mesure brute</text><text x="120" y="118" fill="#5fd4f0" font-size="12" font-family="Jost">après filtrage</text></svg><div class="cap">On garde le mouvement, on jette la vibration</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Une rafale le bouscule : comment se redresse-t-il tout seul ?</h2></div></div>
+<p class="answer">Il fait comme un thermostat, mais <b>400 fois par seconde</b> : il compare ce qu'il mesure à ce qu'il vise, calcule l'<b>écart</b>, et corrige la vitesse des moteurs d'autant plus que l'écart est grand. Trop de correction, il oscille ; pas assez, il est mou. Tout l'art est dans le <b>réglage</b>.</p>
+<div class="math"><span class="t">Les maths derrière : boucle de régulation et transformée de Laplace</span><span class="f">correction = K × écart</span><p>Le mouvement du drone obéit à une équation différentielle, difficile à résoudre. La transformée de Laplace la change en simple calcul algébrique ; les ingénieurs règlent K sur cette version facile, puis reviennent au temps réel.</p></div>
+<span class="morph">φ Morphisme : une équation différentielle devient une fraction</span>
+<span class="book">📖 Dans le livre : <b>ch. 13</b>, Piloter un système, p. 122</span>
+<details><summary>Aller plus loin : le régulateur PID</summary><p>Un vrai contrôleur de vol combine trois termes : <b>P</b> (proportionnel à l'écart actuel), <b>I</b> (qui rattrape un petit écart qui dure, par exemple un vent constant) et <b>D</b> (qui freine si l'écart se réduit trop vite, pour éviter de dépasser).</p></details>
+</div>
+<div class="art"><svg viewBox="0 0 220 160" aria-label="Boucle de régulation"><g font-family="Jost" font-size="12" text-anchor="middle">
+        <rect x="70" y="14" width="80" height="32" rx="8" fill="#121839" stroke="#a78bfa"/><text x="110" y="34" fill="#eef1fb">calcul</text>
+        <rect x="150" y="76" width="64" height="32" rx="8" fill="#121839" stroke="#5fd4f0"/><text x="182" y="96" fill="#eef1fb">moteurs</text>
+        <rect x="70" y="118" width="80" height="32" rx="8" fill="#121839" stroke="#5fd1b3"/><text x="110" y="138" fill="#eef1fb">capteurs</text>
+        <rect x="6" y="76" width="56" height="32" rx="8" fill="#121839" stroke="#f3cf7a"/><text x="34" y="96" fill="#eef1fb">écart</text></g>
+        <g fill="none" stroke="#7c85ab" stroke-width="2"><path d="M150 30 Q182 30 182 74"/><path d="M182 110 Q182 134 152 134"/><path d="M68 134 Q34 134 34 110"/><path d="M34 74 Q34 30 68 30"/></g>
+        <text x="110" y="88" fill="#c4b5fd" font-size="13" font-family="Jost" text-anchor="middle">400 ×/s</text></svg><div class="cap">Mesurer, comparer, corriger, recommencer</div></div>
+</article><article class="step" id="q9">
+<div>
+<div class="qhead"><div class="qnum">9</div><div><div class="qlab">Question 9</div><h2>Dehors, comment sait-il où il est ?</h2></div></div>
+<p class="answer">Grâce au GPS. Des satellites envoient l'heure exacte ; le drone mesure <b>combien de temps le signal a mis</b> pour arriver, et en déduit sa distance à chaque satellite. Avec quatre satellites, une seule position colle. Surprise : il faut tenir compte de la <b>relativité d'Einstein</b>, sinon l'erreur grandirait d'environ <b>10 km par jour</b>.</p>
+<div class="math"><span class="t">Les maths derrière : distances et relativité</span><span class="f">distance = vitesse de la lumière × durée</span><p>Là-haut, les horloges des satellites avancent d'environ 38 microsecondes par jour (45,7 μs dues à la gravité, moins 7,2 μs dues à la vitesse). Multipliées par la vitesse de la lumière, ces microsecondes donnent des kilomètres.</p></div>
+<span class="morph">φ Morphisme : les transformations qui conservent l'espace-temps</span>
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, cas concret « la correction relativiste du GPS », p. 86</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" aria-label="Trois satellites et leurs distances"><g fill="none" stroke-width="1.6" stroke-dasharray="5 5"><circle cx="40" cy="40" r="105" stroke="#5fd4f0"/><circle cx="180" cy="30" r="110" stroke="#a78bfa"/><circle cx="200" cy="150" r="95" stroke="#f3cf7a"/></g>
+        <g font-size="18"><text x="28" y="46">🛰️</text><text x="168" y="36">🛰️</text><text x="188" y="156">🛰️</text></g><circle cx="113" cy="114" r="6" fill="#5fd1b3"/><text x="62" y="118" fill="#5fd1b3" font-size="12" font-family="Jost">drone</text></svg><div class="cap">Là où les cercles se croisent</div></div>
+</article><article class="step" id="q10">
+<div>
+<div class="qhead"><div class="qnum">10</div><div><div class="qlab">Question 10</div><h2>Un capteur donne des valeurs absurdes : comment trouver la panne ?</h2></div></div>
+<p class="answer">On enquête comme un détective : on ne voit pas la panne, seulement ses <b>effets</b>. On <b>croise plusieurs mesures</b> qui se recoupent (gyroscope, accéléromètre, GPS) et on cherche la seule cause qui les explique toutes. C'est le même principe qu'un scanner médical, qui reconstruit l'intérieur du corps sans l'ouvrir.</p>
+<div class="math"><span class="t">Les maths derrière : le problème inverse</span><span class="f">effets mesurés ⟶ cause cachée</span><p>Aller de la cause à l'effet est facile ; remonter de l'effet à la cause est délicat, car une petite erreur de mesure peut tout fausser. On résout un système d'équations, en filtrant pour rester stable.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, Remonter de l&#x27;effet à la cause, p. 206</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 200 150" aria-label="Plusieurs mesures convergent vers une cause"><g font-family="Jost" font-size="12" text-anchor="middle">
+        <rect x="6" y="10" width="58" height="28" rx="7" fill="#121839" stroke="#5fd4f0"/><text x="35" y="28" fill="#eef1fb">gyro</text>
+        <rect x="71" y="10" width="58" height="28" rx="7" fill="#121839" stroke="#5fd4f0"/><text x="100" y="28" fill="#eef1fb">accél.</text>
+        <rect x="136" y="10" width="58" height="28" rx="7" fill="#121839" stroke="#5fd4f0"/><text x="165" y="28" fill="#eef1fb">GPS</text>
+        <circle cx="100" cy="118" r="24" fill="#2a1830" stroke="#f0719a" stroke-width="2"/><text x="100" y="122" fill="#f0719a">cause ?</text></g>
+        <g stroke="#7c85ab" stroke-width="2"><line x1="35" y1="40" x2="88" y2="98"/><line x1="100" y1="40" x2="100" y2="92"/><line x1="165" y1="40" x2="112" y2="98"/></g></svg><div class="cap">Croiser les indices</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Un drone, c&#x27;est une chaîne de transformations</h2>
+<div class="chain"><span>mouvement</span><em>→</em><span>mesure</span><em>→</em><span>filtrage</span><em>→</em><span>orientation (quaternion)</span><em>→</em><span>écart</span><em>→</em><span>correction</span><em>→</em><span>moteurs</span><em>↺</em></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Déplacer (ch. 5)</td><td>les distances, la forme du drone</td><td>la position</td></tr><tr><td>Tourner (ch. 6)</td><td>les longueurs</td><td>l&#x27;orientation</td></tr><tr><td>Mesurer (ch. 1)</td><td>l&#x27;ordre des valeurs</td><td>la précision (arrondis)</td></tr><tr><td>Filtrer (ch. 20)</td><td>le mouvement lent</td><td>la vibration disparaît</td></tr><tr><td>Réguler (ch. 13)</td><td>la consigne visée</td><td>l&#x27;écart se réduit</td></tr><tr><td>Pivoter (ch. 21)</td><td>la quantité de rotation totale</td><td>la répartition hélices / corps</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Le drone penche de 6° au lieu de 10°</h2>
+<p class="answer" style="font-size:16px">Écris le quaternion de cette inclinaison en roulis (axe x). Indice : cos(3°) ≈ 0,9986 et sin(3°) ≈ 0,0523.</p>
+<details><summary>Voir la réponse</summary><p>q ≈ 0,9986 + 0,0523 i. La correction est q<sub>corr</sub> ≈ 0,9986 − 0,0523 i. Exercice 7 du chapitre 6 dans l'annexe C du livre.</p></details></section>
+<div class="next"><a href="07-reseau-vasculaire.html"><small>Projet suivant · ch. 7</small>🩺 Lire la forme d&#x27;un réseau de vaisseaux →</a><a href="05-jeu-video-3d.html"><small>Projet précédent · ch. 5</small>← 🎮 Faire bouger un personnage de jeu vidéo</a><a href="08-gps.html"><small>Le GPS du drone, en détail</small>🛰️ Construire un récepteur GPS →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

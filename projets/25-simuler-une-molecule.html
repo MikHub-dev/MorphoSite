@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simuler une molécule avec des qubits · MorphoSite</title>
+<meta name="description" content="Pourquoi un ordinateur quantique est taillé pour la chimie : portes réversibles, matrices unitaires, intrication.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#f0719a">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie VI › Chapitre 25</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 25 · parcours de construction</div>
+<h1>Simuler une <em>molécule</em> avec des qubits</h1>
+<p class="lead">Prévoir comment se comporte une molécule, pour inventer un médicament ou une batterie, demande des calculs qui écrasent les plus gros ordinateurs. Huit questions pour comprendre pourquoi un circuit quantique est mieux placé.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">⚛️</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Une porte qui perd</a></li><li><a href="#q2"><span class="n">2</span>Une porte quantique</a></li><li><a href="#q3"><span class="n">3</span>Toujours réversible</a></li><li><a href="#q4"><span class="n">4</span>La porte de Hadamard</a></li><li><a href="#q5"><span class="n">5</span>Plusieurs qubits</a></li><li><a href="#q6"><span class="n">6</span>Créer l&#x27;intrication</a></li><li><a href="#q7"><span class="n">7</span>Mesurer l&#x27;un, connaître l&#x27;autre</a></li><li><a href="#q8"><span class="n">8</span>Et la molécule ?</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Que fait une porte logique ordinaire ?</h2></div></div>
+<p class="answer">Elle combine des bits. La porte <b>ET</b> donne 1 seulement si ses deux entrées valent 1. Mais si elle sort 0, impossible de savoir si on avait (0,0), (0,1) ou (1,0) : la porte <b>perd de l'information</b>. Elle n'est pas réversible.</p>
+<div class="math"><span class="t">Les maths derrière : une fonction non injective</span><span class="f">ET(0,0) = ET(0,1) = ET(1,0) = 0</span><p>Trois entrées différentes donnent la même sortie : on ne peut pas remonter. C'est le cas non injectif du chapitre 4.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, Ouverture : des portes qui ne perdent jamais d&#x27;information, p. 226</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="56.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">entrées</text><text x="161.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">ET</text><rect x="5.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0 0</text><rect x="110.0" y="23.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="41.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0 1</text><rect x="110.0" y="53.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="71.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1 0</text><rect x="110.0" y="83.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="101.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="113.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1 1</text><rect x="110.0" y="113.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text></svg><div class="cap">Trois entrées, une même sortie</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Qu&#x27;est-ce qu&#x27;une porte quantique ?</h2></div></div>
+<p class="answer">C'est une <b>matrice</b> qui fait tourner le vecteur d'état du qubit. La porte NON quantique, par exemple, échange |0⟩ et |1⟩. Appliquer plusieurs portes à la suite, c'est <b>multiplier</b> leurs matrices.</p>
+<div class="math"><span class="t">Les maths derrière : le produit matriciel</span><span class="f">X = [[0, 1], [1, 0]] : X|0⟩ = |1⟩</span><p>Le produit matriciel combine deux transformations en une seule, comme au chapitre 5, avec des coefficients complexes.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, Station 1 : produit matriciel, p. 226</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 70" role="img" aria-label="tableau"><rect x="5.0" y="5.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="23.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="5.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="23.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="5.0" y="35.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="56.5" y="53.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="110.0" y="35.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="53.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text></svg><div class="cap">La porte NON (X)</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Pourquoi une porte quantique ne perd-elle jamais d&#x27;information ?</h2></div></div>
+<p class="answer">Parce que c'est une <b>rotation</b> : elle ne change pas la longueur du vecteur (la somme des probabilités reste 1), et on peut toujours la défaire en tournant dans l'autre sens. Ce n'est pas un choix des ingénieurs : c'est une loi de la nature.</p>
+<div class="math"><span class="t">Les maths derrière : la matrice unitaire</span><span class="f">U†U = I  ⟹  U<sup>−1</sup> = U†</span><p>Une matrice unitaire conserve la norme. Son inverse est sa transposée conjuguée : c'est un isomorphisme, comme les isométries du chapitre 8.</p></div>
+<span class="morph">φ Morphisme : une porte est un isomorphisme (matrice unitaire)</span>
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, Station 3 : matrices unitaires, p. 227</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="51.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">|ψ⟩</text><path d="M102.0 60 L114.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M112.0 55 L119.0 60 L112.0 65Z" fill="#5fd1b3"/><text x="110.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">U ⇄ U†</text><rect x="121.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="168.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">U|ψ⟩</text></svg><div class="cap">Aller et retour, sans perte</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment créer une superposition ?</h2></div></div>
+<p class="answer">Avec la porte de <b>Hadamard</b>. Appliquée à |0⟩, elle donne exactement le pile ou face parfait : (|0⟩ + |1⟩)/√2. Et si on l'applique deux fois, on revient à |0⟩ : elle est sa propre inverse.</p>
+<div class="math"><span class="t">Les maths derrière : la porte de Hadamard</span><span class="f">H = (1/√2)[[1, 1], [1, −1]], H|0⟩ = (|0⟩ + |1⟩)/√2, H·H = I</span><p>H × H = (1/2)[[2, 0], [0, 2]] = I : appliquer deux fois Hadamard ne fait rien.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, cas concret, la porte de Hadamard, p. 230</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">|0⟩</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">H</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">(|0⟩+|1⟩)/√2</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">H</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">|0⟩</text></svg><div class="cap">Deux Hadamard s&#x27;annulent</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Combien de nombres faut-il pour décrire plusieurs qubits ?</h2></div></div>
+<p class="answer">Avec 2 qubits, il y a 4 états de base (00, 01, 10, 11), donc 4 amplitudes. Avec 3 qubits, 8. Avec n qubits, <b>2<sup>n</sup></b> : le nombre <b>double</b> à chaque qubit ajouté. Avec 50 qubits, plus d'un million de milliards.</p>
+<div class="math"><span class="t">Les maths derrière : le produit tensoriel</span><span class="f">dimension(n qubits) = 2<sup>n</sup>, et non 2n</span><p>On combine les espaces des qubits par un produit tensoriel : un « espace d'espaces » dont la dimension est le produit des dimensions.</p></div>
+<span class="morph">φ Morphisme : le produit tensoriel construit un espace d'espaces</span>
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, Station 3 : le produit tensoriel, p. 227</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,149.7 31.5,149.7 33.0,149.7 34.5,149.7 36.0,149.7 37.5,149.7 39.0,149.7 40.5,149.6 42.0,149.6 43.5,149.6 45.0,149.6 46.5,149.6 48.0,149.5 49.5,149.5 51.0,149.5 52.5,149.5 54.0,149.4 55.5,149.4 57.0,149.4 58.5,149.3 60.0,149.3 61.5,149.3 63.0,149.2 64.5,149.2 66.0,149.1 67.5,149.1 69.0,149.0 70.5,149.0 72.0,148.9 73.5,148.9 75.0,148.8 76.5,148.7 78.0,148.7 79.5,148.6 81.0,148.5 82.5,148.5 84.0,148.4 85.5,148.3 87.0,148.2 88.5,148.1 90.0,148.0 91.5,147.9 93.0,147.8 94.5,147.7 96.0,147.5 97.5,147.4 99.0,147.3 100.5,147.1 102.0,147.0 103.5,146.8 105.0,146.6 106.5,146.4 108.0,146.3 109.5,146.1 111.0,145.8 112.5,145.6 114.0,145.4 115.5,145.1 117.0,144.9 118.5,144.6 120.0,144.3 121.5,144.0 123.0,143.7 124.5,143.4 126.0,143.0 127.5,142.6 129.0,142.2 130.5,141.8 132.0,141.4 133.5,140.9 135.0,140.5 136.5,139.9 138.0,139.4 139.5,138.8 141.0,138.2 142.5,137.6 144.0,137.0 145.5,136.3 147.0,135.5 148.5,134.8 150.0,133.9 151.5,133.1 153.0,132.2 154.5,131.2 156.0,130.2 157.5,129.2 159.0,128.1 160.5,126.9 162.0,125.7 163.5,124.4 165.0,123.0 166.5,121.6 168.0,120.0 169.5,118.4 171.0,116.8 172.5,115.0 174.0,113.1 175.5,111.1 177.0,109.1 178.5,106.9 180.0,104.6 181.5,102.2 183.0,99.6 184.5,96.9 186.0,94.1 187.5,91.1 189.0,88.0 190.5,84.6 192.0,81.2 193.5,77.5 195.0,73.6 196.5,69.5 198.0,65.2 199.5,60.7 201.0,56.0 202.5,50.9 204.0,45.7 205.5,40.1 207.0,34.2 208.5,28.0 210.0,21.5" fill="none" stroke="#a78bfa" stroke-width="2.6"/><text x="194.0" y="70.2" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="end">2ⁿ</text><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,149.7 31.5,149.7 33.0,149.7 34.5,149.7 36.0,149.7 37.5,149.7 39.0,149.6 40.5,149.6 42.0,149.6 43.5,149.6 45.0,149.6 46.5,149.5 48.0,149.5 49.5,149.5 51.0,149.5 52.5,149.5 54.0,149.4 55.5,149.4 57.0,149.4 58.5,149.4 60.0,149.4 61.5,149.4 63.0,149.3 64.5,149.3 66.0,149.3 67.5,149.3 69.0,149.3 70.5,149.2 72.0,149.2 73.5,149.2 75.0,149.2 76.5,149.2 78.0,149.1 79.5,149.1 81.0,149.1 82.5,149.1 84.0,149.1 85.5,149.1 87.0,149.0 88.5,149.0 90.0,149.0 91.5,149.0 93.0,149.0 94.5,148.9 96.0,148.9 97.5,148.9 99.0,148.9 100.5,148.9 102.0,148.8 103.5,148.8 105.0,148.8 106.5,148.8 108.0,148.8 109.5,148.8 111.0,148.7 112.5,148.7 114.0,148.7 115.5,148.7 117.0,148.7 118.5,148.6 120.0,148.6 121.5,148.6 123.0,148.6 124.5,148.6 126.0,148.5 127.5,148.5 129.0,148.5 130.5,148.5 132.0,148.5 133.5,148.5 135.0,148.4 136.5,148.4 138.0,148.4 139.5,148.4 141.0,148.4 142.5,148.3 144.0,148.3 145.5,148.3 147.0,148.3 148.5,148.3 150.0,148.2 151.5,148.2 153.0,148.2 154.5,148.2 156.0,148.2 157.5,148.1 159.0,148.1 160.5,148.1 162.0,148.1 163.5,148.1 165.0,148.1 166.5,148.0 168.0,148.0 169.5,148.0 171.0,148.0 172.5,148.0 174.0,147.9 175.5,147.9 177.0,147.9 178.5,147.9 180.0,147.9 181.5,147.8 183.0,147.8 184.5,147.8 186.0,147.8 187.5,147.8 189.0,147.8 190.5,147.7 192.0,147.7 193.5,147.7 195.0,147.7 196.5,147.7 198.0,147.6 199.5,147.6 201.0,147.6 202.5,147.6 204.0,147.6 205.5,147.5 207.0,147.5 208.5,147.5 210.0,147.5" fill="none" stroke="#7c85ab" stroke-width="2.6"/><text x="202.0" y="141.6" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="end">2n</text><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">nombre de qubits n</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">nombres à stocker</text></svg><div class="cap">Une croissance exponentielle</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment relier deux qubits pour de bon ?</h2></div></div>
+<p class="answer">On part de |00⟩. Hadamard sur le premier donne (|00⟩ + |10⟩)/√2. Puis une porte <b>CNOT</b> inverse le second qubit si le premier vaut 1 : on obtient (|00⟩ + |11⟩)/√2. Les deux qubits valent soit tous deux 0, soit tous deux 1, jamais l'un sans l'autre.</p>
+<div class="math"><span class="t">Les maths derrière : la paire de Bell</span><span class="f">|00⟩ → (|00⟩ + |10⟩)/√2 → (|00⟩ + |11⟩)/√2</span><p>CNOT : |a, b⟩ ↦ |a, b ⊕ a⟩. Le résultat ne peut pas s'écrire comme un état du premier qubit multiplié par un état du second.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, cas concret, créer une paire intriquée, p. 230</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">|00⟩</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">H</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">(|00⟩+|10⟩)/√2</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">CNOT</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">(|00⟩+|11⟩)/√2</text></svg><div class="cap">Hadamard, puis CNOT</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Que se passe-t-il si on mesure un seul des deux qubits ?</h2></div></div>
+<p class="answer">On obtient 0 ou 1, à 50 %. Mais dès cet instant, l'autre qubit a <b>la même valeur</b>, quelle que soit la distance qui les sépare. Mesurer l'un détermine l'autre. C'est l'<b>intrication</b>, la brique de base de tout calcul quantique.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;intrication</span><span class="f">P(00) = P(11) = 1/2, P(01) = P(10) = 0</span><p>Un état intriqué ne se décompose pas en produit d'états individuels : les deux qubits n'ont plus d'existence séparée.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, cas concret, la paire de Bell, p. 230</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="20.0" y="46.7" width="37.5" height="93.3" rx="4" fill="#5fd4f0" opacity=".85"/><text x="38.8" y="40.7" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">50 %</text><text x="38.8" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">00</text><rect x="67.5" y="140.0" width="37.5" height="0.0" rx="4" fill="#7c85ab" opacity=".85"/><text x="86.2" y="134.0" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0 %</text><text x="86.2" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">01</text><rect x="115.0" y="140.0" width="37.5" height="0.0" rx="4" fill="#7c85ab" opacity=".85"/><text x="133.8" y="134.0" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0 %</text><text x="133.8" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">10</text><rect x="162.5" y="46.7" width="37.5" height="93.3" rx="4" fill="#a78bfa" opacity=".85"/><text x="181.2" y="40.7" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">50 %</text><text x="181.2" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">11</text></svg><div class="cap">Jamais 01, jamais 10</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Pourquoi tout cela aide-t-il à simuler une molécule ?</h2></div></div>
+<p class="answer">Les électrons d'une molécule ont, eux aussi, un nombre de configurations qui <b>double</b> à chaque ajout. Un ordinateur classique doit les stocker une à une : pour 50 « cases » électroniques, environ 2<sup>50</sup> nombres, des millions de milliards. Un ordinateur quantique de 50 qubits les porte <b>naturellement</b> dans son état intriqué.</p>
+<div class="math"><span class="t">Les maths derrière : la croissance exponentielle de l&#x27;espace d&#x27;états</span><span class="f">2<sup>50</sup> ≈ 1,1 × 10<sup>15</sup> amplitudes</span><p>Stocker 2<sup>50</sup> nombres complexes de 16 octets demanderait environ 18 millions de gigaoctets (calcul personnel) : c'est là que l'ordinateur classique cale.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 25</b>, cas concret, vers la simulation moléculaire, p. 231</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="64" fill="#a78bfa" font-size="30" font-family="Cormorant Garamond,serif" text-anchor="middle">2⁵⁰ ≈ 10¹⁵</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">configurations pour 50 qubits</text></svg><div class="cap">La chimie parle déjà quantique</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Un circuit qui ne perd rien, et qui pense en 2ⁿ</h2>
+<div class="chain"><span>|00⟩</span><em>→</em><span>Hadamard</span><em>→</em><span>CNOT</span><em>→</em><span>paire de Bell</span><em>→</em><span>mesure</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Porte unitaire</td><td>la norme, l&#x27;information</td><td>l&#x27;orientation de l&#x27;état</td></tr><tr><td>Produit tensoriel</td><td>chaque qubit</td><td>la dimension passe à 2ⁿ</td></tr><tr><td>Intrication</td><td>les corrélations</td><td>les qubits perdent leur indépendance</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Un circuit inversé</h2>
+<p class="answer" style="font-size:16px">On applique Hadamard à |1⟩. Quel état obtient-on, et quelles sont les probabilités de mesure ? Que donne une seconde porte H ?</p>
+<details><summary>Voir la réponse</summary><p>H|1⟩ = (|0⟩ − |1⟩)/√2. Probabilités : (1/√2)² = 1/2 pour chaque résultat, malgré le signe moins. Une seconde porte H redonne |1⟩, puisque H·H = I.</p></details></section>
+<div class="next"><a href="26-menace-quantique.html"><small>Projet suivant · ch. 26</small>🔓 Évaluer la menace quantique sur nos codes secrets →</a><a href="24-hasard-quantique.html"><small>Projet précédent · ch. 24</small>← 🎲 Tirer à pile ou face avec un qubit</a><a href="26-menace-quantique.html"><small>Ce que pourrait vraiment faire une machine quantique</small>🔓 Évaluer la menace quantique sur nos codes secrets →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

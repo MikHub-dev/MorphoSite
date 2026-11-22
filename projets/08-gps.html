@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Construire un récepteur GPS · MorphoSite</title>
+<meta name="description" content="Des distances, des sphères, des horloges… et Einstein : sans la relativité, votre position dériverait de 10 km par jour.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#5fd4f0">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie II › Chapitre 8</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 8 · parcours de construction</div>
+<h1>Construire un récepteur <em>GPS</em></h1>
+<p class="lead">Votre téléphone sait où il est à quelques mètres près. Neuf questions pour construire le calcul, jusqu'à la surprise finale : il faut corriger le temps des satellites avec la relativité.</p>
+<div class="facts"><div><b>9</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 27 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🛰️</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Savoir où l&#x27;on est</a></li><li><a href="#q2"><span class="n">2</span>Mesurer une distance à un satellite</a></li><li><a href="#q3"><span class="n">3</span>Une distance = une sphère</a></li><li><a href="#q4"><span class="n">4</span>Pourquoi un 4e satellite ?</a></li><li><a href="#q5"><span class="n">5</span>La précision des horloges</a></li><li><a href="#q6"><span class="n">6</span>Le temps ralentit avec la vitesse</a></li><li><a href="#q7"><span class="n">7</span>Le temps accélère loin de la Terre</a></li><li><a href="#q8"><span class="n">8</span>Comment corrige-t-on ?</a></li><li><a href="#q9"><span class="n">9</span>La « distance » de l&#x27;espace-temps</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Comment savoir où l&#x27;on est sur Terre ?</h2></div></div>
+<p class="answer">En mesurant sa <b>distance à des points connus</b>. Si je sais que je suis à 3 km de l'église et à 5 km de la gare, je n'ai plus que deux positions possibles sur la carte. Le GPS fait pareil, avec des <b>satellites</b> dont on connaît la position à chaque instant.</p>
+<div class="math"><span class="t">Les maths derrière : la distance</span><span class="f">d(A, B)² = (x<sub>B</sub> − x<sub>A</sub>)² + (y<sub>B</sub> − y<sub>A</sub>)² + (z<sub>B</sub> − z<sub>A</sub>)²</span><p>Le produit scalaire donne la distance euclidienne. Elle est la même pour tous les observateurs immobiles : c'est un invariant des rotations et des translations.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, Station 1 : produit scalaire et distances, p. 82</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 160" aria-label="Deux cercles qui se croisent"><circle cx="75" cy="80" r="55" fill="none" stroke="#5fd4f0" stroke-width="2" stroke-dasharray="5 4"/><circle cx="150" cy="80" r="50" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5 4"/><circle cx="75" cy="80" r="4" fill="#5fd4f0"/><circle cx="150" cy="80" r="4" fill="#a78bfa"/><circle cx="117" cy="44" r="5" fill="#f3cf7a"/><circle cx="117" cy="116" r="5" fill="#f3cf7a"/><text x="62" y="98" fill="#5fd4f0" font-size="11" font-family="Jost">église</text><text x="140" y="98" fill="#c4b5fd" font-size="11" font-family="Jost">gare</text></svg><div class="cap">Deux distances, deux positions possibles</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Comment mesurer une distance jusqu&#x27;à un satellite, à 20 000 km ?</h2></div></div>
+<p class="answer">Avec le <b>temps</b>. Chaque satellite envoie un signal qui dit : « il est exactement telle heure ». Le récepteur note quand il le reçoit. Le signal voyage à la <b>vitesse de la lumière</b> : en 0,067 seconde, il parcourt 20 200 km.</p>
+<div class="math"><span class="t">Les maths derrière : distance = vitesse × durée</span><span class="f">d = c × Δt  (c ≈ 300 000 km/s)</span><p>Mesurer une distance revient à mesurer une durée. Toute la précision du GPS repose donc sur des horloges extrêmement précises.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, Ouverture : 38 microsecondes par jour, p. 82</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛰️</text><text x="36.7" y="94.6" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">« il est</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">12:00:00,000</text><text x="36.7" y="121.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">»</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">⟶</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0,067 s</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📱</text><text x="183.3" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">reçu à</text><text x="183.3" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">12:00:00,067</text></svg><div class="cap">Le temps de trajet donne la distance</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Que nous apprend une seule distance ?</h2></div></div>
+<p class="answer">Que l'on est quelque part <b>sur une sphère</b> centrée sur le satellite. Avec deux satellites, les deux sphères se coupent selon un cercle. Avec trois, il ne reste que <b>deux points</b>, dont un perdu dans l'espace : c'est l'autre.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;équation de la sphère</span><span class="f">(x − a)² + (y − b)² + (z − c)² = r²</span><p>Une sphère de centre (a, b, c) et de rayon r est l'ensemble des points à distance r du centre. Trouver sa position, c'est résoudre un système de ces équations.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, Station 1, l&#x27;équation de la sphère, p. 82</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" aria-label="Trois satellites et leurs distances"><g fill="none" stroke-width="1.6" stroke-dasharray="5 5"><circle cx="40" cy="40" r="105" stroke="#5fd4f0"/><circle cx="180" cy="30" r="107" stroke="#a78bfa"/><circle cx="200" cy="150" r="94" stroke="#f3cf7a"/></g><g font-size="18"><text x="28" y="46">🛰️</text><text x="168" y="36">🛰️</text><text x="188" y="156">🛰️</text></g><circle cx="113" cy="114" r="6" fill="#5fd1b3"/><text x="62" y="118" fill="#5fd1b3" font-size="12" font-family="Jost">vous</text></svg><div class="cap">Là où les sphères se croisent</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Pourquoi le téléphone écoute-t-il au moins quatre satellites ?</h2></div></div>
+<p class="answer">Parce que l'horloge du téléphone, elle, n'est pas parfaite. Son petit décalage est une <b>quatrième inconnue</b>, en plus de x, y et z. Quatre inconnues, il faut <b>quatre mesures</b> : un quatrième satellite règle l'horloge du téléphone en même temps qu'il donne la position.</p>
+<div class="math"><span class="t">Les maths derrière : un système à quatre inconnues</span><span class="f">inconnues : x, y, z et le décalage d'horloge</span><p>Chaque satellite donne une équation. Il faut autant d'équations indépendantes que d'inconnues pour trouver une solution unique.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, Courber l&#x27;espace et le temps, p. 80</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="27.5" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛰️</text><text x="27.5" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">x</text><text x="82.5" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛰️</text><text x="82.5" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">y</text><text x="137.5" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛰️</text><text x="137.5" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">z</text><text x="192.5" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛰️</text><text x="192.5" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">horloge</text></svg><div class="cap">Quatre mesures, quatre inconnues</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>À quel point les horloges doivent-elles être précises ?</h2></div></div>
+<p class="answer">Énormément. La lumière parcourt <b>300 mètres en une microseconde</b> (un millionième de seconde). Une erreur d'une microseconde sur l'heure, et la position est fausse de 300 m. C'est pourquoi chaque satellite embarque une <b>horloge atomique</b>.</p>
+<div class="math"><span class="t">Les maths derrière : la propagation d&#x27;une erreur</span><span class="f">1 µs × 300 000 km/s = 300 m</span><p>Dans une chaîne de calcul, une petite erreur sur l'entrée est multipliée par un grand facteur, ici c. C'est ce facteur qui rend la précision du temps si critique.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, cas concret « la correction relativiste du GPS », p. 86</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="140.0" width="40.0" height="0.0" rx="4" fill="#5fd1b3" opacity=".85"/><text x="60.0" y="134.0" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0,3 m</text><text x="60.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">1 ns</text><rect x="90.0" y="137.3" width="40.0" height="2.7" rx="4" fill="#f5a65b" opacity=".85"/><text x="110.0" y="131.3" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">300 m</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">1 µs</text><rect x="140.0" y="37.0" width="40.0" height="103.0" rx="4" fill="#f0719a" opacity=".85"/><text x="160.0" y="31.0" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">11 500 m</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">38 µs</text></svg><div class="cap">Erreur d&#x27;horloge → erreur de position</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Une horloge qui file à 14 000 km/h bat-elle comme la nôtre ?</h2></div></div>
+<p class="answer">Non ! Einstein l'a montré : une horloge en mouvement <b>retarde</b> par rapport à une horloge immobile. Pour un satellite GPS, qui file à environ 3,9 km par seconde, le retard atteint <b>7,2 microsecondes par jour</b>.</p>
+<div class="math"><span class="t">Les maths derrière : la relativité restreinte</span><span class="f">γ = 1 / √(1 − v²/c²) ≥ 1</span><p>Le facteur γ mesure à quel point les durées diffèrent entre deux observateurs. Pour v ≈ 3 874 m/s, il dépasse 1 d'environ 8 × 10⁻¹¹, soit 7,2 µs sur 86 400 secondes.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, cas concret, l&#x27;effet de la vitesse, p. 86</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="64" fill="#f5a65b" font-size="32" font-family="Cormorant Garamond,serif" text-anchor="middle">− 7,2 µs</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">par jour, à cause de la vitesse</text></svg><div class="cap">L&#x27;horloge du satellite retarde</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Et la gravité, change-t-elle aussi le temps ?</h2></div></div>
+<p class="answer">Oui, et dans l'autre sens : loin de la Terre, la gravité est plus faible, et une horloge <b>avance</b>. À 20 200 km d'altitude, elle gagne <b>45,7 microsecondes par jour</b>. Au total : 45,7 − 7,2 ≈ <b>38,5 µs d'avance par jour</b>, soit environ <b>10 km d'erreur par jour</b> si l'on ne fait rien.</p>
+<div class="math"><span class="t">Les maths derrière : la relativité générale</span><span class="f">45,7 − 7,2 ≈ 38,5 µs/jour</span><p>Multipliées par la vitesse de la lumière, ces microsecondes deviennent des kilomètres. La relativité n'est pas un détail théorique : sans elle, le GPS serait inutilisable en une journée.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, cas concret, l&#x27;effet de la gravité, p. 86</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="123.9" width="40.0" height="16.1" rx="4" fill="#f5a65b" opacity=".85"/><text x="60.0" y="117.9" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">7,2 µs</text><text x="60.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">vitesse</text><rect x="90.0" y="37.6" width="40.0" height="102.4" rx="4" fill="#5fd1b3" opacity=".85"/><text x="110.0" y="31.6" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">45,7 µs</text><text x="110.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">gravité</text><rect x="140.0" y="53.8" width="40.0" height="86.2" rx="4" fill="#a78bfa" opacity=".85"/><text x="160.0" y="47.8" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">38,5 µs</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">bilan</text></svg><div class="cap">Deux effets opposés, un bilan net</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Comment les ingénieurs corrigent-ils cet écart ?</h2></div></div>
+<p class="answer">Pas par un calcul à chaque seconde : ils <b>règlent l'horloge au sol, avant le lancement</b>, un tout petit peu plus lente que la normale. Une fois en orbite, les deux effets relativistes la ramènent exactement à la bonne cadence. La relativité est câblée dans le matériel.</p>
+<div class="math"><span class="t">Les maths derrière : compenser une transformation connue</span><span class="f">fréquence réglée × (effet net) = fréquence standard</span><p>Quand on connaît d'avance la transformation que va subir un signal, on applique la transformation inverse au départ.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, cas concret, « la correction en pratique », p. 86</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="32.0" y="50.2" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">horloge</text><text x="32.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">ralentie</text><text x="32.0" y="77.8" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">au sol</text><path d="M63.0 60 L75.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M73.0 55 L80.0 60 L73.0 65Z" fill="#5fd1b3"/><rect x="82.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">lancement</text><path d="M141.0 60 L153.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M151.0 55 L158.0 60 L151.0 65Z" fill="#5fd1b3"/><rect x="160.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="188.0" y="43.3" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">bonne</text><text x="188.0" y="57.1" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">cadence</text><text x="188.0" y="70.9" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">en</text><text x="188.0" y="84.7" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">orbite</text></svg><div class="cap">La correction est faite avant le décollage</div></div>
+</article><article class="step" id="q9">
+<div>
+<div class="qhead"><div class="qnum">9</div><div><div class="qlab">Question 9</div><h2>Qu&#x27;est-ce qui reste vrai pour tout le monde, alors ?</h2></div></div>
+<p class="answer">Pas la durée, pas la distance séparément : elles dépendent de l'observateur. Mais une <b>combinaison des deux</b>, l'intervalle d'espace-temps, est la même pour tous. Changer d'observateur, c'est comme <b>tourner</b> dans l'espace-temps : la « longueur » ne change pas.</p>
+<div class="math"><span class="t">Les maths derrière : les transformations de Lorentz</span><span class="f">s² = c²t² − x² − y² − z²</span><p>Une transformation de Lorentz relie les mesures de deux observateurs en mouvement l'un par rapport à l'autre. Elle laisse s² invariant, comme une rotation laisse la distance invariante.</p></div>
+<span class="morph">φ Morphisme : les isométries de l'espace-temps</span>
+<span class="book">📖 Dans le livre : <b>ch. 8</b>, Station 3 : les transformations de Lorentz, p. 83</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 118" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle"></text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Espace</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Espace-temps</text><rect x="5.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">invariant</text><rect x="75.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">distance</text><rect x="145.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="41.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">intervalle s²</text><rect x="5.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">symétries</text><rect x="75.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">rotations</text><rect x="145.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Lorentz</text><rect x="5.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">change</text><rect x="75.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">orientation</text><rect x="145.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">temps et longueurs</text></svg><div class="cap">Même idée, une dimension de plus</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Un GPS, c&#x27;est de la géométrie… et de la relativité</h2>
+<div class="chain"><span>heure d&#x27;émission</span><em>→</em><span>durée du trajet</span><em>→</em><span>distances</span><em>→</em><span>sphères</span><em>→</em><span>position</span><em>→</em><span>correction relativiste</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Durée → distance</td><td>l&#x27;ordre des distances</td><td>l&#x27;unité : secondes devient mètres</td></tr><tr><td>Distances → position</td><td>la géométrie de l&#x27;espace</td><td>on résout un système</td></tr><tr><td>Changement d&#x27;observateur</td><td>l&#x27;intervalle d&#x27;espace-temps</td><td>durées et longueurs séparées</td></tr><tr><td>Correction au sol</td><td>la cadence en orbite</td><td>la fréquence réglée avant le lancement</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Une erreur d&#x27;horloge</h2>
+<p class="answer" style="font-size:16px">Le signal a mis 0,0700 s au lieu de 0,0673 s. À quelle distance du satellite le téléphone se croit-il, au lieu de 20 200 km ? (c ≈ 300 000 km/s)</p>
+<details><summary>Voir la réponse</summary><p>0,0700 × 300 000 = 21 000 km au lieu de 0,0673 × 300 000 ≈ 20 200 km : une erreur de 800 km pour 2,7 millisecondes. D'où l'importance des horloges atomiques.</p></details></section>
+<div class="next"><a href="09-epidemie.html"><small>Projet suivant · ch. 9</small>🦠 Simuler une épidémie →</a><a href="07-reseau-vasculaire.html"><small>Projet précédent · ch. 7</small>← 🩺 Lire la forme d&#x27;un réseau de vaisseaux</a><a href="31-voyage-vers-mars.html"><small>Les mêmes lois, pour aller vers Mars</small>🚀 Envoyer une sonde vers Mars →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

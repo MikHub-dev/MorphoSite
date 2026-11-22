@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Envoyer une sonde vers Mars · MorphoSite</title>
+<meta name="description" content="Rejoindre Mars presque sans moteur : lois de Kepler, transfert de Hohmann, changement de référentiel, assistance gravitationnelle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#a78bfa">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie VII › Chapitre 31</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 31 · parcours de construction</div>
+<h1>Envoyer une sonde <em>vers Mars</em></h1>
+<p class="lead">Une sonde vers Mars n'allume son moteur que quelques minutes, au départ et à l'arrivée. Le reste du voyage, elle se laisse porter. Huit questions pour tracer la route la plus économe.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🚀</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Pourquoi pas tout droit ?</a></li><li><a href="#q2"><span class="n">2</span>Les règles du ciel</a></li><li><a href="#q3"><span class="n">3</span>La route économe</a></li><li><a href="#q4"><span class="n">4</span>La taille de l&#x27;ellipse</a></li><li><a href="#q5"><span class="n">5</span>Combien de temps ?</a></li><li><a href="#q6"><span class="n">6</span>Aller un peu plus vite</a></li><li><a href="#q7"><span class="n">7</span>Plusieurs points de vue</a></li><li><a href="#q8"><span class="n">8</span>Le coup de pouce gratuit</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Pourquoi ne pas foncer en ligne droite vers Mars ?</h2></div></div>
+<p class="answer">Parce que tout bouge ! La Terre file autour du Soleil à 30 km/s, Mars aussi. Aller tout droit, ce serait lutter contre ce mouvement : il faudrait une énergie énorme. Mieux vaut <b>utiliser</b> le mouvement des planètes que le combattre.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;énergie d&#x27;un trajet</span><span class="f">ligne droite : énorme poussée ; courbe tangente : poussée minimale</span><p>Le chemin le plus court en distance n'est pas le plus économe en énergie.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, Sous le capot : pourquoi ne pas foncer en ligne droite, p. 281</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🌍</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Terre</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">↝</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔴</text><text x="183.3" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Mars</text></svg><div class="cap">Le plus court n&#x27;est pas le moins cher</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Quelles règles suivent les planètes ?</h2></div></div>
+<p class="answer">Les trois lois de <b>Kepler</b> : les orbites sont des ellipses ; on va plus vite près du Soleil ; et plus l'orbite est grande, plus l'année est longue, selon une règle précise : la période au carré est proportionnelle au cube de la taille de l'orbite.</p>
+<div class="math"><span class="t">Les maths derrière : la troisième loi de Kepler</span><span class="f">T² ∝ a³ (T en années, a en UA : T = a<sup>1,5</sup>)</span><p>a est le demi-grand axe de l'ellipse. Pour la Terre, a = 1 UA et T = 1 an.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, Station 1 : vecteurs, énergie, lois de Kepler, p. 276</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,150.0 31.5,149.9 33.0,149.7 34.5,149.5 36.0,149.2 37.5,148.9 39.0,148.5 40.5,148.2 42.0,147.8 43.5,147.3 45.0,146.9 46.5,146.4 48.0,145.9 49.5,145.4 51.0,144.8 52.5,144.2 54.0,143.7 55.5,143.1 57.0,142.4 58.5,141.8 60.0,141.1 61.5,140.5 63.0,139.8 64.5,139.1 66.0,138.4 67.5,137.6 69.0,136.9 70.5,136.1 72.0,135.3 73.5,134.5 75.0,133.7 76.5,132.9 78.0,132.1 79.5,131.2 81.0,130.4 82.5,129.5 84.0,128.6 85.5,127.7 87.0,126.8 88.5,125.9 90.0,125.0 91.5,124.0 93.0,123.1 94.5,122.1 96.0,121.1 97.5,120.1 99.0,119.1 100.5,118.1 102.0,117.1 103.5,116.1 105.0,115.0 106.5,114.0 108.0,112.9 109.5,111.8 111.0,110.7 112.5,109.6 114.0,108.5 115.5,107.4 117.0,106.3 118.5,105.1 120.0,104.0 121.5,102.8 123.0,101.7 124.5,100.5 126.0,99.3 127.5,98.1 129.0,96.9 130.5,95.7 132.0,94.5 133.5,93.3 135.0,92.0 136.5,90.8 138.0,89.5 139.5,88.3 141.0,87.0 142.5,85.7 144.0,84.4 145.5,83.1 147.0,81.8 148.5,80.5 150.0,79.2 151.5,77.8 153.0,76.5 154.5,75.2 156.0,73.8 157.5,72.4 159.0,71.1 160.5,69.7 162.0,68.3 163.5,66.9 165.0,65.5 166.5,64.1 168.0,62.7 169.5,61.2 171.0,59.8 172.5,58.4 174.0,56.9 175.5,55.4 177.0,54.0 178.5,52.5 180.0,51.0 181.5,49.5 183.0,48.0 184.5,46.5 186.0,45.0 187.5,43.5 189.0,42.0 190.5,40.5 192.0,38.9 193.5,37.4 195.0,35.8 196.5,34.3 198.0,32.7 199.5,31.1 201.0,29.5 202.5,27.9 204.0,26.3 205.5,24.7 207.0,23.1 208.5,21.5 210.0,19.9" fill="none" stroke="#f3cf7a" stroke-width="2.6"/><text x="183.0" y="42.0" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="end">T² = a³</text><circle cx="120.0" cy="104.0" r="4" fill="#5fd4f0"/><text x="126.0" y="98.0" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="start">Terre</text><circle cx="167.2" cy="63.5" r="4" fill="#f0719a"/><text x="161.2" y="57.5" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="end">Mars</text><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">a (UA)</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">T (années)</text></svg><div class="cap">Plus loin, plus lent</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Quelle trajectoire consomme le moins ?</h2></div></div>
+<p class="answer">Une <b>demi-ellipse</b> qui touche l'orbite de la Terre au départ et celle de Mars à l'arrivée : le <b>transfert de Hohmann</b>. Une poussée pour la quitter, une poussée pour s'arrêter sur Mars, et entre les deux, moteur éteint.</p>
+<div class="math"><span class="t">Les maths derrière : une optimisation sous contrainte</span><span class="f">minimiser le carburant, avec deux poussées</span><p>C'est un problème d'optimisation (chapitre 11), résolu grâce à la conservation de l'énergie (chapitre 21).</p></div>
+<span class="morph">φ Morphisme : Hohmann : l'orbite optimale entre deux cercles</span>
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, Station 3 : le transfert de Hohmann, p. 277</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" role="img" aria-label="transfert de Hohmann"><circle cx="110" cy="85" r="40" fill="none" stroke="#5fd4f0" stroke-dasharray="3 3"/><circle cx="110" cy="85" r="61" fill="none" stroke="#f28ab2" stroke-dasharray="3 3"/><path d="M70,85 A50.5,49.4 0 0 1 171,85" fill="none" stroke="#f2c14e" stroke-width="2.4"/><circle cx="110" cy="85" r="8" fill="#f2c14e"/><circle cx="70" cy="85" r="5" fill="#5fd4f0"/><circle cx="171" cy="85" r="5" fill="#f28ab2"/><text x="64" y="102" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="end">Terre</text><text x="176" y="102" fill="#f28ab2" font-size="11" font-family="Jost,sans-serif">Mars</text><text x="110" y="20" fill="#f2c14e" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">demi-ellipse de transfert</text><text x="110" y="164" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">2 allumages : au départ et à l'arrivée</text></svg><div class="cap">Moteur éteint presque tout le voyage</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Quelle est la taille de cette ellipse ?</h2></div></div>
+<p class="answer">La Terre est à <b>1 UA</b> du Soleil (150 millions de km), Mars à <b>1,524 UA</b>. L'ellipse va de l'une à l'autre : son demi-grand axe est la <b>moyenne</b> des deux distances, soit 1,262 UA.</p>
+<div class="math"><span class="t">Les maths derrière : le demi-grand axe</span><span class="f">a = (1 + 1,524) / 2 = 1,262 UA</span><p>Le grand axe d'une ellipse relie son point le plus proche et son point le plus éloigné du Soleil ; ici, la Terre et Mars.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, cas concret « calculer la durée du voyage vers Mars », p. 280</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="40.0" y="74.1" width="40.0" height="65.9" rx="4" fill="#5fd4f0" opacity=".85"/><text x="60.0" y="68.1" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1 UA</text><text x="60.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Terre</text><rect x="90.0" y="56.9" width="40.0" height="83.1" rx="4" fill="#f3cf7a" opacity=".85"/><text x="110.0" y="50.9" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1,262 UA</text><text x="110.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">ellipse</text><text x="110.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">(a)</text><rect x="140.0" y="39.6" width="40.0" height="100.4" rx="4" fill="#f0719a" opacity=".85"/><text x="160.0" y="33.6" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1,524 UA</text><text x="160.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Mars</text></svg><div class="cap">Une moyenne</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Combien de temps dure le voyage ?</h2></div></div>
+<p class="answer">Une ellipse de 1,262 UA se parcourt en 1,262<sup>1,5</sup> ≈ 1,418 an. La sonde n'en fait que la <b>moitié</b> : 0,709 an, soit environ <b>259 jours</b>, à peu près <b>8 mois et demi</b>.</p>
+<div class="math"><span class="t">Les maths derrière : Kepler appliqué au transfert</span><span class="f">t = ½ × 1,262<sup>1,5</sup> an ≈ 0,709 an ≈ 259 jours</span><p>Le livre fait le calcul avec GM du Soleil ≈ 1,327 × 10<sup>20</sup> m³/s² ; en années et UA, la constante disparaît.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, cas concret, la durée du trajet, p. 280</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="65" fill="#f3cf7a" font-size="34" font-family="Cormorant Garamond,serif" text-anchor="middle">≈ 8,5 mois</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">259 jours, moteur éteint</text></svg><div class="cap">Une demi-orbite</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Les vraies missions mettent-elles 8,5 mois ?</h2></div></div>
+<p class="answer">Souvent un peu moins, autour de <b>7 mois</b>. Elles brûlent un peu plus de carburant pour gagner du temps (et exposer moins longtemps la sonde, ou un équipage, aux rayonnements). C'est un <b>compromis</b> entre deux objectifs.</p>
+<div class="math"><span class="t">Les maths derrière : un arbitrage entre objectifs</span><span class="f">durée ↓ ⟺ carburant ↑</span><p>Quand deux objectifs s'opposent, on choisit un point d'équilibre : c'est l'arbitrage du chapitre 11.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, cas concret, missions réelles, p. 280</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,25.8 31.5,30.1 33.0,34.3 34.5,38.3 36.0,42.1 37.5,45.8 39.0,49.4 40.5,52.8 42.0,56.0 43.5,59.2 45.0,62.2 46.5,65.1 48.0,67.9 49.5,70.6 51.0,73.1 52.5,75.6 54.0,78.0 55.5,80.3 57.0,82.5 58.5,84.6 60.0,86.6 61.5,88.5 63.0,90.4 64.5,92.2 66.0,93.9 67.5,95.6 69.0,97.2 70.5,98.7 72.0,100.2 73.5,101.6 75.0,102.9 76.5,104.3 78.0,105.5 79.5,106.7 81.0,107.9 82.5,109.0 84.0,110.0 85.5,111.1 87.0,112.1 88.5,113.0 90.0,113.9 91.5,114.8 93.0,115.6 94.5,116.4 96.0,117.2 97.5,118.0 99.0,118.7 100.5,119.4 102.0,120.0 103.5,120.6 105.0,121.3 106.5,121.8 108.0,122.4 109.5,122.9 111.0,123.5 112.5,124.0 114.0,124.4 115.5,124.9 117.0,125.4 118.5,125.8 120.0,126.2 121.5,126.6 123.0,127.0 124.5,127.3 126.0,127.7 127.5,128.0 129.0,128.3 130.5,128.6 132.0,128.9 133.5,129.2 135.0,129.5 136.5,129.7 138.0,130.0 139.5,130.2 141.0,130.5 142.5,130.7 144.0,130.9 145.5,131.1 147.0,131.3 148.5,131.5 150.0,131.7 151.5,131.9 153.0,132.0 154.5,132.2 156.0,132.4 157.5,132.5 159.0,132.7 160.5,132.8 162.0,132.9 163.5,133.1 165.0,133.2 166.5,133.3 168.0,133.4 169.5,133.5 171.0,133.6 172.5,133.7 174.0,133.8 175.5,133.9 177.0,134.0 178.5,134.1 180.0,134.2 181.5,134.3 183.0,134.3 184.5,134.4 186.0,134.5 187.5,134.5 189.0,134.6 190.5,134.7 192.0,134.7 193.5,134.8 195.0,134.8 196.5,134.9 198.0,134.9 199.5,135.0 201.0,135.0 202.5,135.1 204.0,135.1 205.5,135.2 207.0,135.2 208.5,135.3 210.0,135.3" fill="none" stroke="#f5a65b" stroke-width="2.6"/><text x="60.0" y="80.6" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="start">carburant (allure)</text><circle cx="180.0" cy="134.2" r="4" fill="#f3cf7a"/><text x="174.0" y="128.2" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="end">Hohmann</text><circle cx="90.0" cy="113.9" r="4" fill="#5fd4f0"/><text x="96.0" y="107.9" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="start">réel</text><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">durée (mois)</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">carburant</text></svg><div class="cap">Allure du compromis (schéma qualitatif)</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Depuis où calcule-t-on la trajectoire ?</h2></div></div>
+<p class="answer">Depuis <b>trois points de vue</b> qu'on relie entre eux : centré sur la Terre au départ, centré sur le Soleil pendant le voyage, centré sur Mars à l'arrivée. C'est la même trajectoire, décrite par trois observateurs différents.</p>
+<div class="math"><span class="t">Les maths derrière : le changement de référentiel</span><span class="f">v<sub>/Soleil</sub> = v<sub>/planète</sub> + v<sub>planète/Soleil</sub></span><p>Aux vitesses des sondes, bien inférieures à celle de la lumière, les vitesses s'additionnent simplement (plus simple que Lorentz, chapitre 8).</p></div>
+<span class="morph">φ Morphisme : changer de référentiel : même trajet, autre description</span>
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, Station 3 : changer de référentiel, p. 277</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">vue Terre</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">vue Soleil</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">vue Mars</text></svg><div class="cap">Trois cartes pour un même trajet</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Peut-on gagner de la vitesse sans carburant ?</h2></div></div>
+<p class="answer">Oui, en frôlant une planète en chemin. Vue de la planète, la sonde repart à la <b>même vitesse</b> qu'elle est arrivée, juste déviée. Mais vue du Soleil, elle a <b>volé</b> un peu du mouvement de la planète : elle va plus vite. C'est l'<b>assistance gravitationnelle</b>, utilisée par Mariner 10 (1974) et les sondes Voyager.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;assistance gravitationnelle</span><span class="f">|v<sub>/planète</sub>| identique ; v<sub>/Soleil</sub> augmente</span><p>C'est un usage direct du changement de référentiel : une vitesse inchangée dans un repère peut grandir dans un autre.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 31</b>, cas concret, l&#x27;assistance gravitationnelle, p. 280</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛰️</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">arrivée</text><text x="66.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">↷</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🪐</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">survol</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🚀</text><text x="198.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">plus</text><text x="198.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">vite</text></svg><div class="cap">Emprunter l&#x27;élan d&#x27;une planète</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Laisser la gravité faire le travail</h2>
+<div class="chain"><span>orbite Terre</span><em>→</em><span>poussée</span><em>→</em><span>demi-ellipse</span><em>→</em><span>poussée</span><em>→</em><span>orbite Mars</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Transfert de Hohmann</td><td>l&#x27;énergie (entre les poussées)</td><td>l&#x27;orbite</td></tr><tr><td>Changement de référentiel</td><td>la trajectoire physique</td><td>sa description</td></tr><tr><td>Assistance gravitationnelle</td><td>la vitesse vue de la planète</td><td>la vitesse vue du Soleil</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Cap sur Vénus</h2>
+<p class="answer" style="font-size:16px">Vénus est à 0,723 UA du Soleil. Calcule le demi-grand axe du transfert de Hohmann depuis la Terre, puis la durée du voyage.</p>
+<details><summary>Voir la réponse</summary><p>a = (1 + 0,723) / 2 ≈ 0,862 UA. Durée : ½ × 0,862<sup>1,5</sup> ≈ ½ × 0,800 ≈ 0,400 an ≈ 146 jours, environ 5 mois.</p></details></section>
+<div class="next"><a href="32-ia-qui-complete.html"><small>Projet suivant · ch. 32</small>💬 Comprendre comment une IA complète une phrase →</a><a href="30-ecrire-par-la-pensee.html"><small>Projet précédent · ch. 30</small>← 🧠 Écrire un texte par la pensée</a><a href="21-satellite.html"><small>Le satellite et la conservation de l&#x27;énergie</small>🛰️ Garder un satellite en orbite sans carburant →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faire bouger un personnage de jeu vidéo · MorphoSite</title>
+<meta name="description" content="Un pas en avant, une matrice de plus : comment un moteur de jeu déplace des milliers de points sans jamais déformer le héros.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#5fd4f0">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie II › Chapitre 5</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 5 · parcours de construction</div>
+<h1>Faire bouger un personnage de <em>jeu vidéo 3D</em></h1>
+<p class="lead">Quand le héros avance d'un pas, sa tête, ses bras et son épée le suivent sans se tordre, soixante fois par seconde. Huit questions pour écrire le moteur qui fait ça.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🎮</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Un personnage dans l&#x27;ordinateur</a></li><li><a href="#q2"><span class="n">2</span>Avancer d&#x27;un pas</a></li><li><a href="#q3"><span class="n">3</span>Bouger sans déformer</a></li><li><a href="#q4"><span class="n">4</span>Tourner et grandir</a></li><li><a href="#q5"><span class="n">5</span>Le problème de la translation</a></li><li><a href="#q6"><span class="n">6</span>L&#x27;astuce de la 4e coordonnée</a></li><li><a href="#q7"><span class="n">7</span>Tourner puis avancer</a></li><li><a href="#q8"><span class="n">8</span>Du monde 3D à l&#x27;écran</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Comment un personnage existe-t-il dans l&#x27;ordinateur ?</h2></div></div>
+<p class="answer">Sous forme de <b>points</b> : des milliers de petits sommets, reliés en triangles, qui dessinent la peau, les vêtements, l'épée. Chaque point est repéré par <b>trois nombres (x, y, z)</b> : sa position à droite, en haut et en profondeur.</p>
+<div class="math"><span class="t">Les maths derrière : les coordonnées</span><span class="f">M = (x, y, z)</span><p>Un repère, c'est une origine et trois directions. Tout point de l'espace s'écrit alors avec trois nombres.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Station 1 : vecteurs et translations, p. 56</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="graphe"><line x1="107.0" y1="35.2" x2="79.0" y2="83.1" stroke="#a78bfa" stroke-width="2"/><line x1="113.0" y1="35.2" x2="141.0" y2="83.1" stroke="#a78bfa" stroke-width="2"/><line x1="81.0" y1="90.0" x2="137.0" y2="90.0" stroke="#a78bfa" stroke-width="2"/><line x1="76.3" y1="95.8" x2="88.2" y2="147.2" stroke="#a78bfa" stroke-width="2"/><line x1="143.7" y1="95.8" x2="131.8" y2="147.2" stroke="#a78bfa" stroke-width="2"/><line x1="96.0" y1="155.0" x2="122.0" y2="155.0" stroke="#a78bfa" stroke-width="2"/><circle cx="110" cy="30" r="6" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="110.0" y="34.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="75" cy="90" r="6" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="75.0" y="94.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="145" cy="90" r="6" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="145.0" y="94.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="90" cy="155" r="6" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="90.0" y="159.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text><circle cx="130" cy="155" r="6" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="130.0" y="159.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle"></text></svg><div class="cap">Un modèle 3D : des sommets et des arêtes</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Comment le faire avancer d&#x27;un pas ?</h2></div></div>
+<p class="answer">Un pas, c'est une <b>flèche</b> : « 1 vers la droite, 0 vers le haut, 2 vers le joueur ». On l'ajoute aux coordonnées de chaque point. Le héros, en (2, 0, 5), se retrouve en <b>(3, 0, 3)</b>.</p>
+<div class="math"><span class="t">Les maths derrière : le vecteur et la translation</span><span class="f">(2, 0, 5) + (1, 0, −2) = (3, 0, 3)</span><p>Un vecteur représente un déplacement : une direction, un sens, une longueur. Translater un point M d'un vecteur v, c'est calculer M + v.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, cas concret « le moteur de jeu vidéo 3D », p. 60</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" aria-label="Translation"><g stroke="#7c85ab" stroke-width="1.3"><line x1="20" y1="150" x2="210" y2="150"/><line x1="20" y1="150" x2="20" y2="10"/></g><circle cx="70" cy="60" r="9" fill="none" stroke="#7c85ab" stroke-dasharray="3 3"/><rect x="60" y="72" width="20" height="40" rx="5" fill="none" stroke="#7c85ab" stroke-dasharray="3 3"/><circle cx="150" cy="60" r="9" fill="none" stroke="#5fd4f0" stroke-width="2"/><rect x="140" y="72" width="20" height="40" rx="5" fill="none" stroke="#5fd4f0" stroke-width="2"/><line x1="82" y1="128" x2="134" y2="128" stroke="#a78bfa" stroke-width="2.5"/><path d="M130 122 L142 128 L130 134Z" fill="#a78bfa"/><text x="112" y="146" fill="#c4b5fd" font-size="12" font-family="Jost" text-anchor="middle">+ (1, 0, −2)</text></svg><div class="cap">La même flèche pour chaque point</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Pourquoi le personnage ne se déforme-t-il pas ?</h2></div></div>
+<p class="answer">Parce que <b>tous ses points reçoivent la même règle</b>. Les distances entre la main et l'épaule, entre les pieds et la tête, restent les mêmes : le héros bouge <b>d'un bloc</b>, comme un objet rigide. Il n'y a jamais besoin de recalculer sa forme.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;isométrie</span><span class="f">d(f(A), f(B)) = d(A, B)</span><p>Une transformation qui conserve toutes les distances s'appelle une isométrie. Translations et rotations en sont : elles changent la place, jamais la forme.</p></div>
+<span class="morph">φ Morphisme : conserver les distances = conserver la forme</span>
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Déplacer sans déformer, p. 54</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🧍</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">avant</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">même forme</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🧍</text><text x="183.3" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">après</text></svg><div class="cap">Changer de place, pas de forme</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Et pour le faire tourner ou grandir ?</h2></div></div>
+<p class="answer">On utilise un <b>tableau de nombres</b>, une matrice, qui dit comment mélanger x, y et z. Pour un quart de tour dans le plan, (x, y) devient (−y, x). Pour doubler la taille, on multiplie tout par 2. <b>Une matrice, une transformation.</b></p>
+<div class="math"><span class="t">Les maths derrière : applications linéaires et matrices</span><span class="f">(x, y) ⟼ (−y, x)</span><p>Une application linéaire est entièrement fixée par ce qu'elle fait sur les axes : quelques nombres suffisent (chapitre 1). Composer deux transformations revient à multiplier leurs matrices.</p></div>
+<span class="morph">φ Morphisme : application linéaire ↔ matrice</span>
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Station 3, « application linéaire et matrice », p. 57</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 70" role="img" aria-label="matrice de rotation d&#x27;un quart de tour"><rect x="5.0" y="5.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="23.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="5.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="23.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">−1</text><rect x="5.0" y="35.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="53.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="110.0" y="35.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="53.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text></svg><div class="cap">La matrice du quart de tour</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Peut-on aussi écrire « avancer » avec une matrice ?</h2></div></div>
+<p class="answer">Hélas, non, pas directement ! Une matrice laisse toujours l'origine sur place : (0, 0, 0) reste en (0, 0, 0). Or avancer déplace <b>tout</b>, origine comprise. La translation n'est pas linéaire : elle est seulement <b>affine</b>.</p>
+<div class="math"><span class="t">Les maths derrière : linéaire ou affine</span><span class="f">f(0) = 0 pour toute application linéaire</span><p>C'est la différence vue au chapitre 1 entre x ↦ 3x (linéaire) et x ↦ 3x + 2 (affine). Le « + 2 » déplace l'origine.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Station 1, « un problème caché », p. 56</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,187.6 31.5,186.1 33.0,184.5 34.5,182.9 36.0,181.4 37.5,179.8 39.0,178.2 40.5,176.7 42.0,175.1 43.5,173.5 45.0,172.0 46.5,170.4 48.0,168.8 49.5,167.2 51.0,165.7 52.5,164.1 54.0,162.5 55.5,161.0 57.0,159.4 58.5,157.8 60.0,156.3 61.5,154.7 63.0,153.1 64.5,151.6 66.0,150.0 67.5,148.4 69.0,146.9 70.5,145.3 72.0,143.7 73.5,142.2 75.0,140.6 76.5,139.0 78.0,137.5 79.5,135.9 81.0,134.3 82.5,132.8 84.0,131.2 85.5,129.6 87.0,128.0 88.5,126.5 90.0,124.9 91.5,123.3 93.0,121.8 94.5,120.2 96.0,118.6 97.5,117.1 99.0,115.5 100.5,113.9 102.0,112.4 103.5,110.8 105.0,109.2 106.5,107.7 108.0,106.1 109.5,104.5 111.0,103.0 112.5,101.4 114.0,99.8 115.5,98.2 117.0,96.7 118.5,95.1 120.0,93.5 121.5,92.0 123.0,90.4 124.5,88.8 126.0,87.3 127.5,85.7 129.0,84.1 130.5,82.6 132.0,81.0 133.5,79.4 135.0,77.9 136.5,76.3 138.0,74.7 139.5,73.2 141.0,71.6 142.5,70.0 144.0,68.5 145.5,66.9 147.0,65.3 148.5,63.8 150.0,62.2 151.5,60.6 153.0,59.0 154.5,57.5 156.0,55.9 157.5,54.3 159.0,52.8 160.5,51.2 162.0,49.6 163.5,48.1 165.0,46.5 166.5,44.9 168.0,43.4 169.5,41.8 171.0,40.2 172.5,38.7 174.0,37.1 175.5,35.5 177.0,34.0 178.5,32.4 180.0,30.8 181.5,29.2 183.0,27.7 184.5,26.1 186.0,24.5 187.5,23.0 189.0,21.4 190.5,19.8 192.0,18.3 193.5,16.7 195.0,15.1 196.5,13.6 198.0,12.0 199.5,10.4 201.0,8.9 202.5,7.3 204.0,5.7 205.5,4.2 207.0,2.6 208.5,1.0 210.0,-0.5" fill="none" stroke="#5fd4f0" stroke-width="2.6"/><text x="188.4" y="16.0" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="end">3x</text><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,162.5 31.5,161.0 33.0,159.4 34.5,157.8 36.0,156.3 37.5,154.7 39.0,153.1 40.5,151.6 42.0,150.0 43.5,148.4 45.0,146.9 46.5,145.3 48.0,143.7 49.5,142.2 51.0,140.6 52.5,139.0 54.0,137.5 55.5,135.9 57.0,134.3 58.5,132.8 60.0,131.2 61.5,129.6 63.0,128.0 64.5,126.5 66.0,124.9 67.5,123.3 69.0,121.8 70.5,120.2 72.0,118.6 73.5,117.1 75.0,115.5 76.5,113.9 78.0,112.4 79.5,110.8 81.0,109.2 82.5,107.7 84.0,106.1 85.5,104.5 87.0,103.0 88.5,101.4 90.0,99.8 91.5,98.2 93.0,96.7 94.5,95.1 96.0,93.5 97.5,92.0 99.0,90.4 100.5,88.8 102.0,87.3 103.5,85.7 105.0,84.1 106.5,82.6 108.0,81.0 109.5,79.4 111.0,77.9 112.5,76.3 114.0,74.7 115.5,73.2 117.0,71.6 118.5,70.0 120.0,68.5 121.5,66.9 123.0,65.3 124.5,63.8 126.0,62.2 127.5,60.6 129.0,59.0 130.5,57.5 132.0,55.9 133.5,54.3 135.0,52.8 136.5,51.2 138.0,49.6 139.5,48.1 141.0,46.5 142.5,44.9 144.0,43.4 145.5,41.8 147.0,40.2 148.5,38.7 150.0,37.1 151.5,35.5 153.0,34.0 154.5,32.4 156.0,30.8 157.5,29.2 159.0,27.7 160.5,26.1 162.0,24.5 163.5,23.0 165.0,21.4 166.5,19.8 168.0,18.3 169.5,16.7 171.0,15.1 172.5,13.6 174.0,12.0 175.5,10.4 177.0,8.9 178.5,7.3 180.0,5.7 181.5,4.2 183.0,2.6 184.5,1.0 186.0,-0.5 187.5,-2.1 189.0,-3.7 190.5,-5.2 192.0,-6.8 193.5,-8.4 195.0,-10.0 196.5,-11.5 198.0,-13.1 199.5,-14.7 201.0,-16.2 202.5,-17.8 204.0,-19.4 205.5,-20.9 207.0,-22.5 208.5,-24.1 210.0,-25.6" fill="none" stroke="#f5a65b" stroke-width="2.6"/><text x="159.6" y="21.1" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="end">3x + 2</text><circle cx="102.0" cy="112.4" r="4" fill="#f3cf7a"/><text x="108.0" y="106.4" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="start">origine</text></svg><div class="cap">La droite affine ne passe pas par l&#x27;origine</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment les moteurs de jeu s&#x27;en sortent-ils ?</h2></div></div>
+<p class="answer">Avec une astuce : on ajoute une <b>quatrième coordonnée, toujours égale à 1</b>. Le point (x, y, z) devient (x, y, z, 1). Dans ce monde à quatre dimensions, avancer s'écrit avec une <b>matrice 4 × 4</b>, et le déplacement se range dans la dernière colonne.</p>
+<div class="math"><span class="t">Les maths derrière : les coordonnées homogènes</span><span class="f">(x, y, z, 1) ⟼ (x + a, y + b, z + c, 1)</span><p>On plonge ℝ³ dans ℝ⁴. La translation par (a, b, c) devient une vraie application linéaire de ℝ⁴. La dernière ligne (0, 0, 0, 1) recopie simplement le 1.</p></div>
+<span class="morph">φ Morphisme : une translation devient linéaire en coordonnées homogènes</span>
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, Station 3, les coordonnées homogènes, p. 57</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="tableau"><rect x="5.0" y="5.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="23.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="57.5" y="5.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="23.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="5.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="23.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="162.5" y="5.0" width="50.5" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="187.8" y="23.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">a</text><rect x="5.0" y="35.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="53.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="57.5" y="35.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="53.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="110.0" y="35.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="53.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="162.5" y="35.0" width="50.5" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="187.8" y="53.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">b</text><rect x="5.0" y="65.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="83.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="57.5" y="65.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="83.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="65.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="83.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="162.5" y="65.0" width="50.5" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="187.8" y="83.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">c</text><rect x="5.0" y="95.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="113.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="57.5" y="95.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="113.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="95.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="113.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="162.5" y="95.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="187.8" y="113.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text></svg><div class="cap">La matrice de translation 4 × 4</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Comment enchaîner « tourner » puis « avancer » ?</h2></div></div>
+<p class="answer">On multiplie les deux matrices <b>une seule fois</b> : M = T × R. Puis on applique M à chacun des dizaines de milliers de sommets, <b>60 fois par seconde</b>. Attention à l'ordre : tourner puis avancer ne donne pas la même chose qu'avancer puis tourner.</p>
+<div class="math"><span class="t">Les maths derrière : la composition et le produit de matrices</span><span class="f">M = T × R ≠ R × T</span><p>Composer deux transformations, c'est multiplier leurs matrices. Comme pour les fonctions du chapitre 1, l'ordre compte : la composition n'est pas commutative.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, cas concret, la matrice modèle, p. 60</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="32.0" y="57.1" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">R :</text><text x="32.0" y="70.9" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">tourner</text><path d="M63.0 60 L75.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M73.0 55 L80.0 60 L73.0 65Z" fill="#5fd1b3"/><rect x="82.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="57.1" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">T :</text><text x="110.0" y="70.9" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">avancer</text><path d="M141.0 60 L153.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M151.0 55 L158.0 60 L151.0 65Z" fill="#5fd1b3"/><rect x="160.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="188.0" y="57.1" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">M = T ×</text><text x="188.0" y="70.9" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">R</text></svg><div class="cap">Deux gestes, une seule matrice</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Comment passer du monde du jeu à l&#x27;image sur l&#x27;écran ?</h2></div></div>
+<p class="answer">Par <b>trois matrices</b> en chaîne. La matrice « modèle » place l'objet dans le monde. La matrice « vue » le regarde depuis la caméra. La matrice « projection » l'aplatit sur l'écran. Afficher une image, c'est <b>composer ces trois transformations</b>, des millions de fois par seconde, sur la carte graphique.</p>
+<div class="math"><span class="t">Les maths derrière : la chaîne de morphismes</span><span class="f">écran = Projection × Vue × Modèle × point</span><p>Le processeur graphique (GPU) est conçu pour une seule chose : multiplier des matrices 4 × 4 par des vecteurs, des milliards de fois par seconde.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 5</b>, cas concret, modèle, vue, projection, p. 60</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">Objet (son repère)</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">modèle</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">Monde du jeu</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">vue</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">Vue de la caméra</text><line x1="110" y1="170" x2="110" y2="188" stroke="#f5a65b" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#f5a65b"/><text x="120" y="186.0" fill="#f5a65b" font-size="11.5" font-family="Jost,sans-serif">projection</text><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">Écran 2D</text></svg><div class="cap">La projection, elle, aplatit</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Un moteur de jeu, c&#x27;est un multiplicateur de matrices</h2>
+<div class="chain"><span>sommets (x, y, z, 1)</span><em>→</em><span>matrice modèle</span><em>→</em><span>matrice vue</span><em>→</em><span>matrice projection</span><em>→</em><span>pixels</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Translation</td><td>les distances, la forme</td><td>la position</td></tr><tr><td>Rotation</td><td>les distances, la forme</td><td>l&#x27;orientation</td></tr><tr><td>Mise à l&#x27;échelle</td><td>les proportions</td><td>la taille</td></tr><tr><td>Projection</td><td>l&#x27;alignement des points</td><td>une dimension disparaît</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Deux pas en avant</h2>
+<p class="answer" style="font-size:16px">Le héros part de (2, 0, 5) et fait deux pas de (1, 0, −2). Où arrive-t-il ? Quelle est la matrice 4 × 4 qui fait les deux pas d'un coup ?</p>
+<details><summary>Voir la réponse</summary><p>Il arrive en (4, 0, 1). Deux pas font une seule translation de (2, 0, −4) : la matrice a pour dernière colonne (2, 0, −4, 1), avec des 1 sur la diagonale et des 0 ailleurs.</p></details></section>
+<div class="next"><a href="06-drone.html"><small>Projet suivant · ch. 6</small>🚁 Construire un drone →</a><a href="04-moteur-de-recherche.html"><small>Projet précédent · ch. 4</small>← 🔎 Construire un moteur de recherche</a><a href="06-drone.html"><small>Faire tourner en 3D : les quaternions</small>🚁 Construire un drone →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

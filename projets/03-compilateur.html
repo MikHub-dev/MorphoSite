@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vérifier un programme avant de le lancer · MorphoSite</title>
+<meta name="description" content="Le compilateur refuse un programme qui planterait, sans l&#x27;avoir exécuté. Une preuve et un programme, c&#x27;est la même chose.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#6ea8ff">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie I › Chapitre 3</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 3 · parcours de construction</div>
+<h1>Construire un programme que la machine <em>vérifie</em></h1>
+<p class="lead">Un programme refuse de compiler : « type mismatch ». Comment la machine sait-elle qu'il est faux sans l'avoir lancé ? Huit questions, du premier bug à la vérification formelle.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>2</b>chapitres du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🧑‍💻</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Le bug qu&#x27;on peut attraper tôt</a></li><li><a href="#q2"><span class="n">2</span>Qu&#x27;est-ce qu&#x27;un type ?</a></li><li><a href="#q3"><span class="n">3</span>Lire une signature comme une phrase</a></li><li><a href="#q4"><span class="n">4</span>Réciproque et contraposée</a></li><li><a href="#q5"><span class="n">5</span>Enchaîner sans se tromper</a></li><li><a href="#q6"><span class="n">6</span>Une preuve = un programme</a></li><li><a href="#q7"><span class="n">7</span>Compiler, est-ce être sans bug ?</a></li><li><a href="#q8"><span class="n">8</span>Aller plus loin : la preuve formelle</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Quel genre d&#x27;erreur peut-on attraper avant de lancer le programme ?</h2></div></div>
+<p class="answer">Une fonction doit additionner deux nombres, et on lui passe <b>un nombre et un mot</b> : additionner(3, "cinq"). Pas besoin d'exécuter quoi que ce soit pour voir que ça n'a pas de sens. Le compilateur refuse <b>dès la lecture</b>.</p>
+<div class="math"><span class="t">Les maths derrière : le domaine de définition</span><span class="f">additionner : Entier × Entier → Entier</span><p>Comme une fonction mathématique, une fonction informatique a un ensemble de départ. Lui donner un élément qui n'y est pas, c'est une erreur, avant même tout calcul.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, Ouverture : le programme qui ne compile pas, p. 36</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">3</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Entier</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">+</text><text x="110.0" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">« cinq »</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Texte</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">❌</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">refusé</text></svg><div class="cap">Refusé avant toute exécution</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Qu&#x27;est-ce qu&#x27;un « type » ?</h2></div></div>
+<p class="answer">C'est l'<b>étiquette de nature</b> d'une valeur : Entier, Texte, Booléen… Chaque fonction annonce ce qu'elle accepte et ce qu'elle rend. Le compilateur vérifie que les étiquettes s'emboîtent, comme les pièces d'un puzzle.</p>
+<div class="math"><span class="t">Les maths derrière : ensembles de départ et d&#x27;arrivée</span><span class="f">f : E → F</span><p>Un type joue le rôle d'un ensemble. Une signature de fonction dit exactement d'où l'on part et où l'on arrive.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 1</b>, La fonction, machine à transformer, p. 12</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="32.0" y="57.1" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">Entier,</text><text x="32.0" y="70.9" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">Entier</text><path d="M63.0 60 L75.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M73.0 55 L80.0 60 L73.0 65Z" fill="#5fd1b3"/><rect x="82.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">additionner</text><path d="M141.0 60 L153.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M151.0 55 L158.0 60 L151.0 65Z" fill="#5fd1b3"/><rect x="160.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="188.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">Entier</text></svg><div class="cap">Les types s&#x27;emboîtent</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Que « dit » une signature de fonction ?</h2></div></div>
+<p class="answer">additionner(a: Entier, b: Entier) → Entier se lit comme une phrase logique : <b>« si j'ai un entier et un entier, alors j'obtiens un entier »</b>. Et le corps de la fonction, a + b, montre <b>comment</b> on l'obtient : c'est une démonstration.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;implication</span><span class="f">Entier ∧ Entier ⇒ Entier</span><p>P ⇒ Q se lit « si P est vraie, alors Q est vraie ». Elle n'est fausse que dans un seul cas : P vraie et Q fausse.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, Station 1 : implication et démonstration, p. 36</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">P</text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Q</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">P ⇒ Q</text><rect x="5.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text><rect x="75.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text><rect x="145.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text><rect x="5.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text><rect x="75.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">F</text><rect x="145.0" y="53.0" width="68.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="179.0" y="71.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">F</text><rect x="5.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">F</text><rect x="75.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text><rect x="145.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text><rect x="5.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">F</text><rect x="75.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">F</text><rect x="145.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">V</text></svg><div class="cap">La table de vérité de l&#x27;implication</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Si « P entraîne Q », a-t-on aussi « Q entraîne P » ?</h2></div></div>
+<p class="answer">Non ! « S'il pleut, la route est mouillée » est vrai, mais « si la route est mouillée, il pleut » est faux : un arrosage suffit. En revanche, <b>« si la route est sèche, il ne pleut pas »</b> dit exactement la même chose que la phrase de départ.</p>
+<div class="math"><span class="t">Les maths derrière : réciproque et contraposée</span><span class="f">(P ⇒ Q) ⇔ (non Q ⇒ non P)</span><p>La réciproque Q ⇒ P n'est pas équivalente à P ⇒ Q. La contraposée l'est toujours. Le raisonnement par l'absurde suppose P vraie et Q fausse, puis trouve une contradiction.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, Station 1, réciproque et contraposée, p. 36</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🌧️</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">il pleut</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">⇒</text><text x="183.3" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛣️💧</text><text x="183.3" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">route</text><text x="183.3" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">mouillée</text></svg><div class="cap">La flèche ne se retourne pas</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Comment enchaîner deux fonctions sans erreur ?</h2></div></div>
+<p class="answer">La sortie de la première doit avoir <b>le type attendu</b> par l'entrée de la seconde. En logique, c'est pareil : de « P entraîne Q » et « Q entraîne R », on déduit « P entraîne R ». <b>Composer deux preuves, c'est composer deux fonctions.</b></p>
+<div class="math"><span class="t">Les maths derrière : la composition</span><span class="f">(P ⇒ Q) et (Q ⇒ R) donnent (P ⇒ R)</span><p>La composition g∘f n'existe que si l'arrivée de f est le départ de g. C'est la même règle qui fait tenir un raisonnement en plusieurs étapes.</p></div>
+<span class="morph">φ Morphisme : composer des preuves = composer des fonctions</span>
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, Station 3, Curry–Howard–Lambek, p. 37</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="32.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">P</text><path d="M63.0 60 L75.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M73.0 55 L80.0 60 L73.0 65Z" fill="#5fd1b3"/><text x="71.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">f</text><rect x="82.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">Q</text><path d="M141.0 60 L153.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M151.0 55 L158.0 60 L151.0 65Z" fill="#5fd1b3"/><text x="149.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">g</text><rect x="160.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="188.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">R</text></svg><div class="cap">g ∘ f : de P à R</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment le compilateur « sait-il » que le programme est correct ?</h2></div></div>
+<p class="answer">Grâce à une correspondance étonnante, découverte entre 1934 et 1980 : <b>un type est un énoncé, un programme est sa démonstration</b>. Vérifier les types, c'est vérifier une démonstration, ligne à ligne, comme un correcteur de copie. « cinq » n'est pas une preuve du type Entier : refusé.</p>
+<div class="math"><span class="t">Les maths derrière : la correspondance de Curry–Howard–Lambek</span><span class="f">proposition ↔ type · preuve ↔ programme</span><p>C'est un isomorphisme entre une logique et un langage de programmation typé. Lambek l'a écrit en 1980 dans le langage des catégories, où une flèche A → B est une fonction de A vers B.</p></div>
+<span class="morph">φ Morphisme : un isomorphisme entre la logique et la programmation</span>
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, cas concret « le compilateur qui refuse », p. 41</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="56.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Logique</text><text x="161.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Programme</text><rect x="5.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="41.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">proposition</text><rect x="110.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">type</text><rect x="5.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">preuve</text><rect x="110.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">programme</text><rect x="5.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">P ⇒ Q</text><rect x="110.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">fonction P → Q</text><rect x="5.0" y="113.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="131.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">P et Q</text><rect x="110.0" y="113.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="131.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">paire (P, Q)</text></svg><div class="cap">Deux langues, une même structure</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Un programme qui compile est-il garanti sans bug ?</h2></div></div>
+<p class="answer">Non. Il est seulement garanti de ne pas faire <b>certaines erreurs précises</b> : mélanger un nombre et un mot, oublier un argument. Il prouve qu'il est cohérent avec sa propre signature, pas qu'il fait ce qu'on voulait. C'est peu, mais énorme pour un système critique.</p>
+<div class="math"><span class="t">Les maths derrière : ce qu&#x27;une preuve garantit vraiment</span><span class="f">compile ⇒ types cohérents (et pas plus)</span><p>La contraposée sert ici : « s'il y a une erreur de type, alors il ne compile pas ». La réciproque, « s'il compile, il est juste », est fausse.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, cas concret, « que garantit vraiment le compilateur ? », p. 41</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="38.2" width="40.0" height="101.8" rx="4" fill="#5fd1b3" opacity=".85"/><text x="85.0" y="32.2" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">100 %</text><text x="85.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">erreurs</text><text x="85.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">de type</text><rect x="115.0" y="140.0" width="40.0" height="0.0" rx="4" fill="#f5a65b" opacity=".85"/><text x="135.0" y="134.0" fill="#f5a65b" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0 %</text><text x="135.0" y="147.1" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">erreurs</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">de</text><text x="135.0" y="172.3" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">logique</text></svg><div class="cap">Ce que le typage attrape</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Peut-on aller plus loin, pour un avion ou un train ?</h2></div></div>
+<p class="answer">Oui : on écrit d'abord les règles exigées (« le système ne s'arrête jamais dans un état incohérent »), puis on <b>démontre</b> que le programme les respecte. C'est la <b>vérification formelle</b>, utilisée pour le contrôle aérien ou ferroviaire, avec des assistants de preuve comme Lean ou Coq.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;axiomatisation</span><span class="f">règles de départ ⟹ tout ce qui s'en déduit</span><p>Axiomatiser, c'est fixer un petit nombre de règles et n'accepter comme vrai que ce qui s'en déduit. En théorie des types dépendants, les types peuvent même parler des valeurs.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 3</b>, « l&#x27;axiomatisation » et l&#x27;horizon du chapitre, p. 38</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📜</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">règles</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🖥️</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">programme</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">✅</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">prouvé</text></svg><div class="cap">Prouver plutôt que tester</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Vérifier un programme, c&#x27;est vérifier une démonstration</h2>
+<div class="chain"><span>énoncé</span><em>→</em><span>type</span><em>→</em><span>programme</span><em>→</em><span>vérification</span><em>→</em><span>accepté ou refusé</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Énoncé → type</td><td>le sens logique</td><td>le langage : mots devient code</td></tr><tr><td>Preuve → programme</td><td>la validité du raisonnement</td><td>la forme : texte devient instructions</td></tr><tr><td>Composition</td><td>la cohérence des étapes</td><td>la longueur du raisonnement</td></tr><tr><td>Contraposée</td><td>la vérité de l&#x27;énoncé</td><td>le point de vue</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Écris la contraposée</h2>
+<p class="answer" style="font-size:16px">Énoncé : « Si un programme compile, alors il n'a pas d'erreur de type. » Écris sa contraposée, puis sa réciproque. Laquelle est toujours vraie ?</p>
+<details><summary>Voir la réponse</summary><p>Contraposée : « Si un programme a une erreur de type, alors il ne compile pas. » Elle est équivalente à l'énoncé, donc vraie. Réciproque : « Si un programme n'a pas d'erreur de type, alors il compile. » Elle n'est pas garantie (il peut y avoir d'autres erreurs de syntaxe, par exemple).</p></details></section>
+<div class="next"><a href="04-moteur-de-recherche.html"><small>Projet suivant · ch. 4</small>🔎 Construire un moteur de recherche →</a><a href="02-suggestions-amis.html"><small>Projet précédent · ch. 2</small>← 👥 Construire les suggestions d&#x27;amis</a><a href="28-prouver-sans-reveler.html"><small>Prouver, version cryptographie</small>🕵️ Prouver qu&#x27;on a 18 ans sans dire son âge →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

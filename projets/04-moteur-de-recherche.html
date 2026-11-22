@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Construire un moteur de recherche · MorphoSite</title>
+<meta name="description" content="« chat ET noir SAUF chaton » parmi 10 milliards de pages, puis les portes logiques du processeur qui fait le calcul.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#6ea8ff">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie I › Chapitre 4</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 4 · parcours de construction</div>
+<h1>Construire un <em>moteur de recherche</em></h1>
+<p class="lead">On tape « chat ET noir SAUF chaton », et la réponse tombe en une fraction de seconde. Huit questions, de l'index des pages jusqu'aux transistors du processeur.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🔎</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Retrouver les pages d&#x27;un mot</a></li><li><a href="#q2"><span class="n">2</span>Le sens de ET</a></li><li><a href="#q3"><span class="n">3</span>Le sens de OU et de SAUF</a></li><li><a href="#q4"><span class="n">4</span>Simplifier une requête</a></li><li><a href="#q5"><span class="n">5</span>Répondre en un éclair</a></li><li><a href="#q6"><span class="n">6</span>ET en vrai, dans le processeur</a></li><li><a href="#q7"><span class="n">7</span>Additionner avec des portes</a></li><li><a href="#q8"><span class="n">8</span>Combien de sortes de portes ?</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Comment retrouver toutes les pages qui contiennent « chat » ?</h2></div></div>
+<p class="answer">On ne relit pas le web à chaque recherche ! On prépare à l'avance un <b>index</b> : pour chaque mot, la liste des pages qui le contiennent, comme l'index à la fin d'un livre. Chercher un mot, c'est lire sa liste.</p>
+<div class="math"><span class="t">Les maths derrière : les ensembles</span><span class="f">C = { pages contenant « chat » }</span><p>Chaque mot définit un sous-ensemble de l'ensemble E de toutes les pages. Ces sous-ensembles sont stockés sous forme de listes triées de numéros de pages (des listes inversées).</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, cas concret « moteur de recherche », p. 50</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 118" role="img" aria-label="tableau"><text x="56.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">mot</text><text x="161.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">pages</text><rect x="5.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">chat</text><rect x="110.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="41.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">2 · 5 · 8 · 9</text><rect x="5.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">noir</text><rect x="110.0" y="53.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">1 · 5 · 9</text><rect x="5.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">chaton</text><rect x="110.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">9</text></svg><div class="cap">Un index : un mot, une liste</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Que veut dire « chat ET noir » pour la machine ?</h2></div></div>
+<p class="answer">Les pages qui sont <b>dans les deux listes à la fois</b>. On prend la liste de « chat », celle de « noir », et on garde ce qui est commun : les pages 5 et 9.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;intersection</span><span class="f">C ∩ N</span><p>L'intersection A ∩ B contient les éléments qui sont à la fois dans A et dans B. C'est le ET de la logique.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, Station 1 : les opérations sur les ensembles, p. 45</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 150" aria-label="Deux ensembles qui se croisent"><circle cx="85" cy="75" r="55" fill="rgba(95,212,240,.12)" stroke="#5fd4f0" stroke-width="2"/><circle cx="135" cy="75" r="55" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-width="2"/><path d="M110 26 A55 55 0 0 1 110 124 A55 55 0 0 1 110 26Z" fill="rgba(243,207,122,.45)"/><text x="55" y="80" fill="#5fd4f0" font-size="14" font-family="Jost">chat</text><text x="148" y="80" fill="#c4b5fd" font-size="14" font-family="Jost">noir</text><text x="110" y="80" fill="#fff" font-size="12" font-family="Jost" text-anchor="middle">5 · 9</text></svg><div class="cap">ET = ce qui est commun</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Et « OU », « SAUF » ?</h2></div></div>
+<p class="answer">« OU » réunit les deux listes : <b>la réunion</b>. « SAUF chaton » retire les pages de « chaton » : on garde le <b>complémentaire</b>. « chat ET noir SAUF chaton » donne donc la seule page 5.</p>
+<div class="math"><span class="t">Les maths derrière : réunion et complémentaire</span><span class="f">C ∩ N ∩ T̄ = {5}</span><p>A ∪ B contient ce qui est dans A ou dans B (ou les deux). Le complémentaire Ā contient ce qui n'est pas dans A. ET, OU, NON deviennent ∩, ∪ et complémentaire.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, cas concret, p. 50</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">chat : 2 · 5 · 8 · 9</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">ET noir : 5 · 9</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">SAUF chaton : 5</text></svg><div class="cap">La requête, étape par étape</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment simplifier une requête compliquée ?</h2></div></div>
+<p class="answer">Avec deux règles de calcul. « Pas (chat ET noir) », c'est « pas chat OU pas noir ». « Pas (chat OU noir) », c'est « ni chat, ni noir ». Le moteur réécrit ainsi les requêtes pour les calculer au plus vite.</p>
+<div class="math"><span class="t">Les maths derrière : les lois de De Morgan</span><span class="f">complémentaire de (A ∩ B) = Ā ∪ B̄</span><p>Le complémentaire d'une intersection est la réunion des complémentaires, et réciproquement. Ce sont exactement les règles de ET, OU, NON en logique.</p></div>
+<span class="morph">φ Morphisme : les ensembles et la logique ont la même structure</span>
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, Station 1, les lois de De Morgan, p. 45</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="44" fill="#fff" font-size="24" font-family="Cormorant Garamond,serif" text-anchor="middle">non(A et B)</text><text x="110" y="77" fill="#c4b5fd" font-size="20" font-family="Jost,sans-serif" text-anchor="middle">=</text><text x="110" y="109" fill="#5fd4f0" font-size="15" font-family="Jost,sans-serif" text-anchor="middle">non A  ou  non B</text></svg><div class="cap">La même règle en logique et en ensembles</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Comment répondre en une fraction de seconde sur 10 milliards de pages ?</h2></div></div>
+<p class="answer">Les listes sont <b>triées</b>. Pour trouver ce qui est commun, on avance dans les deux listes en même temps, comme deux doigts sur deux colonnes : <b>un seul passage</b> suffit. Le temps de calcul grandit avec la taille des listes, pas avec celle du web entier.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;algorithme de fusion</span><span class="f">temps ∝ |C| + |N|</span><p>Comparer chaque élément de C à chaque élément de N coûterait |C| × |N| comparaisons. Grâce au tri, |C| + |N| suffisent.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, cas concret, les listes inversées, p. 50</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="56.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">chat</text><text x="161.5" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">noir</text><rect x="5.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">2</text><rect x="110.0" y="23.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="5.0" y="53.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="56.5" y="71.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">5</text><rect x="110.0" y="53.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="71.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">5</text><rect x="5.0" y="83.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="56.5" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">8</text><rect x="110.0" y="83.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="161.5" y="101.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">9</text><rect x="5.0" y="113.0" width="103.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="56.5" y="131.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">9</text><rect x="110.0" y="113.0" width="103.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="161.5" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">–</text></svg><div class="cap">Deux listes triées, parcourues ensemble</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment la machine calcule-t-elle un ET, physiquement ?</h2></div></div>
+<p class="answer">Avec une <b>porte logique</b> faite de transistors : elle reçoit deux signaux (0 ou 1) et ne renvoie 1 que si les deux valent 1. C'est <b>exactement</b> la table de l'intersection, si l'on lit 1 comme « la page est dans la liste ».</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;algèbre de Boole</span><span class="f">a ET b = 1 ⇔ a = 1 et b = 1</span><p>Un sous-ensemble A s'identifie à sa fonction indicatrice, qui vaut 1 sur A et 0 ailleurs. Les sous-ensembles avec ∪, ∩, complémentaire forment une algèbre de Boole.</p></div>
+<span class="morph">φ Morphisme : sous-ensembles ↔ fonctions à valeurs 0 ou 1</span>
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, Station 3 : sous-ensembles et algèbre de Boole, p. 46</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">a</text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">b</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">a ET b</text><rect x="5.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="75.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="145.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="75.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="145.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="75.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="145.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="75.0" y="113.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="145.0" y="113.0" width="68.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="179.0" y="131.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text></svg><div class="cap">La porte ET</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Comment additionner avec ces portes ?</h2></div></div>
+<p class="answer">En binaire, 1 + 1 = 10 (soit 2) : on écrit 0 et on retient 1. Une porte « OU exclusif » donne le chiffre du résultat, une porte ET donne la retenue. Ce petit montage, le <b>demi-additionneur</b>, est la brique de base de tout calcul.</p>
+<div class="math"><span class="t">Les maths derrière : le demi-additionneur</span><span class="f">somme = a ⊕ b · retenue = a ET b</span><p>Pour a = 1 et b = 1 : somme = 0, retenue = 1, c'est-à-dire 10 en binaire. En chaînant des milliards de portes, on additionne de grands nombres en une fraction de nanoseconde.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, cas concret, le circuit logique, p. 50</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 148" role="img" aria-label="tableau"><text x="30.2" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">a</text><text x="82.8" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">b</text><text x="135.2" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">somme</text><text x="187.8" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">retenue</text><rect x="5.0" y="23.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="57.5" y="23.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="23.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="162.5" y="23.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="187.8" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="53.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="57.5" y="53.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="110.0" y="53.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="162.5" y="53.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="187.8" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="83.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="57.5" y="83.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="110.0" y="83.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="135.2" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="162.5" y="83.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="187.8" y="101.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="5.0" y="113.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="30.2" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="57.5" y="113.0" width="50.5" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="82.8" y="131.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text><rect x="110.0" y="113.0" width="50.5" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="135.2" y="131.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">0</text><rect x="162.5" y="113.0" width="50.5" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="187.8" y="131.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">1</text></svg><div class="cap">1 + 1 = 10 en binaire</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Faut-il beaucoup de sortes de portes pour faire un processeur ?</h2></div></div>
+<p class="answer">Non : ET, OU et NON suffisent à construire <b>n'importe quel circuit</b>. Mieux : une seule porte, <b>NON-ET</b>, suffit à refaire les trois. Un processeur moderne est fait de milliards de copies d'une poignée de portes élémentaires.</p>
+<div class="math"><span class="t">Les maths derrière : la complétude fonctionnelle</span><span class="f">NON a = a NON-ET a</span><p>Tout calcul sur des 0 et des 1 peut s'écrire avec ET, OU, NON. Comme NON-ET les reconstruit toutes, une seule brique répétée suffit.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 4</b>, cas concret, « pourquoi ET, OU, NON suffisent », p. 50</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">NON-ET</text><text x="22.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">une</text><text x="22.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">porte</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">ET · OU · NON</text><text x="110.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">trois</text><text x="110.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">portes</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🖥️</text><text x="198.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">un</text><text x="198.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">processeur</text></svg><div class="cap">Une brique, répétée des milliards de fois</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Des pages web au silicium : la même logique</h2>
+<div class="chain"><span>requête</span><em>→</em><span>ensembles</span><em>→</em><span>listes triées</span><em>→</em><span>portes logiques</span><em>→</em><span>résultat</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Mots → ensembles de pages</td><td>les opérations ET, OU, NON</td><td>le langage : phrase devient ensembles</td></tr><tr><td>Ensembles → 0 et 1</td><td>toutes les règles de calcul</td><td>le support : listes devient bits</td></tr><tr><td>De Morgan</td><td>le résultat de la requête</td><td>l&#x27;écriture de la requête</td></tr><tr><td>Portes → processeur</td><td>le calcul</td><td>l&#x27;échelle : une porte, des milliards</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Le demi-additionneur</h2>
+<p class="answer" style="font-size:16px">Que donnent la somme et la retenue pour a = 1, b = 0 ? Et que donne la requête « noir SAUF chat » avec l'index de la question 1 ?</p>
+<details><summary>Voir la réponse</summary><p>Pour a = 1, b = 0 : somme = 1, retenue = 0 (1 + 0 = 1). Pour « noir SAUF chat » : noir = {1, 5, 9}, on retire chat = {2, 5, 8, 9}, il reste la page 1.</p></details></section>
+<div class="next"><a href="05-jeu-video-3d.html"><small>Projet suivant · ch. 5</small>🎮 Faire bouger un personnage de jeu vidéo →</a><a href="03-compilateur.html"><small>Projet précédent · ch. 3</small>← 🧑‍💻 Vérifier un programme avant de le lancer</a><a href="03-compilateur.html"><small>La même logique, côté programmes</small>🧑‍💻 Vérifier un programme avant de le lancer →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

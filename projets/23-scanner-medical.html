@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voir l&#x27;intérieur d&#x27;un corps sans l&#x27;ouvrir · MorphoSite</title>
+<meta name="description" content="Reconstruire une image à partir d&#x27;ombres : intégrales, systèmes linéaires, transformée de Radon et problème inverse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#f3cf7a">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie V › Chapitre 23</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 23 · parcours de construction</div>
+<h1>Voir l&#x27;intérieur d&#x27;un corps <em>sans l&#x27;ouvrir</em></h1>
+<p class="lead">Un scanner ne voit jamais l'intérieur du corps : il ne mesure que des ombres. Et pourtant, l'image finale montre chaque organe au millimètre. Huit questions pour remonter des ombres à l'image.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🩻</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Que mesure un rayon X ?</a></li><li><a href="#q2"><span class="n">2</span>Une ombre ne suffit pas</a></li><li><a href="#q3"><span class="n">3</span>Un mini-scanner</a></li><li><a href="#q4"><span class="n">4</span>Résoudre</a></li><li><a href="#q5"><span class="n">5</span>Le passage dans les deux sens</a></li><li><a href="#q6"><span class="n">6</span>Des millions de pixels</a></li><li><a href="#q7"><span class="n">7</span>Attention aux erreurs</a></li><li><a href="#q8"><span class="n">8</span>Scanner la Terre</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Que mesure un rayon X qui traverse le corps ?</h2></div></div>
+<p class="answer">Il ressort <b>affaibli</b>. Plus il a traversé de matière dense (os, organes), plus il a perdu d'énergie. Le capteur ne donne qu'<b>un nombre</b> par rayon : l'affaiblissement total, cumulé tout au long du trajet. Comme une ombre.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;intégrale le long d&#x27;une droite</span><span class="f">mesure = ∫ densité le long du rayon</span><p>Une intégrale cumule une quantité le long d'un chemin. Une seule mesure ne dit pas où se trouve la matière, seulement combien il y en a sur la ligne.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, Station 1 : intégrale et systèmes linéaires, p. 208</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">rayon X</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">traverse</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">corps</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">capteur</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">un seul nombre</text></svg><div class="cap">Une ombre, un nombre</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Pourquoi une seule radiographie ne suffit-elle pas ?</h2></div></div>
+<p class="answer">Parce qu'une ombre <b>écrase</b> tout sur un plan. Une petite tache dense devant ou derrière un os donne la même ombre. Pour savoir où sont les choses, il faut regarder <b>sous plusieurs angles</b>, et croiser les ombres.</p>
+<div class="math"><span class="t">Les maths derrière : plusieurs projections</span><span class="f">une direction ⟶ une projection</span><p>Chaque direction de rayons donne une « projection » du corps : la liste des sommes le long de toutes les lignes parallèles.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, Ouverture : reconstruire un volume à partir de ses ombres, p. 208</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 170" role="img" aria-label="rayons à travers un corps"><ellipse cx="110" cy="85" rx="52" ry="40" fill="rgba(95,212,240,.10)" stroke="#5fd4f0"/><circle cx="96" cy="78" r="10" fill="rgba(242,193,78,.55)"/><circle cx="128" cy="96" r="7" fill="rgba(242,138,178,.55)"/><line x1="20" y1="60" x2="200" y2="60" stroke="rgba(167,139,250,.6)" stroke-width="1.2"/><line x1="20" y1="78" x2="200" y2="78" stroke="rgba(167,139,250,.6)" stroke-width="1.2"/><line x1="20" y1="96" x2="200" y2="96" stroke="rgba(167,139,250,.6)" stroke-width="1.2"/><line x1="20" y1="112" x2="200" y2="112" stroke="rgba(167,139,250,.6)" stroke-width="1.2"/><line x1="80" y1="18" x2="80" y2="152" stroke="rgba(95,212,240,.35)" stroke-width="1.2"/><line x1="96" y1="18" x2="96" y2="152" stroke="rgba(95,212,240,.35)" stroke-width="1.2"/><line x1="128" y1="18" x2="128" y2="152" stroke="rgba(95,212,240,.35)" stroke-width="1.2"/><line x1="142" y1="18" x2="142" y2="152" stroke="rgba(95,212,240,.35)" stroke-width="1.2"/><text x="14" y="40" fill="#c4b5fd" font-size="11" font-family="Jost,sans-serif">rayons horizontaux</text><text x="206" y="166" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="end">rayons verticaux</text></svg><div class="cap">Croiser les directions</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Sur une image minuscule, comment cela marche-t-il ?</h2></div></div>
+<p class="answer">Prenons une image de <b>2 × 2 pixels</b>, de densités inconnues a, b, c, d. Les rayons donnent : ligne du haut a + b = 10, ligne du bas c + d = 6, colonne de gauche a + c = 9, et une diagonale a + d = 8. Quatre inconnues, et des équations qui les relient.</p>
+<div class="math"><span class="t">Les maths derrière : un système linéaire</span><span class="f">a + b = 10 ; c + d = 6 ; a + c = 9 ; a + d = 8</span><p>Chaque mesure est une équation du premier degré. Retrouver l'image, c'est résoudre ce système.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, cas concret « reconstruire une image à partir de trois projections », p. 212</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 88" role="img" aria-label="tableau"><text x="76.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">col. 1</text><text x="168.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">col. 2</text><text x="24" y="41.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">haut</text><rect x="31.0" y="23.0" width="90.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="76.0" y="41.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">a</text><rect x="123.0" y="23.0" width="90.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="168.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">b</text><text x="24" y="71.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">bas</text><rect x="31.0" y="53.0" width="90.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="76.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">c</text><rect x="123.0" y="53.0" width="90.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="168.0" y="71.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">d</text></svg><div class="cap">Quatre pixels inconnus</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment retrouver les quatre densités ?</h2></div></div>
+<p class="answer">Pas à pas. De a + d = 8 : d = 8 − a. De c + d = 6 : c = a − 2. De a + c = 9 : 2a − 2 = 9, donc <b>a = 5,5</b>. Puis c = 3,5, d = 2,5 et b = 10 − 5,5 = 4,5. Vérification avec un rayon de plus : b + d = 7, c'est bien la mesure.</p>
+<div class="math"><span class="t">Les maths derrière : la résolution par substitution</span><span class="f">a = 5,5 ; b = 4,5 ; c = 3,5 ; d = 2,5</span><p>On exprime une inconnue en fonction d'une autre, on remplace, et on remonte. Une mesure supplémentaire sert de contrôle.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, cas concret, la résolution, p. 212</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 88" role="img" aria-label="tableau"><text x="76.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">col. 1</text><text x="168.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">col. 2</text><text x="24" y="41.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">haut</text><rect x="31.0" y="23.0" width="90.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="76.0" y="41.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">5,5</text><rect x="123.0" y="23.0" width="90.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="168.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">4,5</text><text x="24" y="71.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">bas</text><rect x="31.0" y="53.0" width="90.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="76.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">3,5</text><rect x="123.0" y="53.0" width="90.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="168.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">2,5</text></svg><div class="cap">L&#x27;image est retrouvée</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Quel est le lien général entre une image et ses ombres ?</h2></div></div>
+<p class="answer">Le passage <b>image → ombres</b> est facile : on additionne le long des rayons. C'est ce que fait la machine. Le passage <b>ombres → image</b> est l'inverse, plus délicat, mais possible si on a assez d'angles. Ce va-et-vient porte un nom : la <b>transformée de Radon</b>, inventée en 1917, utilisée par le premier scanner en 1971.</p>
+<div class="math"><span class="t">Les maths derrière : la transformée de Radon et son inverse</span><span class="f">image  ⟼  {projections sous tous les angles}</span><p>La transformée de Radon associe à une densité du plan toutes ses intégrales le long des droites. Elle est inversible : on peut recomposer l'image.</p></div>
+<span class="morph">φ Morphisme : Radon : de l'image aux projections, et retour</span>
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, Station 3 : la transformée de Radon, p. 209</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="51.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">image</text><path d="M102.0 60 L114.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M112.0 55 L119.0 60 L112.0 65Z" fill="#5fd1b3"/><text x="110.0" y="97.2" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Radon ⇄</text><text x="110.0" y="110.5" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">inverse</text><rect x="121.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="168.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">projections</text></svg><div class="cap">Un aller facile, un retour possible</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Un vrai scanner résout-il un système de millions d&#x27;équations ?</h2></div></div>
+<p class="answer">Pas directement, ce serait beaucoup trop long. Il utilise une méthode astucieuse, la <b>rétroprojection filtrée</b> : on « renvoie » chaque ombre à travers l'image dans sa direction, on additionne toutes ces traînées, après les avoir filtrées pour qu'elles ne brouillent pas l'image.</p>
+<div class="math"><span class="t">Les maths derrière : la rétroprojection filtrée</span><span class="f">image ≈ Σ<sub>angles</sub> (ombre filtrée, étalée)</span><p>Un algorithme d'inversion efficace remplace la résolution d'un système géant. Le filtrage utilise les fréquences du chapitre 20.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, cas concret, la rétroprojection filtrée, p. 212</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">centaines d&#x27;ombres</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">filtrer</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">rétroprojeter</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">image</text></svg><div class="cap">La recette du scanner</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Que se passe-t-il si les mesures sont un peu fausses ?</h2></div></div>
+<p class="answer">Danger : remonter des effets aux causes amplifie les erreurs. Une toute petite erreur de mesure peut créer une grosse tache fantôme sur l'image. On dit que le problème est <b>mal posé</b>. Le filtrage sert justement à limiter les dégâts, en acceptant une image un peu plus floue mais fiable.</p>
+<div class="math"><span class="t">Les maths derrière : un problème mal posé</span><span class="f">petite erreur sur les mesures ⟹ grande erreur possible sur l'image</span><p>Pour un problème inverse, on ne cherche pas une inversion exacte mais une approximation à erreur maîtrisée (chapitre 10).</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, Sous le capot : un problème mal posé, p. 213</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">petite erreur de mesure</text><line x1="110" y1="42" x2="110" y2="60" stroke="#f5a65b" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#f5a65b"/><text x="120" y="58.0" fill="#f5a65b" font-size="11.5" font-family="Jost,sans-serif">inversion brute</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">grosse tache fantôme</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">avec filtrage</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="146.9" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">image un peu floue,</text><text x="110.0" y="161.9" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">fiable</text></svg><div class="cap">Inverser sans précaution amplifie les erreurs</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Peut-on « scanner » l&#x27;intérieur de la Terre ?</h2></div></div>
+<p class="answer">Oui ! Après un séisme, des capteurs du monde entier mesurent le <b>temps d'arrivée</b> des ondes qui ont traversé la planète par des chemins différents. Ces temps jouent le rôle des ombres. En les inversant, on voit le manteau terrestre à des milliers de kilomètres sous nos pieds.</p>
+<div class="math"><span class="t">Les maths derrière : la tomographie sismique</span><span class="f">temps de trajet = ∫ lenteur le long du chemin</span><p>Même principe : chaque mesure est une intégrale le long d'un trajet ; l'inversion révèle la répartition de ce qui ralentit les ondes.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 23</b>, cas concret, la tomographie sismique, p. 212</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🌋</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">séisme</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🌍</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">traversée</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📈</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">capteurs</text></svg><div class="cap">Le scanner de la planète</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Remonter des effets aux causes</h2>
+<div class="chain"><span>corps</span><em>→</em><span>ombres</span><em>→</em><span>équations</span><em>→</em><span>inversion</span><em>→</em><span>image</span><em>↺</em></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Projection (Radon)</td><td>l&#x27;information totale le long des rayons</td><td>l&#x27;image devient des ombres</td></tr><tr><td>Inversion</td><td>les données</td><td>on remonte des effets aux causes</td></tr><tr><td>Filtrage</td><td>l&#x27;essentiel de l&#x27;image</td><td>les erreurs amplifiées sont domptées</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Un autre mini-scanner</h2>
+<p class="answer" style="font-size:16px">Une image 2 × 2 donne : a + b = 7, c + d = 9, a + c = 6, a + d = 5. Retrouve a, b, c, d et vérifie avec b + d.</p>
+<details><summary>Voir la réponse</summary><p>d = 5 − a, c = 9 − d = 4 + a, a + c = 2a + 4 = 6 donc a = 1. Puis c = 5, d = 4, b = 6. Contrôle : b + d = 10, et a + b + c + d = 16 = 7 + 9.</p></details></section>
+<div class="next"><a href="24-hasard-quantique.html"><small>Projet suivant · ch. 24</small>🎲 Tirer à pile ou face avec un qubit →</a><a href="22-isoler-un-mur.html"><small>Projet précédent · ch. 22</small>← 🧱 Choisir l&#x27;épaisseur d&#x27;un mur bien isolé</a><a href="10-prevision-meteo.html"><small>L&#x27;approximation à erreur contrôlée</small>🌦️ Prévoir la météo →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

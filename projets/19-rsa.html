@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Échanger un secret devant tout le monde · MorphoSite</title>
+<meta name="description" content="La clé pour chiffrer est publique, celle pour déchiffrer reste secrète. Un RSA miniature calculé à la main.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#f5a65b">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie IV › Chapitre 19</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 19 · parcours de construction</div>
+<h1>Échanger un <em>secret</em> devant tout le monde</h1>
+<p class="lead">Deux appareils échangent un secret sur un canal que tout le monde écoute, et personne ne peut le deviner. Neuf questions pour construire un RSA miniature, avec des nombres qu'on calcule de tête.</p>
+<div class="facts"><div><b>9</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 27 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🔐</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Le problème</a></li><li><a href="#q2"><span class="n">2</span>L&#x27;idée du cadenas</a></li><li><a href="#q3"><span class="n">3</span>Calculer « en rond »</a></li><li><a href="#q4"><span class="n">4</span>Fabriquer les clés</a></li><li><a href="#q5"><span class="n">5</span>Chiffrer</a></li><li><a href="#q6"><span class="n">6</span>Déchiffrer</a></li><li><a href="#q7"><span class="n">7</span>Pourquoi c&#x27;est sûr</a></li><li><a href="#q8"><span class="n">8</span>Aller plus vite</a></li><li><a href="#q9"><span class="n">9</span>Signer</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Comment partager un secret quand tout le monde écoute ?</h2></div></div>
+<p class="answer">Un satellite, un Wi-Fi public : tout ce qu'on envoie peut être capté. Si l'on envoie la clé de chiffrement, l'espion l'a aussi. Il faut un système où l'on peut <b>publier</b> de quoi chiffrer, sans donner de quoi déchiffrer.</p>
+<div class="math"><span class="t">Les maths derrière : la cryptographie à clé publique</span><span class="f">clé publique (chiffrer) ≠ clé privée (déchiffrer)</span><p>Le RSA (1977) est l'exemple historique. Il repose entièrement sur l'arithmétique du lycée.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, Ouverture : échanger un secret devant tout le monde, p. 175</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">👩</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Alice</text><text x="66.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📡</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">👂</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">espion</text><text x="154.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📡</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">👨</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Bob</text></svg><div class="cap">Tout le monde entend tout</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Quelle est l&#x27;idée ?</h2></div></div>
+<p class="answer">Celle du <b>cadenas ouvert</b>. Bob distribue à tout le monde des cadenas ouverts (la clé publique) et garde la seule clé (la clé privée). N'importe qui peut fermer un cadenas sur un message ; seul Bob peut l'ouvrir.</p>
+<div class="math"><span class="t">Les maths derrière : une transformation facile à faire, dure à défaire</span><span class="f">chiffrer : facile · déchiffrer sans la clé : très difficile</span><p>On cherche une opération mathématique facile dans un sens et quasi impossible dans l'autre, sauf si l'on connaît un secret.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, Le secret et la confiance, p. 173</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔓</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">public</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔒</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">fermé</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🔑</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">privé</text></svg><div class="cap">Fermer : tout le monde · ouvrir : Bob seul</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Avec quels nombres calcule-t-on ?</h2></div></div>
+<p class="answer">Avec des nombres qui <b>tournent en rond</b>, comme les heures d'une horloge : après 12 vient 1. En RSA, on calcule « modulo n » : on ne garde que le <b>reste</b> de la division par n. Par exemple, 125 modulo 33 vaut 26, car 125 = 3 × 33 + 26.</p>
+<div class="math"><span class="t">Les maths derrière : les congruences</span><span class="f">a ≡ b (mod n) ⇔ même reste dans la division par n</span><p>Regrouper les nombres qui ont le même reste, c'est construire un quotient, comme l'horloge du chapitre 2.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, Station 1 : PGCD, Bézout, Fermat, p. 175</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 200 160" aria-label="Horloge modulo 12"><circle cx="100" cy="80" r="62" fill="none" stroke="#a78bfa" stroke-width="2"/><g font-family="Jost" font-size="13" fill="#eef1fb" text-anchor="middle"><text x="100" y="33">12</text><text x="153" y="85">3</text><text x="100" y="138">6</text><text x="47" y="85">9</text><text x="127" y="42">1</text><text x="146" y="61">2</text></g><path d="M100 80 L132 56" stroke="#f3cf7a" stroke-width="3"/><text x="100" y="158" fill="#aab2d3" font-size="11" font-family="Jost" text-anchor="middle">14 h ≡ 2 h (mod 12)</text></svg><div class="cap">Compter en rond</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Comment fabrique-t-on les clés ?</h2></div></div>
+<p class="answer">On choisit deux nombres premiers secrets : <b>p = 3 et q = 11</b> (en vrai, des nombres de centaines de chiffres). On publie leur produit <b>n = 33</b> et un exposant <b>e = 3</b>. On calcule en secret φ = (p − 1)(q − 1) = 20, puis <b>d = 7</b>, car 3 × 7 = 21 ≡ 1 (mod 20).</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;inverse modulaire (Bézout)</span><span class="f">e × d ≡ 1 (mod φ(n)) : 3 × 7 = 21 ≡ 1 (mod 20)</span><p>Le théorème de Bézout garantit qu'un tel d existe dès que e et φ(n) sont premiers entre eux.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, cas concret « un RSA miniature », p. 179</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 176" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle"></text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">valeur</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle"></text><rect x="5.0" y="23.0" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.3" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">p, q</text><rect x="75.0" y="23.0" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.3" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">3, 11</text><rect x="145.0" y="23.0" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="41.3" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">secret</text><rect x="5.0" y="52.6" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="70.9" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">n</text><rect x="75.0" y="52.6" width="68.0" height="27.6" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="109.0" y="70.9" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">33</text><rect x="145.0" y="52.6" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="70.9" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">public</text><rect x="5.0" y="82.2" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="100.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">e</text><rect x="75.0" y="82.2" width="68.0" height="27.6" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="109.0" y="100.5" fill="#fff" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">3</text><rect x="145.0" y="82.2" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="100.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">public</text><rect x="5.0" y="111.8" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="130.1" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">φ(n)</text><rect x="75.0" y="111.8" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="130.1" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">20</text><rect x="145.0" y="111.8" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="130.1" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">secret</text><rect x="5.0" y="141.4" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="159.7" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">d</text><rect x="75.0" y="141.4" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="159.7" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">7</text><rect x="145.0" y="141.4" width="68.0" height="27.6" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="159.7" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">secret</text></svg><div class="cap">Clé publique : (33, 3) · clé privée : 7</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Comment chiffrer le message 5 ?</h2></div></div>
+<p class="answer">On l'élève à la puissance e, modulo n : 5³ = 125, et 125 modulo 33 = <b>26</b>. On envoie 26. L'espion voit passer 26, il connaît 33 et 3… mais il ne sait pas revenir à 5.</p>
+<div class="math"><span class="t">Les maths derrière : la puissance modulaire</span><span class="f">c = m<sup>e</sup> mod n = 5³ mod 33 = 26</span><p>Élever à la puissance e respecte la multiplication : (m₁m₂)<sup>e</sup> ≡ m₁<sup>e</sup> m₂<sup>e</sup>. C'est un morphisme de groupes.</p></div>
+<span class="morph">φ Morphisme : chiffrer respecte la multiplication</span>
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, Station 3 : RSA comme morphisme de groupes, p. 176</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="51.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">5</text><path d="M102.0 60 L114.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M112.0 55 L119.0 60 L112.0 65Z" fill="#5fd1b3"/><text x="110.0" y="103.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">m³ mod 33</text><rect x="121.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="168.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">26</text></svg><div class="cap">Le message chiffré</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Comment Bob retrouve-t-il 5 ?</h2></div></div>
+<p class="answer">Il élève 26 à la puissance <b>d = 7</b>, modulo 33. Par étapes : 26² ≡ 16, 26⁴ ≡ 16² ≡ 25, puis 26⁷ = 26⁴ × 26² × 26 ≡ 25 × 16 × 26 ≡ <b>5</b>. Le message est retrouvé exactement. Ce n'est pas un hasard : c'est le <b>petit théorème de Fermat</b>, généralisé par Euler.</p>
+<div class="math"><span class="t">Les maths derrière : le petit théorème de Fermat</span><span class="f">a<sup>p−1</sup> ≡ 1 (mod p) ⟹ (m<sup>e</sup>)<sup>d</sup> ≡ m (mod n)</span><p>Le choix e × d ≡ 1 (mod φ(n)) garantit que déchiffrer redonne toujours le message de départ, quel qu'il soit.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, cas concret, déchiffrer, p. 179</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">26² ≡ 16</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">26⁴ ≡ 25</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">26⁷ ≡ 25 × 16 × 26</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd1b3" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">≡ 5</text></svg><div class="cap">Le message revient</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Pourquoi l&#x27;espion ne peut-il pas trouver d ?</h2></div></div>
+<p class="answer">Pour calculer d, il faut φ(n), donc p et q. Et pour cela, il faut <b>décomposer n en facteurs premiers</b>. Pour 33, c'est facile. Pour un nombre de 600 chiffres, <b>aucun ordinateur classique</b> ne sait le faire en un temps raisonnable. Toute la sécurité repose sur cette difficulté.</p>
+<div class="math"><span class="t">Les maths derrière : la complexité et la factorisation</span><span class="f">n = p × q : multiplier est facile, factoriser est dur</span><p>La théorie de la complexité estime la difficulté des problèmes. Tant qu'aucun algorithme rapide de factorisation n'est trouvé, RSA tient… sauf face à un ordinateur quantique (chapitre 26).</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, Station 3, « la complexité et la réduction », p. 176</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="129.8" width="40.0" height="10.2" rx="4" fill="#5fd1b3" opacity=".85"/><text x="85.0" y="123.8" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle"></text><text x="85.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">multiplier</text><rect x="115.0" y="38.2" width="40.0" height="101.8" rx="4" fill="#f0719a" opacity=".85"/><text x="135.0" y="32.2" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle"></text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">factoriser</text></svg><div class="cap">Facile dans un sens, dur dans l&#x27;autre</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Comment Bob déchiffre-t-il plus vite avec de grands nombres ?</h2></div></div>
+<p class="answer">Il dédouble le calcul : au lieu de calculer modulo n, il calcule <b>modulo p et modulo q séparément</b>, avec des nombres deux fois plus petits, puis recolle les morceaux. Seul lui peut le faire, puisqu'il connaît p et q.</p>
+<div class="math"><span class="t">Les maths derrière : le théorème chinois</span><span class="f">ℤ/nℤ ≅ ℤ/pℤ × ℤ/qℤ</span><p>Si n = p × q avec p et q premiers distincts, calculer modulo n revient à calculer modulo p et modulo q en même temps : c'est un isomorphisme d'anneaux.</p></div>
+<span class="morph">φ Morphisme : un isomorphisme qui dédouble le calcul</span>
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, Station 3 : le théorème chinois, p. 176</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">calcul modulo 33</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">modulo 3 et modulo 11</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">recoller</text></svg><div class="cap">Deux petits calculs au lieu d&#x27;un gros</div></div>
+</article><article class="step" id="q9">
+<div>
+<div class="qhead"><div class="qnum">9</div><div><div class="qlab">Question 9</div><h2>Peut-on aussi prouver qu&#x27;un message vient bien de soi ?</h2></div></div>
+<p class="answer">Oui, en utilisant RSA <b>à l'envers</b> : on « chiffre » avec sa clé privée, et tout le monde vérifie avec la clé publique. C'est une <b>signature numérique</b>. C'est elle qui valide chaque transaction d'une blockchain. Les satellites, eux, échangent ainsi des clés de session.</p>
+<div class="math"><span class="t">Les maths derrière : la signature numérique</span><span class="f">signer : s = m<sup>d</sup> · vérifier : s<sup>e</sup> ≡ m</span><p>Même arithmétique modulaire, rôles des clés inversés. En pratique, on utilise souvent les courbes elliptiques, plus rapides.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 19</b>, cas concret, satellites et blockchain, p. 179</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="32.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">message</text><path d="M63.0 60 L75.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M73.0 55 L80.0 60 L73.0 65Z" fill="#5fd1b3"/><rect x="82.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="50.2" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">signé</text><text x="110.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">(clé</text><text x="110.0" y="77.8" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">privée)</text><path d="M141.0 60 L153.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M151.0 55 L158.0 60 L151.0 65Z" fill="#5fd1b3"/><rect x="160.0" y="38" width="56.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="188.0" y="50.2" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">vérifié</text><text x="188.0" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">(clé</text><text x="188.0" y="77.8" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">publique)</text></svg><div class="cap">RSA dans l&#x27;autre sens</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Un secret public, gardé par la difficulté de factoriser</h2>
+<div class="chain"><span>p, q secrets</span><em>→</em><span>n, e publics</span><em>→</em><span>chiffrer : mᵉ</span><em>→</em><span>déchiffrer : cᵈ</span><em>→</em><span>message</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Chiffrer</td><td>la multiplication (morphisme)</td><td>le message devient illisible</td></tr><tr><td>Déchiffrer</td><td>le message exact (Fermat, Euler)</td><td>on revient au clair</td></tr><tr><td>Théorème chinois</td><td>le résultat</td><td>un calcul devient deux petits</td></tr><tr><td>Signer</td><td>les mêmes clés</td><td>les rôles public / privé s&#x27;inversent</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>À toi de chiffrer</h2>
+<p class="answer" style="font-size:16px">Avec la clé publique (n = 33, e = 3), chiffre le message m = 2. Puis vérifie qu'en élevant le résultat à la puissance 7 modulo 33, on retrouve 2.</p>
+<details><summary>Voir la réponse</summary><p>c = 2³ = 8. Déchiffrer : 8² = 64 ≡ 31 ; 8⁴ ≡ 31² = 961 ≡ 4 ; 8⁷ = 8⁴ × 8² × 8 ≡ 4 × 31 × 8 = 992 ≡ 2 (mod 33). Le message est retrouvé.</p></details></section>
+<div class="next"><a href="20-compresser-musique.html"><small>Projet suivant · ch. 20</small>🎧 Compresser une chanson en MP3 →</a><a href="18-qr-code.html"><small>Projet précédent · ch. 18</small>← 🔳 Créer un QR code (et compresser une chanson)</a><a href="27-chiffrement-post-quantique.html"><small>Après RSA : la cryptographie post-quantique</small>🛡️ Protéger ses messages contre l&#x27;ordinateur quantique →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

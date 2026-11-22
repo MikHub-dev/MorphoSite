@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculer le juste prix d&#x27;une option · MorphoSite</title>
+<meta name="description" content="Payer aujourd&#x27;hui un pari sur l&#x27;avenir : marche aléatoire, martingales, et Black–Scholes, l&#x27;équation de la chaleur déguisée.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#a78bfa">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie VII › Chapitre 29</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 29 · parcours de construction</div>
+<h1>Calculer le <em>juste prix</em> d&#x27;une option</h1>
+<p class="lead">Une option donne le droit, sans l'obligation, d'acheter une action à 100 € dans six mois. Combien vaut ce droit aujourd'hui, alors que personne ne connaît le cours futur ? Huit questions pour trouver le juste prix.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">💹</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>C&#x27;est quoi une option ?</a></li><li><a href="#q2"><span class="n">2</span>Le cours au hasard</a></li><li><a href="#q3"><span class="n">3</span>Quelle dispersion ?</a></li><li><a href="#q4"><span class="n">4</span>Pas de tendance</a></li><li><a href="#q5"><span class="n">5</span>Une équation familière</a></li><li><a href="#q6"><span class="n">6</span>Le calcul</a></li><li><a href="#q7"><span class="n">7</span>Si le cours change</a></li><li><a href="#q8"><span class="n">8</span>Les limites</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Qu&#x27;est-ce qu&#x27;une option d&#x27;achat ?</h2></div></div>
+<p class="answer">Un <b>droit</b>, pas une obligation. Si dans six mois l'action vaut 120 €, vous l'achetez à 100 € : gain de 20 €. Si elle vaut 80 €, vous ne faites rien : gain de 0 €. Vous ne pouvez <b>jamais perdre</b> plus que le prix payé pour l'option.</p>
+<div class="math"><span class="t">Les maths derrière : le gain à l&#x27;échéance</span><span class="f">gain = max(S<sub>T</sub> − K, 0), K = 100 €</span><p>S_T est le cours à l'échéance, K le prix d'exercice. La fonction max fait une « cassure » en K.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, Ouverture : le juste prix d&#x27;un pari sur l&#x27;avenir, p. 260</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,150.0 31.5,150.0 33.0,150.0 34.5,150.0 36.0,150.0 37.5,150.0 39.0,150.0 40.5,150.0 42.0,150.0 43.5,150.0 45.0,150.0 46.5,150.0 48.0,150.0 49.5,150.0 51.0,150.0 52.5,150.0 54.0,150.0 55.5,150.0 57.0,150.0 58.5,150.0 60.0,150.0 61.5,150.0 63.0,150.0 64.5,150.0 66.0,150.0 67.5,150.0 69.0,150.0 70.5,150.0 72.0,150.0 73.5,150.0 75.0,150.0 76.5,150.0 78.0,150.0 79.5,150.0 81.0,150.0 82.5,150.0 84.0,150.0 85.5,150.0 87.0,150.0 88.5,150.0 90.0,150.0 91.5,150.0 93.0,150.0 94.5,150.0 96.0,150.0 97.5,150.0 99.0,150.0 100.5,150.0 102.0,150.0 103.5,150.0 105.0,150.0 106.5,150.0 108.0,148.9 109.5,147.0 111.0,145.1 112.5,143.2 114.0,141.2 115.5,139.3 117.0,137.4 118.5,135.5 120.0,133.6 121.5,131.7 123.0,129.7 124.5,127.8 126.0,125.9 127.5,124.0 129.0,122.1 130.5,120.2 132.0,118.2 133.5,116.3 135.0,114.4 136.5,112.5 138.0,110.6 139.5,108.7 141.0,106.7 142.5,104.8 144.0,102.9 145.5,101.0 147.0,99.1 148.5,97.2 150.0,95.2 151.5,93.3 153.0,91.4 154.5,89.5 156.0,87.6 157.5,85.7 159.0,83.7 160.5,81.8 162.0,79.9 163.5,78.0 165.0,76.1 166.5,74.2 168.0,72.2 169.5,70.3 171.0,68.4 172.5,66.5 174.0,64.6 175.5,62.7 177.0,60.7 178.5,58.8 180.0,56.9 181.5,55.0 183.0,53.1 184.5,51.2 186.0,49.2 187.5,47.3 189.0,45.4 190.5,43.5 192.0,41.6 193.5,39.7 195.0,37.7 196.5,35.8 198.0,33.9 199.5,32.0 201.0,30.1 202.5,28.2 204.0,26.2 205.5,24.3 207.0,22.4 208.5,20.5 210.0,18.6" fill="none" stroke="#f3cf7a" stroke-width="2.6"/><text x="127.7" y="117.7" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="end">gain à l&#x27;échéance</text><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">cours dans 6 mois (€)</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">gain (€)</text></svg><div class="cap">Rien à perdre, tout à gagner</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Comment modéliser le cours futur ?</h2></div></div>
+<p class="answer">Comme au chapitre 15 : une <b>marche au hasard</b> faite de petits pas imprévisibles, qui, à force de se raffiner, devient un mouvement continu et tremblé, le mouvement brownien. On ne prévoit pas le cours, mais on décrit très bien l'éventail des cours possibles.</p>
+<div class="math"><span class="t">Les maths derrière : la marche aléatoire et le mouvement brownien</span><span class="f">petits pas ±, de plus en plus fins ⟶ mouvement brownien</span><p>Une suite discrétise une équation continue (chapitre 9) ; une marche aléatoire converge vers un mouvement brownien (chapitre 15).</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, Station 1 : suites, dérivée, probabilités, p. 260</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 172" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">marche ±</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">pas plus fins</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">mouvement brownien</text></svg><div class="cap">Du pas à pas au continu</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>De combien le cours peut-il varier en six mois ?</h2></div></div>
+<p class="answer">La <b>volatilité</b> de l'action est de 20 % par an. Sur six mois, grâce à la loi en racine carrée du temps, l'écart typique vaut 20 % × √0,5 ≈ <b>14,1 %</b> : le cours a de bonnes chances de finir entre 86 € et 114 € environ.</p>
+<div class="math"><span class="t">Les maths derrière : la racine carrée du temps</span><span class="f">σ<sub>6 mois</sub> = 20 % × √0,5 ≈ 14,1 %</span><p>Les variances s'additionnent dans le temps, donc l'écart-type croît comme la racine carrée de la durée.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, cas concret, mesurer un risque, p. 264</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,150.0 30.9,150.0 31.8,150.0 32.7,150.0 33.6,150.0 34.5,150.0 35.4,150.0 36.3,150.0 37.2,150.0 38.1,150.0 39.0,150.0 39.9,150.0 40.8,149.9 41.7,149.9 42.6,149.9 43.5,149.9 44.4,149.9 45.3,149.8 46.2,149.8 47.1,149.7 48.0,149.7 48.9,149.6 49.8,149.5 50.7,149.4 51.6,149.3 52.5,149.2 53.4,149.0 54.3,148.8 55.2,148.6 56.1,148.4 57.0,148.1 57.9,147.7 58.8,147.4 59.7,147.0 60.6,146.5 61.5,146.0 62.4,145.4 63.3,144.7 64.2,144.0 65.1,143.2 66.0,142.3 66.9,141.3 67.8,140.3 68.7,139.1 69.6,137.9 70.5,136.5 71.4,135.1 72.3,133.5 73.2,131.8 74.1,130.0 75.0,128.1 75.9,126.1 76.8,124.0 77.7,121.8 78.6,119.4 79.5,117.0 80.4,114.4 81.3,111.8 82.2,109.0 83.1,106.2 84.0,103.3 84.9,100.3 85.8,97.2 86.7,94.1 87.6,90.9 88.5,87.6 89.4,84.4 90.3,81.1 91.2,77.7 92.1,74.4 93.0,71.1 93.9,67.8 94.8,64.5 95.7,61.3 96.6,58.1 97.5,55.0 98.4,52.0 99.3,49.0 100.2,46.2 101.1,43.4 102.0,40.7 102.9,38.2 103.8,35.8 104.7,33.6 105.6,31.4 106.5,29.5 107.4,27.7 108.3,26.0 109.2,24.5 110.1,23.2 111.0,22.1 111.9,21.1 112.8,20.3 113.7,19.7 114.6,19.3 115.5,19.0 116.4,18.9 117.3,19.0 118.2,19.2 119.1,19.6 120.0,20.2 120.9,20.9 121.8,21.8 122.7,22.8 123.6,24.0 124.5,25.3 125.4,26.7 126.3,28.3 127.2,29.9 128.1,31.7 129.0,33.5 129.9,35.5 130.8,37.5 131.7,39.6 132.6,41.8 133.5,44.1 134.4,46.4 135.3,48.7 136.2,51.1 137.1,53.5 138.0,56.0 138.9,58.5 139.8,60.9 140.7,63.4 141.6,65.9 142.5,68.4 143.4,70.9 144.3,73.4 145.2,75.9 146.1,78.3 147.0,80.7 147.9,83.1 148.8,85.5 149.7,87.8 150.6,90.1 151.5,92.3 152.4,94.6 153.3,96.7 154.2,98.8 155.1,100.9 156.0,102.9 156.9,104.8 157.8,106.8 158.7,108.6 159.6,110.4 160.5,112.2 161.4,113.9 162.3,115.5 163.2,117.1 164.1,118.6 165.0,120.1 165.9,121.5 166.8,122.9 167.7,124.2 168.6,125.5 169.5,126.7 170.4,127.9 171.3,129.0 172.2,130.1 173.1,131.1 174.0,132.1 174.9,133.1 175.8,134.0 176.7,134.9 177.6,135.7 178.5,136.5 179.4,137.2 180.3,137.9 181.2,138.6 182.1,139.3 183.0,139.9 183.9,140.5 184.8,141.0 185.7,141.5 186.6,142.0 187.5,142.5 188.4,143.0 189.3,143.4 190.2,143.8 191.1,144.2 192.0,144.5 192.9,144.9 193.8,145.2 194.7,145.5 195.6,145.8 196.5,146.0 197.4,146.3 198.3,146.5 199.2,146.8 200.1,147.0 201.0,147.2 201.9,147.3 202.8,147.5 203.7,147.7 204.6,147.8 205.5,148.0 206.4,148.1 207.3,148.2 208.2,148.4 209.1,148.5 210.0,148.6" fill="none" stroke="#5fd4f0" stroke-width="2.6"/><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">cours dans 6 mois (€)</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">probabilité</text></svg><div class="cap">L&#x27;éventail des cours possibles</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Faut-il deviner si l&#x27;action va monter ?</h2></div></div>
+<p class="answer">Justement non ! L'astuce est de raisonner dans un monde « neutre », où le prix, une fois corrigé du taux d'intérêt, n'a <b>aucune tendance prévisible</b> : la meilleure prévision de demain est aujourd'hui. C'est ce qui empêche quiconque de gagner à coup sûr sans risque.</p>
+<div class="math"><span class="t">Les maths derrière : la martingale</span><span class="f">E[prix actualisé de demain | aujourd'hui] = prix actualisé d'aujourd'hui</span><p>Sous la probabilité risque-neutre, le prix actualisé de tout actif est une martingale : c'est l'absence d'arbitrage.</p></div>
+<span class="morph">φ Morphisme : martingale : pas de profit sans risque</span>
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, Station 3 : les martingales, p. 261</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📈</text><text x="36.7" y="94.6" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">hausse</text><text x="36.7" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">prévisible</text><text x="36.7" y="121.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">?</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">=</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📉</text><text x="183.3" y="94.6" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">baisse</text><text x="183.3" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">prévisible</text><text x="183.3" y="121.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">?</text></svg><div class="cap">Aucune tendance prévisible</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Quelle équation donne le prix de l&#x27;option ?</h2></div></div>
+<p class="answer">L'équation de <b>Black–Scholes</b>. Surprise : en changeant de variables (le logarithme du cours, le temps compté à rebours), elle devient <b>exactement</b> l'équation de la chaleur du mur (chapitre 22). La valeur de l'option « diffuse » comme la chaleur dans une brique.</p>
+<div class="math"><span class="t">Les maths derrière : Black–Scholes = chaleur déguisée</span><span class="f">∂V/∂t + ½σ²S² ∂²V/∂S² + rS ∂V/∂S − rV = 0</span><p>Avec x = ln S et τ = T − t, cette équation se ramène à ∂u/∂τ = ∂²u/∂x² : la même diffusion.</p></div>
+<span class="morph">φ Morphisme : un changement de variables : finance ⟶ chaleur</span>
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, Station 3 : Black–Scholes, la chaleur déguisée, p. 260</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 120" role="img" aria-label="schéma"><rect x="4.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="51.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">option</text><path d="M102.0 60 L114.0 60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M112.0 55 L119.0 60 L112.0 65Z" fill="#5fd1b3"/><text x="110.0" y="97.2" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">x = ln S, τ</text><text x="110.0" y="110.5" fill="#5fd1b3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">= T − t</text><rect x="121.0" y="38" width="95.0" height="44" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="168.5" y="64.0" fill="#eef1fb" font-size="11.5" font-family="Jost,sans-serif" text-anchor="middle">mur</text></svg><div class="cap">Deux mondes, une équation</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Combien vaut notre option ?</h2></div></div>
+<p class="answer">Avec S₀ = 100 €, K = 100 €, six mois, volatilité 20 %, taux 2 % : la formule donne d₁ ≈ 0,141 et d₂ ≈ 0, puis un prix d'environ <b>6,12 €</b>. Ce prix juste est calculé <b>sans</b> savoir si l'action montera ou baissera.</p>
+<div class="math"><span class="t">Les maths derrière : la formule de Black–Scholes</span><span class="f">C = S₀ N(d₁) − K e<sup>−rT</sup> N(d₂) ≈ 100 × 0,556 − 99,0 × 0,5 ≈ 6,12 €</span><p>N est la fonction de répartition de la loi normale. d₁ = [ln(S₀/K) + (r + σ²/2)T] / (σ√T), d₂ = d₁ − σ√T.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, cas concret « valoriser une option », p. 264</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="66" fill="#f3cf7a" font-size="36" font-family="Cormorant Garamond,serif" text-anchor="middle">≈ 6,12 €</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">le juste prix de l&#x27;option</text></svg><div class="cap">Pour un droit de 100 € dans 6 mois</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Et si l&#x27;action vaut déjà 110 € ou 90 € aujourd&#x27;hui ?</h2></div></div>
+<p class="answer">Le prix de l'option suit, mais <b>en douceur</b> : environ 13 € si l'action vaut 110 €, 2 € si elle vaut 90 €. La courbe arrondit la cassure du gain final : tant qu'il reste du temps, rien n'est joué.</p>
+<div class="math"><span class="t">Les maths derrière : le prix en fonction du cours</span><span class="f">C(90) ≈ 1,99 € ; C(100) ≈ 6,12 € ; C(110) ≈ 12,95 €</span><p>Plus l'échéance approche, plus la courbe se rapproche de la cassure max(S − K, 0) : la chaleur a moins de temps pour lisser.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, cas concret, prolongement, p. 264</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,150.0 31.5,150.0 33.0,150.0 34.5,150.0 36.0,150.0 37.5,150.0 39.0,150.0 40.5,150.0 42.0,150.0 43.5,150.0 45.0,150.0 46.5,150.0 48.0,150.0 49.5,150.0 51.0,150.0 52.5,150.0 54.0,150.0 55.5,150.0 57.0,150.0 58.5,150.0 60.0,150.0 61.5,150.0 63.0,150.0 64.5,150.0 66.0,150.0 67.5,150.0 69.0,150.0 70.5,150.0 72.0,150.0 73.5,150.0 75.0,150.0 76.5,150.0 78.0,150.0 79.5,150.0 81.0,150.0 82.5,150.0 84.0,150.0 85.5,150.0 87.0,150.0 88.5,150.0 90.0,150.0 91.5,150.0 93.0,150.0 94.5,150.0 96.0,150.0 97.5,150.0 99.0,150.0 100.5,150.0 102.0,150.0 103.5,150.0 105.0,150.0 106.5,150.0 108.0,148.9 109.5,147.0 111.0,145.1 112.5,143.2 114.0,141.2 115.5,139.3 117.0,137.4 118.5,135.5 120.0,133.6 121.5,131.7 123.0,129.7 124.5,127.8 126.0,125.9 127.5,124.0 129.0,122.1 130.5,120.2 132.0,118.2 133.5,116.3 135.0,114.4 136.5,112.5 138.0,110.6 139.5,108.7 141.0,106.7 142.5,104.8 144.0,102.9 145.5,101.0 147.0,99.1 148.5,97.2 150.0,95.2 151.5,93.3 153.0,91.4 154.5,89.5 156.0,87.6 157.5,85.7 159.0,83.7 160.5,81.8 162.0,79.9 163.5,78.0 165.0,76.1 166.5,74.2 168.0,72.2 169.5,70.3 171.0,68.4 172.5,66.5 174.0,64.6 175.5,62.7 177.0,60.7 178.5,58.8 180.0,56.9 181.5,55.0 183.0,53.1 184.5,51.2 186.0,49.2 187.5,47.3 189.0,45.4 190.5,43.5 192.0,41.6 193.5,39.7 195.0,37.7 196.5,35.8 198.0,33.9 199.5,32.0 201.0,30.1 202.5,28.2 204.0,26.2 205.5,24.3 207.0,22.4 208.5,20.5 210.0,18.6" fill="none" stroke="#7c85ab" stroke-width="1.4" stroke-dasharray="6 5"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,149.9 35.1,149.8 40.3,149.7 45.4,149.5 50.6,149.2 55.7,148.8 60.9,148.2 66.0,147.4 71.1,146.4 76.3,145.1 81.4,143.5 86.6,141.5 91.7,139.2 96.9,136.4 102.0,133.4 107.1,129.9 112.3,126.1 117.4,121.9 122.6,117.4 127.7,112.5 132.9,107.5 138.0,102.1 143.1,96.6 148.3,90.9 153.4,85.0 158.6,79.0 163.7,72.9 168.9,66.7 174.0,60.4 179.1,54.0 184.3,47.6 189.4,41.2 194.6,34.7 199.7,28.2 204.9,21.7 210.0,15.2" fill="none" stroke="#f3cf7a" stroke-width="2.6"/><text x="163.7" y="66.9" fill="#f3cf7a" font-size="11" font-family="Jost,sans-serif" text-anchor="end">prix aujourd&#x27;hui</text><circle cx="107.1" cy="129.9" r="4" fill="#5fd4f0"/><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">cours aujourd&#x27;hui (€)</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">€</text></svg><div class="cap">Prix de l&#x27;option (calcul personnel)</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Le modèle a-t-il toujours raison ?</h2></div></div>
+<p class="answer">Non. Il suppose une volatilité <b>constante</b> et des prix <b>sans sauts</b> brusques. La crise de 2008 a montré que ces hypothèses pouvaient lâcher. Les modèles actuels ajoutent une volatilité variable et des sauts, mais reposent sur le même socle.</p>
+<div class="math"><span class="t">Les maths derrière : les hypothèses d&#x27;un modèle</span><span class="f">σ constant ? pas de saut ? ⟶ à vérifier</span><p>Un modèle mathématique n'est valable que dans le cadre de ses hypothèses : le résultat est aussi fiable qu'elles.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 29</b>, Sous le capot : les limites du modèle, p. 146</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="55.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">📉</text><text x="55.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">volatilité qui</text><text x="55.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">change</text><text x="165.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">⚡</text><text x="165.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">sauts brusques</text></svg><div class="cap">Ce que le modèle ignore</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Un pari sur l&#x27;avenir, prix calculé aujourd&#x27;hui</h2>
+<div class="chain"><span>cours au hasard</span><em>→</em><span>monde neutre</span><em>→</em><span>Black–Scholes</span><em>→</em><span>chaleur</span><em>→</em><span>prix</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Changement de variables</td><td>l&#x27;équation (sa forme)</td><td>la finance devient diffusion</td></tr><tr><td>Probabilité risque-neutre</td><td>l&#x27;absence d&#x27;arbitrage</td><td>la tendance disparaît</td></tr><tr><td>Racine du temps</td><td>la volatilité annuelle</td><td>l&#x27;horizon (6 mois)</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Le risque sur trois mois</h2>
+<p class="answer" style="font-size:16px">Avec une volatilité de 20 % par an, quel est l'écart typique du cours sur 3 mois (T = 0,25 an) ? Et sur 1 an ?</p>
+<details><summary>Voir la réponse</summary><p>20 % × √0,25 = 10 % sur 3 mois ; 20 % × √1 = 20 % sur un an. Quatre fois plus de temps, seulement deux fois plus d'incertitude.</p></details></section>
+<div class="next"><a href="30-ecrire-par-la-pensee.html"><small>Projet suivant · ch. 30</small>🧠 Écrire un texte par la pensée →</a><a href="28-prouver-sans-reveler.html"><small>Projet précédent · ch. 28</small>← 🕵️ Prouver qu&#x27;on a 18 ans sans dire son âge</a><a href="22-isoler-un-mur.html"><small>L&#x27;équation de la chaleur (le mur)</small>🧱 Choisir l&#x27;épaisseur d&#x27;un mur bien isolé →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

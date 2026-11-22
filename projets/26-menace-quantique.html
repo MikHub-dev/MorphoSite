@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Évaluer la menace quantique sur nos codes secrets · MorphoSite</title>
+<meta name="description" content="Un ordinateur quantique pourrait-il casser RSA ? Arbres de recherche, Grover, Shor et la réalité des chiffres en 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#a78bfa">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie VII › Chapitre 26</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 26 · parcours de construction</div>
+<h1>Évaluer la <em>menace quantique</em> sur nos codes secrets</h1>
+<p class="lead">Les journaux annoncent parfois que les ordinateurs quantiques vont « casser Internet ». Vrai, faux, ou pas tout de suite ? Huit questions pour séparer la menace réelle de l'effet d'annonce.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🔓</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>Qu&#x27;est-ce qui est menacé ?</a></li><li><a href="#q2"><span class="n">2</span>Chercher dans un arbre</a></li><li><a href="#q3"><span class="n">3</span>Chercher plus vite (Grover)</a></li><li><a href="#q4"><span class="n">4</span>Grover casse-t-il tout ?</a></li><li><a href="#q5"><span class="n">5</span>La vraie menace : Shor</a></li><li><a href="#q6"><span class="n">6</span>Exponentiel ou quadratique</a></li><li><a href="#q7"><span class="n">7</span>Combien de qubits ?</a></li><li><a href="#q8"><span class="n">8</span>Le verdict</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Qu&#x27;est-ce qui pourrait être menacé ?</h2></div></div>
+<p class="answer">Le chiffrement <b>RSA</b> du chapitre 19, qui protège les paiements et les sites en https. Sa sécurité repose sur un fait : multiplier deux grands nombres premiers est facile, mais retrouver ces deux nombres à partir du produit est <b>extrêmement long</b>.</p>
+<div class="math"><span class="t">Les maths derrière : la factorisation</span><span class="f">p × q = n facile ; n ⟶ p, q très difficile</span><p>Pour une clé RSA de 2048 bits, le meilleur algorithme classique connu demanderait de l'ordre de 2<sup>112</sup> opérations.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, Ouverture : une menace réelle, une échéance incertaine, p. 236</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 108" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">p, q</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">facile</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">n = p × q</text></svg><div class="cap">Un sens facile, un sens difficile</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Pourquoi casser un code est-il si long ?</h2></div></div>
+<p class="answer">Chercher une clé, c'est explorer un <b>arbre de choix</b> : chaque bit de la clé ouvre deux branches. Avec 10 bits, 1 024 possibilités ; avec 128 bits, un nombre à 39 chiffres. L'arbre grandit beaucoup trop vite pour qu'on l'explore en entier.</p>
+<div class="math"><span class="t">Les maths derrière : la croissance exponentielle d&#x27;un arbre</span><span class="f">n bits ⟹ 2<sup>n</sup> feuilles</span><p>Chaque étape multiplie le nombre de chemins par 2. C'est l'arbre de probabilités du chapitre 14, poussé à l'extrême.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, Station 1 : probabilités et arbres de choix, p. 236</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="graphe"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#a78bfa"/></marker></defs><line x1="99.4" y1="30.6" x2="72.0" y2="58.0" stroke="#a78bfa" stroke-width="2" marker-end="url(#ah)"/><line x1="120.6" y1="30.6" x2="148.0" y2="58.0" stroke="#a78bfa" stroke-width="2" marker-end="url(#ah)"/><line x1="52.8" y1="83.2" x2="38.1" y2="110.1" stroke="#a78bfa" stroke-width="2" marker-end="url(#ah)"/><line x1="66.8" y1="83.4" x2="80.3" y2="109.9" stroke="#a78bfa" stroke-width="2" marker-end="url(#ah)"/><line x1="153.2" y1="83.4" x2="139.7" y2="109.9" stroke="#a78bfa" stroke-width="2" marker-end="url(#ah)"/><line x1="167.2" y1="83.2" x2="181.9" y2="110.1" stroke="#a78bfa" stroke-width="2" marker-end="url(#ah)"/><circle cx="110" cy="20" r="15" fill="#121839" stroke="#a78bfa" stroke-width="2"/><text x="110.0" y="24.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">?</text><circle cx="60" cy="70" r="15" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="60.0" y="74.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">0</text><circle cx="160" cy="70" r="15" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="160.0" y="74.5" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">1</text><circle cx="30" cy="125" r="15" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="30.0" y="129.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">00</text><circle cx="88" cy="125" r="15" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="88.0" y="129.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">01</text><circle cx="132" cy="125" r="15" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="132.0" y="129.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">10</text><circle cx="190" cy="125" r="15" fill="#121839" stroke="#5fd4f0" stroke-width="2"/><text x="190.0" y="129.6" fill="#eef1fb" font-size="13" font-family="Jost,sans-serif" text-anchor="middle">11</text></svg><div class="cap">Deux bits, quatre feuilles</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Un ordinateur quantique cherche-t-il plus vite dans une liste ?</h2></div></div>
+<p class="answer">Oui, grâce à l'algorithme de <b>Grover</b>. Pour trouver un élément parmi 1 000 000 d'entrées en vrac, un ordinateur classique en regarde en moyenne <b>500 000</b>. Grover n'a besoin que d'environ <b>1 000</b> étapes : il gonfle peu à peu l'amplitude de la bonne réponse, puis on mesure.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;amplification d&#x27;amplitude</span><span class="f">classique ≈ N/2 ; Grover ≈ √N = √1 000 000 = 1 000</span><p>Chaque itération de Grover est une transformation unitaire qui fait croître l'amplitude de l'état cherché et décroître les autres.</p></div>
+<span class="morph">φ Morphisme : Grover : amplifier l'amplitude de la bonne réponse</span>
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, Station 3 : l&#x27;amplification d&#x27;amplitude, p. 237</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="38.2" width="40.0" height="101.8" rx="4" fill="#7c85ab" opacity=".85"/><text x="85.0" y="32.2" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">500 000</text><text x="85.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">classique</text><rect x="115.0" y="139.8" width="40.0" height="0.2" rx="4" fill="#a78bfa" opacity=".85"/><text x="135.0" y="133.8" fill="#a78bfa" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">1000</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">Grover</text></svg><div class="cap">Recherche dans un million d&#x27;entrées</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Grover suffit-il à casser les codes ?</h2></div></div>
+<p class="answer">Non. Son gain est <b>quadratique</b> : il remplace N par √N. Pour une clé de 128 bits, c'est comme si elle n'en faisait plus que 64. La parade est simple : <b>doubler la taille des clés</b>. Avec 256 bits, on retrouve la même sécurité qu'avant.</p>
+<div class="math"><span class="t">Les maths derrière : un gain quadratique</span><span class="f">√(2<sup>2n</sup>) = 2<sup>n</sup></span><p>Doubler le nombre de bits de la clé compense exactement la racine carrée de Grover. La cryptographie symétrique résiste ainsi.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, Sous le capot : ne pas confondre les deux menaces, p. 240</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">clé 128 bits</text><line x1="110" y1="42" x2="110" y2="60" stroke="#f5a65b" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#f5a65b"/><text x="120" y="58.0" fill="#f5a65b" font-size="11.5" font-family="Jost,sans-serif">Grover</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">≈ 64 bits</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><text x="120" y="122.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">on double</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">clé 256 bits</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><text x="120" y="186.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">Grover</text><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">≈ 128 bits</text></svg><div class="cap">Doubler la clé suffit</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Alors, quelle est la vraie menace pour RSA ?</h2></div></div>
+<p class="answer">L'algorithme de <b>Shor</b> (1994). Il transforme la factorisation en un autre problème : trouver la <b>période</b> d'une suite qui se répète. Et trouver une période, c'est exactement ce que fait une décomposition en fréquences, comme pour le MP3 (chapitre 20), mais version quantique.</p>
+<div class="math"><span class="t">Les maths derrière : la transformée de Fourier quantique</span><span class="f">factoriser n ⟶ trouver une période ⟶ Fourier quantique</span><p>La transformée de Fourier quantique extrait la période en beaucoup moins d'étapes que toute méthode classique connue : le gain est exponentiel.</p></div>
+<span class="morph">φ Morphisme : Fourier quantique : la période cachée devient visible</span>
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, Station 3 : la transformée de Fourier quantique, p. 237</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">factoriser</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">trouver une période</text><line x1="110" y1="106" x2="110" y2="124" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#5fd1b3"/><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">Fourier quantique</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">p et q</text></svg><div class="cap">Le détour de Shor</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Pourquoi Shor est-il plus dangereux que Grover ?</h2></div></div>
+<p class="answer">Grover rend <b>plus rapide</b> un problème déjà faisable. Shor rend <b>faisable</b> un problème impossible. Contre Grover, on agrandit la clé ; contre Shor, agrandir ne suffit pas : il faut <b>changer</b> complètement de méthode de chiffrement.</p>
+<div class="math"><span class="t">Les maths derrière : gain exponentiel contre gain quadratique</span><span class="f">Shor : 2<sup>112</sup> ⟶ quelques heures (en théorie) ; Grover : N ⟶ √N</span><p>RSA et les systèmes fondés sur la factorisation ou le logarithme discret doivent être remplacés : c'est le sujet du projet suivant.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, Sous le capot, p. 240</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 118" role="img" aria-label="tableau"><text x="39.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle"></text><text x="109.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Grover</text><text x="179.0" y="15" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Shor</text><rect x="5.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">gain</text><rect x="75.0" y="23.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="41.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">√N</text><rect x="145.0" y="23.0" width="68.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="179.0" y="41.5" fill="#fff" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">expon.</text><rect x="5.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">cible</text><rect x="75.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="71.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">clés sym.</text><rect x="145.0" y="53.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="179.0" y="71.5" fill="#d6daf0" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">RSA</text><rect x="5.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="39.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">parade</text><rect x="75.0" y="83.0" width="68.0" height="28.0" rx="4" fill="#121839" stroke="rgba(140,155,220,.25)"/><text x="109.0" y="101.5" fill="#d6daf0" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">clé × 2</text><rect x="145.0" y="83.0" width="68.0" height="28.0" rx="4" fill="rgba(95,212,240,.22)" stroke="#5fd4f0"/><text x="179.0" y="101.5" fill="#fff" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">changer</text></svg><div class="cap">Deux menaces très différentes</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>De combien de qubits faudrait-il disposer pour casser RSA-2048 ?</h2></div></div>
+<p class="answer">Selon les estimations publiées, environ <b>20 millions</b> de qubits physiques pour le faire en 8 heures (2021), ou un peu moins d'<b>un million</b> pour le faire en une semaine (2025). Les machines de 2026 comptent <b>quelques centaines à quelques milliers</b> de qubits, sans correction d'erreur à cette échelle.</p>
+<div class="math"><span class="t">Les maths derrière : l&#x27;écart entre théorie et pratique</span><span class="f">besoin ≈ 10<sup>6</sup> à 2 × 10<sup>7</sup> qubits ; disponible ≈ 10<sup>2</sup> à 10<sup>3</sup></span><p>Il faut des qubits « logiques », protégés par correction d'erreur ; chacun en mobilise de nombreux physiques.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, cas concret « Shor face à RSA » (état des lieux 2026), p. 240</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 140" role="img" aria-label="formule"><rect x="6" y="6" width="208" height="128" rx="16" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.45)"/><text x="110" y="61" fill="#a78bfa" font-size="22" font-family="Cormorant Garamond,serif" text-anchor="middle">≈ 1 000 ≪ 1 000 000</text><text x="110" y="91" fill="#aab2d3" font-size="12" font-family="Jost,sans-serif" text-anchor="middle">qubits en 2026 / qubits nécessaires</text></svg><div class="cap">Un écart encore immense</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Faut-il s&#x27;inquiéter ?</h2></div></div>
+<p class="answer">La menace est <b>réelle</b>, la théorie est solide depuis 1994. Mais elle n'est <b>pas pour demain</b> : personne ne sait dire quand l'écart sera comblé. D'où une stratégie prudente : préparer dès maintenant des codes qui résistent aux machines quantiques.</p>
+<div class="math"><span class="t">Les maths derrière : anticiper une menace incertaine</span><span class="f">risque = menace réelle × échéance inconnue</span><p>Des messages chiffrés aujourd'hui pourraient être stockés et déchiffrés plus tard : c'est pourquoi la relève commence avant la panne.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 26</b>, fin du cas concret, la réponse d&#x27;Ammo, p. 240</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="36.7" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">⚠️</text><text x="36.7" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">menace</text><text x="36.7" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">réelle</text><text x="110.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="183.3" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🛡️</text><text x="183.3" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">préparer la</text><text x="183.3" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">relève</text></svg><div class="cap">Réelle, mais pas pour demain</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Deux algorithmes, deux menaces</h2>
+<div class="chain"><span>RSA</span><em>→</em><span>Shor (période)</span><em>→</em><span>Fourier quantique</span><em>→</em><span>facteurs</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Grover</td><td>la sécurité, si la clé double</td><td>N devient √N</td></tr><tr><td>Shor</td><td>rien de RSA</td><td>l&#x27;impossible devient faisable</td></tr><tr><td>Correction d&#x27;erreur</td><td>l&#x27;information des qubits</td><td>le nombre de qubits nécessaires explose</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Grover en chiffres</h2>
+<p class="answer" style="font-size:16px">Une base contient 100 000 000 d'entrées en vrac. Combien de comparaisons en moyenne pour un ordinateur classique ? Combien d'étapes environ pour Grover ?</p>
+<details><summary>Voir la réponse</summary><p>Classique : N/2 = 50 000 000. Grover : √100 000 000 = 10 000 étapes environ, 5 000 fois moins.</p></details></section>
+<div class="next"><a href="27-chiffrement-post-quantique.html"><small>Projet suivant · ch. 27</small>🛡️ Protéger ses messages contre l&#x27;ordinateur quantique →</a><a href="25-simuler-une-molecule.html"><small>Projet précédent · ch. 25</small>← ⚛️ Simuler une molécule avec des qubits</a><a href="27-chiffrement-post-quantique.html"><small>Le remplaçant de RSA</small>🛡️ Protéger ses messages contre l&#x27;ordinateur quantique →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

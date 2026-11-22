@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compresser une chanson en MP3 · MorphoSite</title>
+<meta name="description" content="Rendre un fichier dix fois plus léger sans que l&#x27;oreille s&#x27;en aperçoive : sinus, fréquences, Fourier et masquage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23070b1f' stroke='%23a78bfa' stroke-width='3'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23c4b5fd' font-style='italic' font-family='Georgia'%3E%CF%86%3C/text%3E%3C/svg%3E">
+</head>
+<body style="--acc:#f3cf7a">
+<header class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="dot">φ</span><span>Morpho<b>Site</b></span></a>
+  <nav class="menu"><a href="../index.html">Projets</a><a href="../index.html#comment">Comment lire</a><a href="https://famzak.github.io/">FamZakSites</a></nav>
+</div></header>
+<section class="sky"><div class="wrap hero">
+<div class="crumb"><a href="../index.html">Projets</a> › Partie V › Chapitre 20</div>
+<div class="hero-grid"><div>
+<div class="kicker">Projet 20 · parcours de construction</div>
+<h1>Compresser une chanson en <em>MP3</em></h1>
+<p class="lead">Un morceau enregistré en qualité CD pèse une cinquantaine de mégaoctets. En MP3, environ cinq. Où sont passés les quarante-cinq autres, et pourquoi personne ne les regrette ? Huit questions pour le comprendre.</p>
+<div class="facts"><div><b>8</b>questions</div><div><b>1</b>chapitre du livre</div><div><b>≈ 24 min</b>de lecture</div></div>
+</div><div class="hero-art"><div class="hero-emoji">🎧</div></div></div>
+</div></section>
+<div class="wrap"><div class="layout">
+<aside class="rail"><h4>Le parcours</h4><ol id="rail"><li><a href="#q1"><span class="n">1</span>C&#x27;est quoi un son ?</a></li><li><a href="#q2"><span class="n">2</span>Un mélange de notes</a></li><li><a href="#q3"><span class="n">3</span>Démêler le mélange</a></li><li><a href="#q4"><span class="n">4</span>Ce que l&#x27;oreille ignore</a></li><li><a href="#q5"><span class="n">5</span>Dix fois plus léger</a></li><li><a href="#q6"><span class="n">6</span>Peut-on revenir en arrière ?</a></li><li><a href="#q7"><span class="n">7</span>Les filtres et l&#x27;écho</a></li><li><a href="#q8"><span class="n">8</span>Et les images ?</a></li><li><a href="#bilan"><span class="n">✓</span>Bilan</a></li></ol>
+<div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div></aside>
+<main>
+<article class="step" id="q1">
+<div>
+<div class="qhead"><div class="qnum">1</div><div><div class="qlab">Question 1</div><h2>Qu&#x27;est-ce qu&#x27;un son, pour un ordinateur ?</h2></div></div>
+<p class="answer">Un son, c'est l'air qui <b>vibre</b>. Le micro transforme cette vibration en une courbe qui monte et descend, puis l'ordinateur relève la hauteur de la courbe <b>44 100 fois par seconde</b>. Une chanson devient une immense liste de nombres.</p>
+<div class="math"><span class="t">Les maths derrière : un signal périodique</span><span class="f">s(t) = A sin(2π f t)</span><p>Un son pur est une sinusoïde : A est son amplitude (le volume), f sa fréquence en hertz (grave ou aigu). Elle se répète toutes les 1/f secondes.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, Station 1 : sinus, cosinus, périodicité, p. 184</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="courbe"><line x1="30" y1="150" x2="210" y2="150" stroke="#7c85ab" stroke-width="1.3"/><line x1="30" y1="12" x2="30" y2="150" stroke="#7c85ab" stroke-width="1.3"/><clipPath id="cp"><rect x="30" y="8" width="184" height="142"/></clipPath><polyline clip-path="url(#cp)" points="30.0,81.0 30.9,77.3 31.8,73.6 32.7,69.9 33.6,66.3 34.5,62.7 35.4,59.2 36.3,55.8 37.2,52.5 38.1,49.3 39.0,46.2 39.9,43.3 40.8,40.5 41.7,37.9 42.6,35.4 43.5,33.2 44.4,31.1 45.3,29.2 46.2,27.5 47.1,26.0 48.0,24.8 48.9,23.7 49.8,22.9 50.7,22.3 51.6,22.0 52.5,21.9 53.4,22.0 54.3,22.3 55.2,22.9 56.1,23.7 57.0,24.8 57.9,26.0 58.8,27.5 59.7,29.2 60.6,31.1 61.5,33.2 62.4,35.4 63.3,37.9 64.2,40.5 65.1,43.3 66.0,46.2 66.9,49.3 67.8,52.5 68.7,55.8 69.6,59.2 70.5,62.7 71.4,66.3 72.3,69.9 73.2,73.6 74.1,77.3 75.0,81.0 75.9,84.7 76.8,88.4 77.7,92.1 78.6,95.7 79.5,99.3 80.4,102.8 81.3,106.2 82.2,109.5 83.1,112.7 84.0,115.8 84.9,118.7 85.8,121.5 86.7,124.1 87.6,126.6 88.5,128.8 89.4,130.9 90.3,132.8 91.2,134.5 92.1,136.0 93.0,137.2 93.9,138.3 94.8,139.1 95.7,139.7 96.6,140.0 97.5,140.1 98.4,140.0 99.3,139.7 100.2,139.1 101.1,138.3 102.0,137.2 102.9,136.0 103.8,134.5 104.7,132.8 105.6,130.9 106.5,128.8 107.4,126.6 108.3,124.1 109.2,121.5 110.1,118.7 111.0,115.8 111.9,112.7 112.8,109.5 113.7,106.2 114.6,102.8 115.5,99.3 116.4,95.7 117.3,92.1 118.2,88.4 119.1,84.7 120.0,81.0 120.9,77.3 121.8,73.6 122.7,69.9 123.6,66.3 124.5,62.7 125.4,59.2 126.3,55.8 127.2,52.5 128.1,49.3 129.0,46.2 129.9,43.3 130.8,40.5 131.7,37.9 132.6,35.4 133.5,33.2 134.4,31.1 135.3,29.2 136.2,27.5 137.1,26.0 138.0,24.8 138.9,23.7 139.8,22.9 140.7,22.3 141.6,22.0 142.5,21.9 143.4,22.0 144.3,22.3 145.2,22.9 146.1,23.7 147.0,24.8 147.9,26.0 148.8,27.5 149.7,29.2 150.6,31.1 151.5,33.2 152.4,35.4 153.3,37.9 154.2,40.5 155.1,43.3 156.0,46.2 156.9,49.3 157.8,52.5 158.7,55.8 159.6,59.2 160.5,62.7 161.4,66.3 162.3,69.9 163.2,73.6 164.1,77.3 165.0,81.0 165.9,84.7 166.8,88.4 167.7,92.1 168.6,95.7 169.5,99.3 170.4,102.8 171.3,106.2 172.2,109.5 173.1,112.7 174.0,115.8 174.9,118.7 175.8,121.5 176.7,124.1 177.6,126.6 178.5,128.8 179.4,130.9 180.3,132.8 181.2,134.5 182.1,136.0 183.0,137.2 183.9,138.3 184.8,139.1 185.7,139.7 186.6,140.0 187.5,140.1 188.4,140.0 189.3,139.7 190.2,139.1 191.1,138.3 192.0,137.2 192.9,136.0 193.8,134.5 194.7,132.8 195.6,130.9 196.5,128.8 197.4,126.6 198.3,124.1 199.2,121.5 200.1,118.7 201.0,115.8 201.9,112.7 202.8,109.5 203.7,106.2 204.6,102.8 205.5,99.3 206.4,95.7 207.3,92.1 208.2,88.4 209.1,84.7 210.0,81.0" fill="none" stroke="#5fd4f0" stroke-width="2.6"/><text x="210" y="166" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="end">temps (s)</text><text x="34" y="14" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif">s(t)</text></svg><div class="cap">Une note à 100 Hz : deux vibrations en 0,02 s</div></div>
+</article><article class="step" id="q2">
+<div>
+<div class="qhead"><div class="qnum">2</div><div><div class="qlab">Question 2</div><h2>Et quand plusieurs sons jouent en même temps ?</h2></div></div>
+<p class="answer">Les courbes <b>s'additionnent</b>. Prenons une note grave et forte à 100 Hz (amplitude 3) et un petit sifflement aigu à 8 000 Hz (amplitude 0,05). Sur la courbe totale, on ne voit presque que la note grave : le sifflement n'est qu'un frisson minuscule.</p>
+<div class="math"><span class="t">Les maths derrière : une somme de sinusoïdes</span><span class="f">s(t) = 3 sin(2π·100 t) + 0,05 sin(2π·8000 t)</span><p>Tout son réel est une superposition de sinusoïdes de fréquences et d'amplitudes différentes.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, cas concret « ce que le MP3 garde, et ce qu&#x27;il jette », p. 188</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🎸</text><text x="22.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">100 Hz</text><text x="22.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">fort</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">+</text><text x="110.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🎶</text><text x="110.0" y="94.6" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">8 000</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">Hz</text><text x="110.0" y="121.0" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">faible</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">=</text><text x="198.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🎧</text><text x="198.0" y="101.2" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">le</text><text x="198.0" y="114.5" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">mélange</text></svg><div class="cap">Deux sons, une seule courbe</div></div>
+</article><article class="step" id="q3">
+<div>
+<div class="qhead"><div class="qnum">3</div><div><div class="qlab">Question 3</div><h2>Comment retrouver les notes cachées dans la courbe ?</h2></div></div>
+<p class="answer">On utilise un « prisme » mathématique, la <b>transformée de Fourier</b>. Comme un prisme sépare la lumière blanche en couleurs, elle sépare le son en fréquences. Notre mélange devient deux simples barres : <b>3 à 100 Hz</b> et <b>0,05 à 8 000 Hz</b>.</p>
+<div class="math"><span class="t">Les maths derrière : la transformée de Fourier</span><span class="f">signal(t)  ⟼  spectre(f)</span><p>La transformée de Fourier donne, pour chaque fréquence, l'amplitude avec laquelle elle est présente. Le même son est décrit de deux façons équivalentes.</p></div>
+<span class="morph">φ Morphisme : Fourier : du temps aux fréquences</span>
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, Station 3 : Fourier, p. 185</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="41.2" width="40.0" height="98.8" rx="4" fill="#5fd4f0" opacity=".85"/><text x="85.0" y="35.2" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3</text><text x="85.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">100 Hz</text><rect x="115.0" y="138.4" width="40.0" height="1.6" rx="4" fill="#f0719a" opacity=".85"/><text x="135.0" y="132.4" fill="#f0719a" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0,05</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">8 000 Hz</text></svg><div class="cap">Le spectre : deux raies</div></div>
+</article><article class="step" id="q4">
+<div>
+<div class="qhead"><div class="qnum">4</div><div><div class="qlab">Question 4</div><h2>Que peut-on jeter sans que personne ne l&#x27;entende ?</h2></div></div>
+<p class="answer">Notre oreille a ses faiblesses : un son <b>faible</b> devient inaudible quand un son <b>fort</b> joue en même temps. C'est le <b>masquage</b>. Le petit sifflement à 8 000 Hz, couvert par la note grave, peut être supprimé : on ne l'aurait de toute façon pas entendu.</p>
+<div class="math"><span class="t">Les maths derrière : le masquage psychoacoustique</span><span class="f">on garde la raie si amplitude > seuil d'audibilité</span><p>Le codeur calcule, fréquence par fréquence, un seuil en dessous duquel l'oreille n'entend rien, et supprime tout ce qui passe dessous.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, cas concret, le masquage, p. 188</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="41.2" width="40.0" height="98.8" rx="4" fill="#5fd4f0" opacity=".85"/><text x="85.0" y="35.2" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">3</text><text x="85.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">100 Hz</text><rect x="115.0" y="140.0" width="40.0" height="0.0" rx="4" fill="#7c85ab" opacity=".85"/><text x="135.0" y="134.0" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">0</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">8 000 Hz</text></svg><div class="cap">La raie masquée est supprimée</div></div>
+</article><article class="step" id="q5">
+<div>
+<div class="qhead"><div class="qnum">5</div><div><div class="qlab">Question 5</div><h2>Combien de place gagne-t-on ?</h2></div></div>
+<p class="answer">Une vraie chanson contient des <b>milliers</b> de fréquences, mais à chaque instant seule une petite partie dépasse le seuil d'audibilité. On ne code que celles-là. Résultat : un fichier environ <b>dix fois plus léger</b>, sans différence pour la plupart des auditeurs.</p>
+<div class="math"><span class="t">Les maths derrière : la compression par tri des coefficients</span><span class="f">taille MP3 ≈ taille brute ÷ 10</span><p>Comprimer, c'est décrire le signal sur une base où peu de coefficients comptent, puis ne garder que ceux-là.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, cas concret, le gain de compression, p. 188</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 180" role="img" aria-label="diagramme"><line x1="14" y1="140" x2="206" y2="140" stroke="#7c85ab"/><rect x="65.0" y="38.2" width="40.0" height="101.8" rx="4" fill="#7c85ab" opacity=".85"/><text x="85.0" y="32.2" fill="#7c85ab" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">50 Mo</text><text x="85.0" y="153.4" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">brut</text><text x="85.0" y="166.0" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">(CD)</text><rect x="115.0" y="129.8" width="40.0" height="10.2" rx="4" fill="#5fd4f0" opacity=".85"/><text x="135.0" y="123.8" fill="#5fd4f0" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">5 Mo</text><text x="135.0" y="159.7" fill="#aab2d3" font-size="10.5" font-family="Jost,sans-serif" text-anchor="middle">MP3</text></svg><div class="cap">Un morceau de 5 minutes (ordre de grandeur)</div></div>
+</article><article class="step" id="q6">
+<div>
+<div class="qhead"><div class="qnum">6</div><div><div class="qlab">Question 6</div><h2>Peut-on retrouver la chanson d&#x27;origine à partir du MP3 ?</h2></div></div>
+<p class="answer">Non. Ce qui a été jeté est <b>perdu pour toujours</b>. Le lecteur reconstruit un son très proche, jugé identique à l'écoute, mais pas exactement le même. C'est la différence avec un fichier ZIP, qui, lui, rend tout à l'octet près.</p>
+<div class="math"><span class="t">Les maths derrière : une compression avec perte</span><span class="f">décoder(coder(s)) ≈ s, mais ≠ s</span><p>La transformée de Fourier, elle, est réversible. C'est le tri qui suit qui perd de l'information, volontairement.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, Sous le capot : pourquoi le MP3 n&#x27;est pas réversible, p. 188</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 236" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">son</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">Fourier</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">spectre</text><line x1="110" y1="106" x2="110" y2="124" stroke="#f5a65b" stroke-width="2.2"/><path d="M104 122 L110 130 L116 122Z" fill="#f5a65b"/><text x="120" y="122.0" fill="#f5a65b" font-size="11.5" font-family="Jost,sans-serif">tri</text><rect x="30" y="133" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="154.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">spectre trié</text><line x1="110" y1="170" x2="110" y2="188" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 186 L110 194 L116 186Z" fill="#5fd1b3"/><text x="120" y="186.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">Fourier⁻¹</text><rect x="30" y="197" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="218.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">son ≈</text></svg><div class="cap">Une seule étape est irréversible</div></div>
+</article><article class="step" id="q7">
+<div>
+<div class="qhead"><div class="qnum">7</div><div><div class="qlab">Question 7</div><h2>Pourquoi les ingénieurs du son travaillent-ils « en fréquences » ?</h2></div></div>
+<p class="answer">Ajouter de l'écho ou un filtre, c'est mélanger chaque instant du son avec ses voisins : un calcul très long. Dans le monde des fréquences, la même opération devient une <b>simple multiplication</b>, fréquence par fréquence. Beaucoup plus rapide.</p>
+<div class="math"><span class="t">Les maths derrière : la convolution devient un produit</span><span class="f">F(f ∗ g) = F(f) × F(g)</span><p>La convolution ∗ mélange chaque point avec tous les autres. Après Fourier, elle devient un produit point par point : un calcul difficile change en calcul facile.</p></div>
+<span class="morph">φ Morphisme : Fourier change la convolution en produit</span>
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, Station 3 : convolution et produit, p. 185</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 108" role="img" aria-label="schéma"><rect x="30" y="5" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="26.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">son ∗ écho</text><line x1="110" y1="42" x2="110" y2="60" stroke="#5fd1b3" stroke-width="2.2"/><path d="M104 58 L110 66 L116 58Z" fill="#5fd1b3"/><text x="120" y="58.0" fill="#5fd1b3" font-size="11.5" font-family="Jost,sans-serif">Fourier</text><rect x="30" y="69" width="160" height="34" rx="9" fill="#121839" stroke="#5fd4f0" stroke-width="1.6"/><text x="110.0" y="90.4" fill="#eef1fb" font-size="12.5" font-family="Jost,sans-serif" text-anchor="middle">F(son) × F(écho)</text></svg><div class="cap">Un calcul lourd devient léger</div></div>
+</article><article class="step" id="q8">
+<div>
+<div class="qhead"><div class="qnum">8</div><div><div class="qlab">Question 8</div><h2>Le même principe marche-t-il pour les photos ?</h2></div></div>
+<p class="answer">Oui ! Le <b>JPEG</b> découpe l'image en petits carrés de 8 × 8 pixels et décompose chacun en motifs de plus en plus fins. Les motifs très fins, que l'œil remarque peu, sont arrondis ou jetés. Même idée : trouver les quelques briques qui comptent vraiment.</p>
+<div class="math"><span class="t">Les maths derrière : décomposer sur une base</span><span class="f">objet = Σ c<sub>k</sub> × brique<sub>k</sub>, on garde les grands c<sub>k</sub></span><p>Un son périodique se lit sur un cercle ; ses coefficients sont rangés par des entiers. C'est la dualité cercle ↔ ℤ, le cas le plus simple de la dualité de Pontryagin.</p></div>
+
+<span class="book">📖 Dans le livre : <b>ch. 20</b>, Outil du quotidien : la base et la décomposition, p. 185</span>
+
+</div>
+<div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="illustration"><text x="22.0" y="70" font-size="40" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">🖼️</text><text x="22.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">photo</text><text x="66.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="110.0" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">8×8</text><text x="110.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">motifs</text><text x="154.0" y="66" fill="#c4b5fd" font-size="26" font-family="Jost,sans-serif" text-anchor="middle">→</text><text x="198.0" y="64" font-size="16" text-anchor="middle" fill="#eef1fb" font-family="Jost,sans-serif">JPEG</text><text x="198.0" y="107.8" fill="#aab2d3" font-size="11" font-family="Jost,sans-serif" text-anchor="middle">allégée</text></svg><div class="cap">La même idée pour les images</div></div>
+</article>
+<section class="recap" id="bilan"><div class="qlab">Bilan</div><h2>Changer de point de vue pour savoir quoi jeter</h2>
+<div class="chain"><span>son</span><em>→</em><span>fréquences</span><em>→</em><span>tri par l&#x27;oreille</span><em>→</em><span>fichier MP3</span><em>→</em><span>son ≈</span></div>
+<table><thead><tr><th>Transformation</th><th>Ce qui est conservé</th><th>Ce qui change</th></tr></thead><tbody><tr><td>Transformée de Fourier</td><td>toute l&#x27;information</td><td>le temps devient fréquence</td></tr><tr><td>Masquage</td><td>ce que l&#x27;oreille entend</td><td>les sons inaudibles disparaissent</td></tr><tr><td>Convolution → produit</td><td>le résultat du filtre</td><td>le calcul devient simple</td></tr></tbody></table>
+</section>
+<section class="play"><div class="qlab">À toi de jouer</div><h2>Ton propre spectre</h2>
+<p class="answer" style="font-size:16px">Un signal vaut s(t) = 2 sin(2π·440 t) + 0,5 sin(2π·880 t). Dessine son spectre. Si l'oreille entend tout ce qui dépasse 0,1, que garde le MP3 ?</p>
+<details><summary>Voir la réponse</summary><p>Deux raies : amplitude 2 à 440 Hz (un la) et 0,5 à 880 Hz (le la de l'octave au-dessus). Les deux dépassent 0,1 : le MP3 les garde toutes les deux.</p></details></section>
+<div class="next"><a href="21-satellite.html"><small>Projet suivant · ch. 21</small>🛰️ Garder un satellite en orbite sans carburant →</a><a href="19-rsa.html"><small>Projet précédent · ch. 19</small>← 🔐 Échanger un secret devant tout le monde</a><a href="22-isoler-un-mur.html"><small>Les fréquences pour la chaleur d&#x27;un mur</small>🧱 Choisir l&#x27;épaisseur d&#x27;un mur bien isolé →</a></div>
+</main></div></div>
+<footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
+<script>
+(function(){
+const steps=[...document.querySelectorAll('.step,#bilan')];
+const links=[...document.querySelectorAll('#rail a')];
+const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
+const N=steps.length-1;
+function upd(){
+  const y=window.scrollY+window.innerHeight*0.35;let cur=0;
+  steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
+  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
+  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+}
+window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>
