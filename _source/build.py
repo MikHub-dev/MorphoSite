@@ -316,6 +316,7 @@ HEAD = """<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<script src="https://mikhub-dev.github.io/RoutineSite/famzak-verrou.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
