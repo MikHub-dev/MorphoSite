@@ -8,3 +8,5 @@ Complément du livre *Les Mathématiques des Transformations* : 32 projets concr
 - `assets/style.css` : feuille de style commune
 - `livre/` : le livre en PDF (lien « Le livre (PDF) » du menu)
 - `_source/` : générateur (`python3 build.py`, lancé depuis `_source/`) et contenu des projets (`projets/p1.py` à `p7.py`). Le générateur lit le PDF de `livre/` pour retrouver les numéros de page.
+
+Progression liée au code élève : `famzak-progres.js` (même fichier sur les sites FamZakSites) envoie les progrès des jeux au serveur de suivi de RoutineSite (routes `/progres/…`, Worker 1.6) sous le code de l'élève, saisi une fois (bouton 👤 en bas à droite). Sans code, tout reste sur l'appareil.

@@ -516,7 +516,7 @@ def render_project(p, prev, nxt, all_projects):
 <div class="next">{"".join(nexts[:3])}</div>
 </main></div></div>
 '''
-    doc += FOOT + SCRIPT + "</body>\n</html>\n"
+    doc += FOOT + SCRIPT + '<script src="../famzak-progres.js" data-site="morphosite"></script>\n' + "</body>\n</html>\n"
     return doc
 
 
@@ -618,6 +618,7 @@ return '<a href="'+c.getAttribute('href')+'" title="'+escH(c.querySelector('h4')
 '<div class="mp-badges">'+paliers.map(([n,i,t])=>'<span class="'+(fin>=n?'ok':'')+'">'+i+' '+t+'</span>').join('')+'</div><p class="mp-note">Gardé sur cet appareil.</p>';
 box.hidden=false})();
 </script>
+<script src="famzak-progres.js" data-site="morphosite"></script>
 </body>
 </html>
 """
