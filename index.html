@@ -30,6 +30,7 @@
 <div class="wrap" style="padding-top:36px">
 <input class="search" type="search" placeholder="Chercher un projet : drone, GPS, vaccin, Mars…" aria-label="Chercher un projet">
 <div class="hits" hidden aria-live="polite"></div>
+<div class="mesprojets" id="mesprojets" hidden></div>
 <div class="filters"><button aria-pressed="true" data-f="0">Tous</button><button aria-pressed="false" data-f="1">I · Fondations</button><button aria-pressed="false" data-f="2">II · Espace et symétries</button><button aria-pressed="false" data-f="3">III · Temps</button><button aria-pressed="false" data-f="4">IV · Probabilités</button><button aria-pressed="false" data-f="5">V · Ondes</button><button aria-pressed="false" data-f="6">VI · Le monde quantique</button><button aria-pressed="false" data-f="7">VII · Horizons du XXIe siècle</button></div>
 <section class="part-block" data-part="1" style="--pc:#6ea8ff"><h2>Partie I</h2><h3>Fondations : fonctions, réseaux, logique</h3>
 <div class="pgrid"><a class="pcard" href="projets/01-thermometre-connecte.html" data-part="1" data-search="construire un thermomètre connecté de la chaleur de l&#x27;air au nombre sur l&#x27;écran : cinq transformations, et une seule qui perd vraiment de l&#x27;information. fonctions · composition · fonction affine · arrondi pourquoi transformer ?">
@@ -208,6 +209,24 @@ hits.hidden=false}
 q.addEventListener('input',chercherParcours);
 q.addEventListener('focus',charger,{once:true});
 btns.forEach(b=>b.addEventListener('click',()=>{part=b.dataset.f;btns.forEach(x=>x.setAttribute('aria-pressed',x===b));apply()}));
+/* Mes projets : état de chaque parcours, lu dans localStorage (« famzak:morpho:<page> »). */
+(function(){const cartes=[...document.querySelectorAll('.pcard')];let fin=0,cours=0,devOk=0,devN=0;
+const lire=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+cartes.forEach(c=>{const page=c.getAttribute('href').split('/').pop().replace(/[.]html$/,''),e=lire('famzak:morpho:'+page);
+const nq=+(c.querySelector('.ch').textContent.match(/(\d+) questions/)||[0,0])[1];
+if(!e)return;const v=Object.values(e.devine||{});devN+=v.length;devOk+=v.filter(Boolean).length;
+const et=document.createElement('div');et.className='etat'+(e.fini?' fini':'');
+const vues=(e.vues||[]).filter(n=>n<=nq).length;
+et.textContent=e.fini?'✓ Terminé'+(v.length?' · '+v.filter(Boolean).length+'/'+v.length+' devinées':''):'En cours · '+vues+'/'+nq;
+c.querySelector('.top').appendChild(et);if(e.fini)fin++;else if(vues)cours++;});
+const box=document.getElementById('mesprojets');if(!fin&&!cours)return;
+const paliers=[[1,'🌱','Premier projet'],[8,'🥉','8 projets'],[16,'🥈','16 projets'],[32,'🏆','Les 32 projets']];
+box.innerHTML='<div class="mp-tete"><b>Mes projets terminés : '+fin+' / '+cartes.length+'</b>'+(cours?'<span>'+cours+' en cours</span>':'')+(devN?'<span>'+devOk+' / '+devN+' questions trouvées en devinant</span>':'')+'</div>'+
+'<div class="mp-barre"><i style="width:'+(fin/cartes.length*100)+'%"></i></div>'+
+'<div class="mp-grille">'+cartes.map(c=>{const p=c.getAttribute('href').split('/').pop().replace(/[.]html$/,''),e=lire('famzak:morpho:'+p);
+return '<a href="'+c.getAttribute('href')+'" title="'+escH(c.querySelector('h4').textContent)+'" class="'+(e&&e.fini?'ok':e?'encours':'')+'">'+c.querySelector('.ic').textContent+'</a>'}).join('')+'</div>'+
+'<div class="mp-badges">'+paliers.map(([n,i,t])=>'<span class="'+(fin>=n?'ok':'')+'">'+i+' '+t+'</span>').join('')+'</div><p class="mp-note">Gardé sur cet appareil.</p>';
+box.hidden=false})();
 </script>
 </body>
 </html>

@@ -335,18 +335,61 @@ FOOT = """<footer class="footer"><div class="wrap"><span>MorphoSite · compléme
 """
 
 SCRIPT = """<script>
+/* Parcours : étape courante, étapes atteintes gardées sur l'appareil, « Devine d'abord » et bilan.
+   Stockage : localStorage « famzak:morpho:<page> » = {vues:[n°], devine:{q1:true|false}, fini:bool}.
+   Sans JavaScript, les réponses restent visibles (et la recherche de l'accueil les lit toujours). */
 (function(){
+const PAGE=location.pathname.split('/').pop().replace(/[.]html$/,'');
+const CLE='famzak:morpho:'+PAGE,CLE_MODE='famzak:morpho:mode-devine';
+function lire(){try{return Object.assign({vues:[],devine:{},fini:false},JSON.parse(localStorage.getItem(CLE))||{})}catch(e){return{vues:[],devine:{},fini:false}}}
+function ecrire(){try{localStorage.setItem(CLE,JSON.stringify(etat))}catch(e){}}
+let etat=lire();
+let mode=true;try{mode=localStorage.getItem(CLE_MODE)!=='non'}catch(e){}
 const steps=[...document.querySelectorAll('.step,#bilan')];
+const qs=[...document.querySelectorAll('article.step')];
 const links=[...document.querySelectorAll('#rail a')];
 const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
 const N=steps.length-1;
+/* Devine d'abord */
+const score=document.createElement('div');score.className='devine-score';
+document.querySelector('.rail .prog').after(score);
+const bascule=document.createElement('label');bascule.className='devine-mode';
+bascule.innerHTML='<input type="checkbox"'+(mode?' checked':'')+'> Mode « devine d’abord »';
+score.after(bascule);
+function majScore(){const v=Object.values(etat.devine),ok=v.filter(Boolean).length;
+score.innerHTML=v.length?'<b>'+ok+' / '+v.length+'</b> trouvées en devinant'+(v.length===qs.length&&ok===qs.length?' · sans faute 🏆':''):'';}
+qs.forEach(a=>{
+  const id=a.id,box=document.createElement('div');box.className='devine';
+  box.innerHTML='<p>🤔 <b>Devine d’abord</b> : réfléchis à ta réponse, puis découvre la nôtre.</p><button type="button" class="dv-voir">Voir la réponse</button>';
+  const juge=document.createElement('div');juge.className='devine-juge';
+  juge.innerHTML='<span>Ta réponse ressemblait-elle à la nôtre ?</span><button type="button" data-v="1">✓ Oui, j’avais trouvé</button><button type="button" data-v="0">✗ Non, pas trouvé</button>';
+  const q=a.querySelector('.qhead');q.after(box);
+  const ans=a.querySelector('.answer');ans.after(juge);
+  function cacher(on){a.classList.toggle('cache',on);box.hidden=!on;}
+  function majJuge(){const v=etat.devine[id];juge.hidden=!mode||a.classList.contains('cache');
+    juge.querySelectorAll('button').forEach(b=>b.classList.toggle('sel',v!==undefined&&String(+v)===b.dataset.v));}
+  box.querySelector('.dv-voir').addEventListener('click',()=>{cacher(false);majJuge();juge.querySelector('button').focus({preventScroll:true});});
+  juge.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;etat.devine[id]=b.dataset.v==='1';ecrire();majJuge();majScore();});
+  a._maj=()=>{cacher(mode&&etat.devine[id]===undefined);majJuge();};a._maj();
+});
+bascule.querySelector('input').addEventListener('change',e=>{mode=e.target.checked;try{localStorage.setItem(CLE_MODE,mode?'oui':'non')}catch(_){};qs.forEach(a=>a._maj());});
+majScore();
+/* Étape courante et étapes atteintes */
 function upd(){
   const y=window.scrollY+window.innerHeight*0.35;let cur=0;
   steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
-  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
-  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
-  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+  let change=false;
+  for(let i=0;i<=cur;i++)if(!etat.vues.includes(i+1)){etat.vues.push(i+1);change=true}
+  if(cur>=N&&!etat.fini){etat.fini=true;change=true;fete();}
+  if(change)ecrire();
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i!==cur&&etat.vues.includes(i+1))});
+  const nv=etat.vues.filter(n=>n<=N).length;
+  bar.style.width=(etat.fini?100:nv/N*100)+'%';
+  txt.textContent=etat.fini?'Parcours terminé ✓':'Étape '+(cur+1)+' sur '+N;
 }
+function fete(){const b=document.getElementById('bilan');if(!b||b.querySelector('.bravo'))return;
+  const d=document.createElement('div');d.className='bravo';d.textContent='🎉 Parcours terminé : il compte maintenant dans « Mes projets terminés » sur l’accueil.';b.prepend(d);}
+if(etat.fini)fete();
 window.addEventListener('scroll',upd,{passive:true});upd();
 })();
 </script>
@@ -512,6 +555,7 @@ def render_index(projects):
 <div class="wrap" style="padding-top:36px">
 <input class="search" type="search" placeholder="Chercher un projet : drone, GPS, vaccin, Mars…" aria-label="Chercher un projet">
 <div class="hits" hidden aria-live="polite"></div>
+<div class="mesprojets" id="mesprojets" hidden></div>
 <div class="filters">{filt}</div>
 {"".join(cards)}
 </div>
@@ -555,6 +599,24 @@ hits.hidden=false}
 q.addEventListener('input',chercherParcours);
 q.addEventListener('focus',charger,{once:true});
 btns.forEach(b=>b.addEventListener('click',()=>{part=b.dataset.f;btns.forEach(x=>x.setAttribute('aria-pressed',x===b));apply()}));
+/* Mes projets : état de chaque parcours, lu dans localStorage (« famzak:morpho:<page> »). */
+(function(){const cartes=[...document.querySelectorAll('.pcard')];let fin=0,cours=0,devOk=0,devN=0;
+const lire=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+cartes.forEach(c=>{const page=c.getAttribute('href').split('/').pop().replace(/[.]html$/,''),e=lire('famzak:morpho:'+page);
+const nq=+(c.querySelector('.ch').textContent.match(/(\d+) questions/)||[0,0])[1];
+if(!e)return;const v=Object.values(e.devine||{});devN+=v.length;devOk+=v.filter(Boolean).length;
+const et=document.createElement('div');et.className='etat'+(e.fini?' fini':'');
+const vues=(e.vues||[]).filter(n=>n<=nq).length;
+et.textContent=e.fini?'✓ Terminé'+(v.length?' · '+v.filter(Boolean).length+'/'+v.length+' devinées':''):'En cours · '+vues+'/'+nq;
+c.querySelector('.top').appendChild(et);if(e.fini)fin++;else if(vues)cours++;});
+const box=document.getElementById('mesprojets');if(!fin&&!cours)return;
+const paliers=[[1,'🌱','Premier projet'],[8,'🥉','8 projets'],[16,'🥈','16 projets'],[32,'🏆','Les 32 projets']];
+box.innerHTML='<div class="mp-tete"><b>Mes projets terminés : '+fin+' / '+cartes.length+'</b>'+(cours?'<span>'+cours+' en cours</span>':'')+(devN?'<span>'+devOk+' / '+devN+' questions trouvées en devinant</span>':'')+'</div>'+
+'<div class="mp-barre"><i style="width:'+(fin/cartes.length*100)+'%"></i></div>'+
+'<div class="mp-grille">'+cartes.map(c=>{const p=c.getAttribute('href').split('/').pop().replace(/[.]html$/,''),e=lire('famzak:morpho:'+p);
+return '<a href="'+c.getAttribute('href')+'" title="'+escH(c.querySelector('h4').textContent)+'" class="'+(e&&e.fini?'ok':e?'encours':'')+'">'+c.querySelector('.ic').textContent+'</a>'}).join('')+'</div>'+
+'<div class="mp-badges">'+paliers.map(([n,i,t])=>'<span class="'+(fin>=n?'ok':'')+'">'+i+' '+t+'</span>').join('')+'</div><p class="mp-note">Gardé sur cet appareil.</p>';
+box.hidden=false})();
 </script>
 </body>
 </html>

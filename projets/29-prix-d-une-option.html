@@ -120,18 +120,61 @@
 </main></div></div>
 <footer class="footer"><div class="wrap"><span>MorphoSite · complément du livre <i>Les Mathématiques des Transformations</i></span><span>Un site de la famille <a href="https://famzak.github.io/" style="color:var(--muted);font-weight:600">FamZakSites</a></span></div></footer>
 <script>
+/* Parcours : étape courante, étapes atteintes gardées sur l'appareil, « Devine d'abord » et bilan.
+   Stockage : localStorage « famzak:morpho:<page> » = {vues:[n°], devine:{q1:true|false}, fini:bool}.
+   Sans JavaScript, les réponses restent visibles (et la recherche de l'accueil les lit toujours). */
 (function(){
+const PAGE=location.pathname.split('/').pop().replace(/[.]html$/,'');
+const CLE='famzak:morpho:'+PAGE,CLE_MODE='famzak:morpho:mode-devine';
+function lire(){try{return Object.assign({vues:[],devine:{},fini:false},JSON.parse(localStorage.getItem(CLE))||{})}catch(e){return{vues:[],devine:{},fini:false}}}
+function ecrire(){try{localStorage.setItem(CLE,JSON.stringify(etat))}catch(e){}}
+let etat=lire();
+let mode=true;try{mode=localStorage.getItem(CLE_MODE)!=='non'}catch(e){}
 const steps=[...document.querySelectorAll('.step,#bilan')];
+const qs=[...document.querySelectorAll('article.step')];
 const links=[...document.querySelectorAll('#rail a')];
 const bar=document.getElementById('progbar'),txt=document.getElementById('progtxt');
 const N=steps.length-1;
+/* Devine d'abord */
+const score=document.createElement('div');score.className='devine-score';
+document.querySelector('.rail .prog').after(score);
+const bascule=document.createElement('label');bascule.className='devine-mode';
+bascule.innerHTML='<input type="checkbox"'+(mode?' checked':'')+'> Mode « devine d’abord »';
+score.after(bascule);
+function majScore(){const v=Object.values(etat.devine),ok=v.filter(Boolean).length;
+score.innerHTML=v.length?'<b>'+ok+' / '+v.length+'</b> trouvées en devinant'+(v.length===qs.length&&ok===qs.length?' · sans faute 🏆':''):'';}
+qs.forEach(a=>{
+  const id=a.id,box=document.createElement('div');box.className='devine';
+  box.innerHTML='<p>🤔 <b>Devine d’abord</b> : réfléchis à ta réponse, puis découvre la nôtre.</p><button type="button" class="dv-voir">Voir la réponse</button>';
+  const juge=document.createElement('div');juge.className='devine-juge';
+  juge.innerHTML='<span>Ta réponse ressemblait-elle à la nôtre ?</span><button type="button" data-v="1">✓ Oui, j’avais trouvé</button><button type="button" data-v="0">✗ Non, pas trouvé</button>';
+  const q=a.querySelector('.qhead');q.after(box);
+  const ans=a.querySelector('.answer');ans.after(juge);
+  function cacher(on){a.classList.toggle('cache',on);box.hidden=!on;}
+  function majJuge(){const v=etat.devine[id];juge.hidden=!mode||a.classList.contains('cache');
+    juge.querySelectorAll('button').forEach(b=>b.classList.toggle('sel',v!==undefined&&String(+v)===b.dataset.v));}
+  box.querySelector('.dv-voir').addEventListener('click',()=>{cacher(false);majJuge();juge.querySelector('button').focus({preventScroll:true});});
+  juge.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;etat.devine[id]=b.dataset.v==='1';ecrire();majJuge();majScore();});
+  a._maj=()=>{cacher(mode&&etat.devine[id]===undefined);majJuge();};a._maj();
+});
+bascule.querySelector('input').addEventListener('change',e=>{mode=e.target.checked;try{localStorage.setItem(CLE_MODE,mode?'oui':'non')}catch(_){};qs.forEach(a=>a._maj());});
+majScore();
+/* Étape courante et étapes atteintes */
 function upd(){
   const y=window.scrollY+window.innerHeight*0.35;let cur=0;
   steps.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
-  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i<cur)});
-  bar.style.width=(cur>=N?100:(cur+1)/N*100)+'%';
-  txt.textContent=cur>=N?'Parcours terminé':'Étape '+(cur+1)+' sur '+N;
+  let change=false;
+  for(let i=0;i<=cur;i++)if(!etat.vues.includes(i+1)){etat.vues.push(i+1);change=true}
+  if(cur>=N&&!etat.fini){etat.fini=true;change=true;fete();}
+  if(change)ecrire();
+  links.forEach((a,i)=>{a.classList.toggle('cur',i===cur);a.classList.toggle('done',i!==cur&&etat.vues.includes(i+1))});
+  const nv=etat.vues.filter(n=>n<=N).length;
+  bar.style.width=(etat.fini?100:nv/N*100)+'%';
+  txt.textContent=etat.fini?'Parcours terminé ✓':'Étape '+(cur+1)+' sur '+N;
 }
+function fete(){const b=document.getElementById('bilan');if(!b||b.querySelector('.bravo'))return;
+  const d=document.createElement('div');d.className='bravo';d.textContent='🎉 Parcours terminé : il compte maintenant dans « Mes projets terminés » sur l’accueil.';b.prepend(d);}
+if(etat.fini)fete();
 window.addEventListener('scroll',upd,{passive:true});upd();
 })();
 </script>
