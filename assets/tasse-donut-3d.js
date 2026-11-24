@@ -20,10 +20,10 @@ function proj(v,c){const s=F/(D-v[2]);return[c.x+v[0]*s,c.y-v[1]*s,s];}
 const THEMES={
   /* tasse rose → donut fraise */
   fraise:{cup:hex('#ec6fa0'),dough:hex('#e0a868'),glaze:hex('#f58bb4'),
-    spr:['#ffffff','#ffe066','#7cd7ff','#9be38a','#ff5d7a'],shadow:'#f58bb4',start:0,period:40,yaw0:.5},
+    spr:['#ffffff','#ffe066','#7cd7ff','#9be38a','#ff5d7a'],shadow:'#f58bb4',start:0,hold:2.5,morph:15,yaw0:.5},
   /* donut chocolat → tasse chocolat */
   choco:{cup:hex('#7a4528'),dough:hex('#d99c5e'),glaze:hex('#4a2614'),
-    spr:['#ff6b9a','#ffd23f','#6ec6ff','#8ce07a','#ffffff'],shadow:'#c08457',start:.5,period:49,yaw0:-.6}
+    spr:['#ff6b9a','#ffd23f','#6ec6ff','#8ce07a','#ffffff'],shadow:'#c08457',start:.5,hold:2,morph:18,yaw0:-.6}
 };
 
 /* ---------- géométrie déformable ---------- */
@@ -87,10 +87,10 @@ function Scene(svg,key){
 }
 /* cycle : pause, déformation lente, pause, retour */
 Scene.prototype.k=function(t){
+  /* pauses courtes sur l'objet fixe (hold s), déformation lente (morph s) */
   const th=this.th;if(RM)return th.start;
-  const s=((t/th.period)+th.start)%1;
-  let k= s<.2?0 : s<.5?sm(.2,.5,s) : s<.7?1 : 1-sm(.7,1,s);
-  return k;
+  const H=th.hold,M=th.morph,P=2*(H+M),x=((t/P)+th.start)%1*P;
+  return x<H?0 : x<H+M?sm(0,1,(x-H)/M) : x<2*H+M?1 : 1-sm(0,1,(x-2*H-M)/M);
 };
 Scene.prototype.frame=function(t){
   const th=this.th,k=this.k(t),g=shape(k),W=place(k);
