@@ -206,7 +206,10 @@ td:first-child{color:var(--acc)}
 
 /* accueil : la tasse et le donut en 3D (assets/tasse-donut-3d.js) */
 .td-row{display:grid;grid-template-columns:240px minmax(0,1fr) 240px;align-items:start;gap:22px;margin:6px 0 18px}
-.td-mid{align-self:center}
+.td-mid{align-self:stretch;display:flex;flex-direction:column}
+.td-texte{flex:1;display:flex;flex-direction:column;justify-content:center}
+.home-hero .td-facts{height:132px;align-items:center;margin-top:-10px}
+.td-mid .lead{margin-bottom:0}
 .td-mid .quote{margin-bottom:18px}
 .td-scene{margin:0;text-align:center}
 .td-scene svg{display:block;width:100%;height:auto;aspect-ratio:1;overflow:visible}
@@ -220,7 +223,9 @@ td:first-child{color:var(--acc)}
 .td-sous{margin:4px 0 0;color:#fff;font-size:13.5px;white-space:nowrap}
 @media (max-width:980px){
   .td-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 14px}
-  .td-mid{grid-column:1/-1;order:-1}
+  .td-mid{display:contents}
+  .td-texte{grid-column:1/-1;order:-1}
+  .home-hero .td-facts{grid-column:1/-1;order:2;height:auto;margin:14px 0 0}
   .td-scene{max-width:230px;justify-self:center;width:100%}
 }
 @media (max-width:640px){.td-vign{height:112px;padding:8px 2px}.td-phrase p{font-size:14px}.td-eq{gap:8px}.td-emo{font-size:32px}.td-cong{font-size:28px}.td-eq small{font-size:11px}.td-sous{font-size:10.5px}}
