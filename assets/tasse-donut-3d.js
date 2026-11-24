@@ -1,5 +1,5 @@
 /* MorphoSite : la tasse et le donut en 3D (SVG + petit moteur de projection, sans bibliothèque).
-   <svg data-3d="fraise">  : tasse rouge  ⇄ donut à la fraise
+   <svg data-3d="fraise">  : tasse rose   ⇄ donut à la fraise
    <svg data-3d="choco">   : donut au chocolat ⇄ tasse chocolat
    Un seul paramètre k (0 = tasse, 1 = donut) déforme continûment l'objet : l'anse grossit et devient l'anneau,
    le corps de la tasse se tasse, perd son creux et se fond dans l'anneau. Rien n'est coupé ni recollé. */
@@ -18,12 +18,12 @@ function rot(p,c){const x1=p[0]*c.cy+p[2]*c.sy,z1=-p[0]*c.sy+p[2]*c.cy;return[x1
 function proj(v,c){const s=F/(D-v[2]);return[c.x+v[0]*s,c.y-v[1]*s,s];}
 
 const THEMES={
-  /* tasse rouge → donut fraise */
-  fraise:{cup:hex('#d62f3c'),dough:hex('#e0a868'),glaze:hex('#f58bb4'),
-    spr:['#ffffff','#ffe066','#7cd7ff','#9be38a','#ff5d7a'],shadow:'#f58bb4',start:0,period:14,yaw0:.5},
+  /* tasse rose → donut fraise */
+  fraise:{cup:hex('#ec6fa0'),dough:hex('#e0a868'),glaze:hex('#f58bb4'),
+    spr:['#ffffff','#ffe066','#7cd7ff','#9be38a','#ff5d7a'],shadow:'#f58bb4',start:0,period:40,yaw0:.5},
   /* donut chocolat → tasse chocolat */
   choco:{cup:hex('#7a4528'),dough:hex('#d99c5e'),glaze:hex('#4a2614'),
-    spr:['#ff6b9a','#ffd23f','#6ec6ff','#8ce07a','#ffffff'],shadow:'#c08457',start:.5,period:17,yaw0:-.6}
+    spr:['#ff6b9a','#ffd23f','#6ec6ff','#8ce07a','#ffffff'],shadow:'#c08457',start:.5,period:49,yaw0:-.6}
 };
 
 /* ---------- géométrie déformable ---------- */
@@ -95,7 +95,7 @@ Scene.prototype.k=function(t){
 Scene.prototype.frame=function(t){
   const th=this.th,k=this.k(t),g=shape(k),W=place(k);
   this.hy+=(this.thy-this.hy)*.08;this.hp+=(this.thp-this.hp)*.08;
-  const yaw=th.yaw0+(RM?0:t*.32)+this.uy+this.hy, pit=.42+this.up+this.hp;
+  const yaw=th.yaw0+(RM?0:t*.2)+this.uy+this.hy, pit=.42+this.up+this.hp;
   const C={cy:Math.cos(yaw),sy:Math.sin(yaw),cp:Math.cos(pit),sp:Math.sin(pit),x:120,y:128};
   const cupMix=1-sm(.25,.85,k), items=[];
   const face=(q,col,spec)=>{
