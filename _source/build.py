@@ -544,8 +544,20 @@ def render_index(projects):
     doc += f'''<section class="sky"><div class="wrap home-hero">
 <div class="kicker" style="color:var(--violet2)">L'Atlas des transformations · complément du livre</div>
 <h1>Construire le monde, <em>une transformation à la fois</em></h1>
+<div class="td-row">
+<figure class="td-scene td-g"><svg data-3d="choco" viewBox="0 0 240 240" role="img" aria-label="Un donut au chocolat en 3D qui se déforme en tasse couleur chocolat, puis redevient donut"></svg><figcaption>Donut chocolat ⇄ tasse</figcaption></figure>
+<div class="td-mid">
 <p class="quote">« Les mathématiques ne sont pas seulement l'étude des nombres. Elles sont l'étude des transformations qui permettent de comprendre le monde. »</p>
 <p class="lead">{len(projects)} projets concrets, un par chapitre du livre. Pour chacun, les questions à se poser dans l'ordre, des réponses simples, puis les mathématiques qui se cachent derrière.</p>
+</div>
+<figure class="td-scene td-d"><svg data-3d="fraise" viewBox="0 0 240 240" role="img" aria-label="Une tasse rouge en 3D qui se déforme en donut à la fraise, puis redevient tasse"></svg><figcaption>Tasse rouge ⇄ donut fraise</figcaption></figure>
+</div>
+<div class="td-carte">
+<div class="td-eq"><div><span class="td-emo">☕</span><small>un trou</small></div><span class="td-cong">≅</span><div><span class="td-emo">🍩</span><small>un trou</small></div></div>
+<p class="td-sous">Même nombre de trous, même forme</p>
+<p class="td-txt">Pour un topologue, une tasse et un donut sont <b>le même objet</b>. Imagine-les en pâte à modeler : on peut étirer, aplatir, gonfler la tasse jusqu'à obtenir un donut, sans jamais <b>couper</b> ni <b>recoller</b>. Le creux de la tasse s'aplatit, et l'anse devient l'anneau du donut. Une telle déformation, continue et qu'on peut défaire continûment, s'appelle un <b>homéomorphisme</b>. Elle oublie les longueurs et les angles, mais elle conserve une chose : le <b>nombre de trous</b>. Une tasse a un trou (celui de l'anse), un donut aussi : ils sont donc équivalents.</p>
+<p class="td-livre">Dans le livre : ch. 7, « Déformer sans déchirer », p. 73 · <a href="projets/07-reseau-vasculaire.html">projet 7 : lire la forme d'un réseau de vaisseaux →</a></p>
+</div>
 <div class="facts"><div><b>{len(projects)}</b>projets</div><div><b>{total_q}</b>questions</div><div><b>7</b>parties</div></div>
 <div class="how" id="comment">
 <div><b>1 · Une question</b>Chaque étape part d'une question qu'un ingénieur se poserait vraiment, dans l'ordre de construction.</div>
@@ -619,6 +631,7 @@ return '<a href="'+c.getAttribute('href')+'" title="'+escH(c.querySelector('h4')
 '<div class="mp-badges">'+paliers.map(([n,i,t])=>'<span class="'+(fin>=n?'ok':'')+'">'+i+' '+t+'</span>').join('')+'</div><p class="mp-note">Gardé sur cet appareil.</p>';
 box.hidden=false})();
 </script>
+<script src="assets/tasse-donut-3d.js" defer></script>
 <script src="famzak-progres.js" data-site="morphosite"></script>
 </body>
 </html>
