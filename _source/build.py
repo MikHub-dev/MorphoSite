@@ -541,6 +541,7 @@ def render_index(projects):
     filt = '<button aria-pressed="true" data-f="0">Tous</button>' + "".join(f'<button aria-pressed="false" data-f="{k}">{v[0].replace("Partie ", "")} · {esc(v[1].split(" :")[0].split(",")[0])}</button>' for k, v in PARTS.items())
     doc = HEAD.format(title="MorphoSite · les mathématiques des transformations", desc="32 projets concrets, du thermomètre connecté au voyage vers Mars, et les mathématiques qui les font marcher.", root="", bodyattr="", cur_home=' class="cur"')
     total_q = sum(len(p["steps"]) for p in projects)
+    doc += '<div id="famzak-mur-bandeau" hidden></div>\n'   # bandeau du mur des réussites (famzak-mur.js, chargé par le verrou)
     doc += f'''<section class="sky"><div class="wrap home-hero">
 <div class="kicker" style="color:var(--violet2)">L'Atlas des transformations · complément du livre</div>
 <h1>Construire le monde, <em>une transformation à la fois</em></h1>
